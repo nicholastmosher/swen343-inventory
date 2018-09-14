@@ -2,7 +2,7 @@
 
 An ERP system developed in <Java 8,,,?> 
 
-## Silo:  
+## Silo Component:  
 team_
 
 
