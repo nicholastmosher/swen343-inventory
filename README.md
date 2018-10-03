@@ -2,7 +2,7 @@
 
 An ERP system developed in <Java 8,,,?> 
 
-## Silo Component:  
+##  Component TEAM:  
 team_
 
 
@@ -20,7 +20,7 @@ team_
 - IntelliJ - as developer platform
 
 
-##How to begin (setup instructions)
+##How to begin (setup instructions - must keep up to date as project grows in complexity!)
 
 1. 
 
