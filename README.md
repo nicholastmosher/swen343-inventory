@@ -8,9 +8,9 @@ team_
 
 ## Team
 
-- Jane Doe
+- Jane Doe (role)
 
-- John Doe
+- John Doe (role)
 
 
 ##Prerequisites
