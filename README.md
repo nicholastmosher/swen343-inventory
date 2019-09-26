@@ -2,31 +2,29 @@
 
 An ERP system developed in <Java 8,,,?> 
 
-##  Component TEAM:  
-team_
+## Component TEAM:
 
+Inventory
 
 ## Team
 
-- Jane Doe (role)
+- Nick Mosher (Team Coordinator/VC Coordinator)
+- Leon Kuhne (Integration Coordinator)
+- Bryce Murphy (Requirements Coordinator/Configuration Coordinator)
+- Fikayo Olutunji (Quality Assurance Coordinator) 
 
-- John Doe (role)
-
-
-##Prerequisites
+## Prerequisites
 
 <Java 8>
 
 - IntelliJ - as developer platform
 
+## How to begin (setup instructions - must keep up to date as project grows in complexity!)
 
-##How to begin (setup instructions - must keep up to date as project grows in complexity!)
+TBD
 
-1. 
+## License
 
-
-
-##License
 MIT License
 
 See LICENSE for details.
