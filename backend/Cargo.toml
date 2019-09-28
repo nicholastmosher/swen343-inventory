@@ -1,0 +1,22 @@
+[package]
+name = "erp_inventory"
+version = "0.1.0"
+authors = [
+    "Nick Mosher <nicholastmosher@gmail.com>",
+    "Bryce Murphy <bm5890@rit.edu>",
+    "Leon Kuhne <lxk1170@rit.edu>",
+    "Fikayo Olatunji <oxo3928@rit.edu>"
+]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[lib]
+name = "erp_inventory"
+path = "src/lib.rs"
+
+[[bin]]
+name = "erb_inventory"
+path = "src/bin/main.rs"
