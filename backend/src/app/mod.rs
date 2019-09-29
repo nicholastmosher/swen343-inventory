@@ -3,6 +3,8 @@ use actix::{Addr, SyncArbiter};
 use actix_web::{web, HttpServer, App};
 use crate::db::DbExecutor;
 
+pub mod products;
+
 pub struct AppState {
     db: Addr<DbExecutor>,
 }
@@ -21,7 +23,9 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
     let mut server = HttpServer::new(move ||
         App::new()
             .data(AppState { db: database_addr.clone() })
-            .service(web::scope("/api/v1"))
+            .service(web::scope("/api/v1")
+                .route("products", web::post().to_async(products::create))
+            )
     );
 
     server = if let Some(listener) = listenfd.take_tcp_listener(0)? {

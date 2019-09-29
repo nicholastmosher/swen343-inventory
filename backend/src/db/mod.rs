@@ -4,6 +4,8 @@ use diesel::{
 };
 use actix::{Actor, SyncContext};
 
+pub mod products;
+
 pub type Conn = PgConnection;
 pub type DbPool = Pool<ConnectionManager<Conn>>;
 pub type PooledConn = PooledConnection<ConnectionManager<Conn>>;
