@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_PASSWORD: inventory-development
+    ports:
+      - 5432:5432
