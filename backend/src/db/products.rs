@@ -1,6 +1,6 @@
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::products::{CreateProduct, ReadProducts};
+use crate::app::products::{CreateProduct, ReadProducts, UpdateProduct};
 use crate::db::DbExecutor;
 use crate::models::products::{NewProduct, Product};
 
@@ -36,5 +36,23 @@ impl Handler<ReadProducts> for DbExecutor {
 
         products.load::<Product>(conn)
             .map_err(|_| "failed to get products".to_string())
+    }
+}
+
+impl Message for UpdateProduct {
+    type Result = Result<Product, String>;
+}
+
+impl Handler<UpdateProduct> for DbExecutor {
+    type Result = <UpdateProduct as Message>::Result;
+
+    fn handle(&mut self, msg: UpdateProduct, _: &mut Self::Context) -> Self::Result {
+        use crate::schema::products::dsl::*;
+        let conn = &self.0.get().expect("should get db connection");
+
+        diesel::update(products.filter(id.eq(msg.id)))
+            .set((name.eq(msg.name), description.eq(msg.description)))
+            .get_result(conn)
+            .map_err(|_| "failed to update product".to_string())
     }
 }

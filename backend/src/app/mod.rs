@@ -26,6 +26,7 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
             .service(web::scope("/api/v1")
                 .route("products", web::post().to_async(products::create))
                 .route("products", web::get().to_async(products::read))
+                .route("products", web::put().to_async(products::update))
             )
     );
 

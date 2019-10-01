@@ -39,3 +39,24 @@ pub fn read(
         })
         .map_err(|_| ())
 }
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct UpdateProduct {
+    pub id: i32,
+    pub name: String,
+    pub description: String,
+}
+
+pub fn update(
+    state: web::Data<AppState>,
+    web::Json(update_product): web::Json<UpdateProduct>,
+) -> impl Future<Item=HttpResponse, Error=()> {
+    let db = &state.db;
+
+    db.send(update_product)
+        .and_then(|res| match res {
+            Ok(updated_product) => Ok(HttpResponse::Ok().json(updated_product)),
+            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
+        })
+        .map_err(|_| ())
+}

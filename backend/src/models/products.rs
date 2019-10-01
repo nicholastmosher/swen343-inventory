@@ -1,9 +1,9 @@
 use serde::{Deserialize, Serialize};
-use diesel::{Queryable, Insertable};
+use diesel::{Queryable, Insertable, Identifiable};
 use crate::schema::products;
 use crate::app::products::CreateProduct;
 
-#[derive(Debug, Deserialize, Serialize, Queryable)]
+#[derive(Debug, Deserialize, Serialize, Queryable, Identifiable)]
 pub struct Product {
     pub id: i32,
     pub name: String,
