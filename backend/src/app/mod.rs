@@ -27,6 +27,7 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
                 .route("products", web::post().to_async(products::create))
                 .route("products", web::get().to_async(products::read))
                 .route("products", web::put().to_async(products::update))
+                .route("products", web::delete().to_async(products::delete))
             )
     );
 

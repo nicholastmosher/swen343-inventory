@@ -1,11 +1,11 @@
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::products::{CreateProduct, ReadProducts, UpdateProduct};
+use crate::app::products::{CreateProduct, ReadProducts, UpdateProduct, DeleteProduct, ProductResponse};
 use crate::db::DbExecutor;
 use crate::models::products::{NewProduct, Product};
 
 impl Message for CreateProduct {
-    type Result = Result<Product, String>;
+    type Result = Result<ProductResponse, String>;
 }
 
 impl Handler<CreateProduct> for DbExecutor {
@@ -19,12 +19,13 @@ impl Handler<CreateProduct> for DbExecutor {
         diesel::insert_into(products)
             .values(&new_product)
             .get_result::<Product>(conn)
+            .map(ProductResponse::from)
             .map_err(|_| "should get inserted product".to_string())
     }
 }
 
 impl Message for ReadProducts {
-    type Result = Result<Vec<Product>, String>;
+    type Result = Result<Vec<ProductResponse>, String>;
 }
 
 impl Handler<ReadProducts> for DbExecutor {
@@ -34,13 +35,20 @@ impl Handler<ReadProducts> for DbExecutor {
         use crate::schema::products::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        products.load::<Product>(conn)
+        products
+            .filter(deleted.eq(false))
+            .load::<Product>(conn)
+            .map(|read_products| {
+                read_products.into_iter()
+                    .map(ProductResponse::from)
+                    .collect()
+            })
             .map_err(|_| "failed to get products".to_string())
     }
 }
 
 impl Message for UpdateProduct {
-    type Result = Result<Product, String>;
+    type Result = Result<ProductResponse, String>;
 }
 
 impl Handler<UpdateProduct> for DbExecutor {
@@ -52,7 +60,27 @@ impl Handler<UpdateProduct> for DbExecutor {
 
         diesel::update(products.filter(id.eq(msg.id)))
             .set((name.eq(msg.name), description.eq(msg.description)))
-            .get_result(conn)
+            .get_result::<Product>(conn)
+            .map(ProductResponse::from)
             .map_err(|_| "failed to update product".to_string())
+    }
+}
+
+impl Message for DeleteProduct {
+    type Result = Result<ProductResponse, String>;
+}
+
+impl Handler<DeleteProduct> for DbExecutor {
+    type Result = <DeleteProduct as Message>::Result;
+
+    fn handle(&mut self, msg: DeleteProduct, _: &mut Self::Context) -> Self::Result {
+        use crate::schema::products::dsl::*;
+        let conn = &self.0.get().expect("should get db connection");
+
+        diesel::update(products.filter(id.eq(msg.id)))
+            .set(deleted.eq(true))
+            .get_result::<Product>(conn)
+            .map(ProductResponse::from)
+            .map_err(|_| "failed to delete product".to_string())
     }
 }

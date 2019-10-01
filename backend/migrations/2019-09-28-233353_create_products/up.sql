@@ -2,5 +2,6 @@
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    description TEXT
+    description TEXT,
+    deleted BOOLEAN NOT NULL DEFAULT FALSE
 );

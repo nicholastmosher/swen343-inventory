@@ -1,13 +1,13 @@
-use serde::{Deserialize, Serialize};
 use diesel::{Queryable, Insertable, Identifiable};
 use crate::schema::products;
 use crate::app::products::CreateProduct;
 
-#[derive(Debug, Deserialize, Serialize, Queryable, Identifiable)]
+#[derive(Debug, Queryable, Identifiable)]
 pub struct Product {
     pub id: i32,
     pub name: String,
     pub description: Option<String>,
+    pub deleted: bool,
 }
 
 #[derive(Debug, Insertable)]
