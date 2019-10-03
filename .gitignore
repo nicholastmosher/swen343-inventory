@@ -1,2 +1,3 @@
 .idea/
 .env
+frontend/node_modules/*
