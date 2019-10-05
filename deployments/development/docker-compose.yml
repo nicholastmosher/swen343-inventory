@@ -9,3 +9,11 @@ services:
       POSTGRES_PASSWORD: inventory-development
     ports:
       - 5432:5432
+  backend:
+    build:
+      context: ../../
+      dockerfile: deployments/development/Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ../../backend/src:/inventory/src
