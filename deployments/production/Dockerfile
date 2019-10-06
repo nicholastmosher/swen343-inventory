@@ -11,6 +11,9 @@ RUN mkdir -p src/bin && \
 
 COPY backend/src /inventory/src
 
+# If you don't touch these files, Cargo won't see the update and recompile.
+RUN touch src/lib.rs && touch src/bin/main.rs
+
 RUN cargo build --release
 
-CMD ["target/release/erp_inventory"]
+CMD ["target/release/erp"]
