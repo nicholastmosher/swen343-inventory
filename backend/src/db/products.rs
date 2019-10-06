@@ -1,8 +1,9 @@
+use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
 use crate::app::products::{CreateProduct, ReadProducts, UpdateProduct, DeleteProduct, ProductResponse};
 use crate::db::DbExecutor;
-use crate::models::products::{NewProduct, Product};
+use crate::models::products::{NewProduct, Product, ChangedProduct};
 
 impl Message for CreateProduct {
     type Result = Result<ProductResponse, String>;
@@ -15,7 +16,7 @@ impl Handler<CreateProduct> for DbExecutor {
         use crate::schema::products::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        let new_product: NewProduct = msg.into();
+        let new_product: NewProduct = msg.try_into()?;
         diesel::insert_into(products)
             .values(&new_product)
             .get_result::<Product>(conn)
@@ -58,8 +59,10 @@ impl Handler<UpdateProduct> for DbExecutor {
         use crate::schema::products::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        diesel::update(products.filter(id.eq(msg.id)))
-            .set((name.eq(msg.name), description.eq(msg.description)))
+        let product_id = msg.id;
+        let changed_product: ChangedProduct = msg.try_into()?;
+        diesel::update(products.filter(id.eq(product_id)))
+            .set(&changed_product)
             .get_result::<Product>(conn)
             .map(ProductResponse::from)
             .map_err(|_| "failed to update product".to_string())

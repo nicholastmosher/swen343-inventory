@@ -8,18 +8,22 @@ use crate::models::products::Product;
 pub struct ProductResponse {
     pub id: i32,
     pub name: String,
+    pub code: String,
+    pub price: u32,
     pub description: Option<String>,
 }
 
 impl From<Product> for ProductResponse {
-    fn from(Product { id, name, description, .. }: Product) -> Self {
-        ProductResponse { id, name, description }
+    fn from(Product { id, name, code, price, description, .. }: Product) -> Self {
+        ProductResponse { id, name, code, price: price as u32, description }
     }
 }
 
 #[derive(Debug, Deserialize)]
 pub struct CreateProduct {
     pub name: String,
+    pub code: String,
+    pub price: u32,
     pub description: Option<String>
 }
 
@@ -58,7 +62,9 @@ pub fn read(
 pub struct UpdateProduct {
     pub id: i32,
     pub name: String,
-    pub description: String,
+    pub code: String,
+    pub price: u32,
+    pub description: Option<String>,
 }
 
 pub fn update(
