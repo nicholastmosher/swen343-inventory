@@ -1,3 +1,5 @@
 .idea/
 .env
 frontend/node_modules/*
+.cd
+compose-leon.yml
