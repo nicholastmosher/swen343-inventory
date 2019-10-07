@@ -138,11 +138,24 @@ To do that, we just run
 git pull origin master
 ```
 
-After you've pulled the latest code, you can run the code like normal:
+After you've pulled the latest code, you can build and launch the code using the
+production docker image
 
 ```
-cargo run --release
+docker build -t erp-prod -f deployments/production/Dockerfile .
 ```
+
+This should build the image, then you can run it like this
+
+```
+docker run -e DATABASE_URL=the_database_url -e BIND_ADDRESS=0.0.0.0:8000 -p8000:8000 -t erp-prod
+```
+
+What this does is:
+
+* Launches the image tagged as `erp-prod` (the one you just built)
+* Connects the container's port 8000 to the AWS box port 8000
+* Sets the DATABASE_URL and BIND_ADDRESS environment variables
 
 ## License
 
