@@ -12,6 +12,7 @@ use actix_web::{web, HttpServer, App};
 use crate::db::DbExecutor;
 
 pub mod products;
+pub mod boxes;
 
 /// The only application state used is a reference to the database Actor inbox.
 pub struct AppState {
@@ -55,6 +56,11 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
                 .route("products", web::get().to_async(products::read))
                 .route("products", web::put().to_async(products::update))
                 .route("products", web::delete().to_async(products::delete))
+
+                .route("boxes", web::post().to_async(boxes::create))
+                .route("boxes", web::get().to_async(boxes::read))
+                .route("boxes", web::put().to_async(boxes::update))
+                .route("boxes", web::delete().to_async(boxes::delete))
             )
     );
 
