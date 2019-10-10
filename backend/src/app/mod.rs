@@ -11,7 +11,7 @@ use actix::{Addr, SyncArbiter};
 use actix_web::{web, HttpServer, App};
 use crate::db::DbExecutor;
 
-pub mod products;
+pub mod items;
 
 /// The only application state used is a reference to the database Actor inbox.
 pub struct AppState {
@@ -51,10 +51,12 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
         App::new()
             .data(AppState { db: database_addr.clone() })
             .service(web::scope("/api/v1")
-                .route("products", web::post().to_async(products::create))
-                .route("products", web::get().to_async(products::read))
-                .route("products", web::put().to_async(products::update))
-                .route("products", web::delete().to_async(products::delete))
+                .service(web::resource("items")
+                    .route(web::post().to_async(items::create))
+                    .route(web::get().to_async(items::read))
+                    .route(web::put().to_async(items::update))
+                    .route(web::delete().to_async(items::delete))
+                )
             )
     );
 
