@@ -17,7 +17,7 @@ use diesel::{
 };
 use actix::{Actor, SyncContext};
 
-pub mod products;
+pub mod items;
 
 pub type Conn = PgConnection;
 pub type DbPool = Pool<ConnectionManager<Conn>>;

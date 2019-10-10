@@ -1,9 +1,7 @@
 table! {
-    products (id) {
-        id -> Int4,
-        name -> Text,
-        code -> Text,
-        price -> Int4,
+    items (code) {
+        code -> Varchar,
+        cost -> Int4,
         description -> Nullable<Text>,
         deleted -> Bool,
     }
