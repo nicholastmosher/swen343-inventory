@@ -13,6 +13,7 @@ use crate::db::DbExecutor;
 
 pub mod items;
 pub mod boxes;
+pub mod pallets;
 
 /// The only application state used is a reference to the database Actor inbox.
 pub struct AppState {
@@ -60,11 +61,19 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
                     .route(web::delete().to_async(items::delete))
                 )
 
-                .service(web::resource("boxes"))
+                .service(web::resource("boxes")
                     .route(web::post().to_async(boxes::create))
                     .route(web::get().to_async(boxes::read))
-                    .route(web::get().to_async(boxes::update))
-                    .route(web::delete().to_async(items::delete))
+                    .route(web::put().to_async(boxes::update))
+                    .route(web::delete().to_async(boxes::delete))
+                )
+
+                .service(web::resource("boxes")
+                    .route(web::post().to_async(pallets::create))
+                    .route(web::get().to_async(pallets::read))
+                    .route(web::put().to_async(pallets::update))
+                    .route(web::delete().to_async(pallets::delete))
+                )
             )
     );
 

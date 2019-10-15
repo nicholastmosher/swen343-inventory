@@ -1,0 +1,6 @@
+-- Your SQL goes here
+
+CREATE TABLE PALLETS (
+    pallet_id VARCHAR(100) PRIMARY KEY
+    deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
