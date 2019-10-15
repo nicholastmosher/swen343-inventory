@@ -19,7 +19,16 @@ table! {
     pallets (id) {
         id -> Int4,
         item_code -> Varchar,
+        warehouse_id -> Varchar,
         deleted -> Bool,
+    }
+}
+
+table! {
+    warehouses (name) {
+        name -> Varchar,
+        address -> Text,
+        description -> Nullable<Text>,
     }
 }
 
@@ -30,4 +39,5 @@ allow_tables_to_appear_in_same_query!(
     boxes,
     items,
     pallets,
+    warehouses,
 );

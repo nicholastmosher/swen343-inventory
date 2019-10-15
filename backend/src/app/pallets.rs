@@ -30,6 +30,7 @@ impl From<Pallet> for PalletResponse {
 #[derive(Debug, Deserialize)]
 pub struct CreatePallet {
     pub item_code: String,
+    pub warehouse_id: String,
 }
 
 /// Asynchronously handles a POST request to create a Pallet entity.
