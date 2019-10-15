@@ -9,6 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Install
+      run: sudo apt-get install libpq-dev
     - name: Build
       run: cargo build --manifest-path=backend/Cargo.toml --verbose
     - name: Run tests
