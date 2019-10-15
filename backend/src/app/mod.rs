@@ -52,28 +52,7 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
     let mut server = HttpServer::new(move ||
         App::new()
             .data(AppState { db: database_addr.clone() })
-            .service(web::scope("/api/v1")
-
-                .service(web::resource("items")
-                    .route(web::post().to_async(items::create))
-                    .route(web::get().to_async(items::read))
-                    .route(web::put().to_async(items::update))
-                    .route(web::delete().to_async(items::delete))
-                )
-
-                .service(web::resource("boxes")
-                    .route(web::post().to_async(boxes::create))
-                    .route(web::get().to_async(boxes::read))
-                    .route(web::put().to_async(boxes::update))
-                    .route(web::delete().to_async(boxes::delete))
-                )
-
-                .service(web::resource("pallets")
-                    .route(web::post().to_async(pallets::create))
-                    .route(web::get().to_async(pallets::read))
-                    .route(web::delete().to_async(pallets::delete))
-                )
-            )
+            .configure(routes)
     );
 
     server = if let Some(listener) = listenfd.take_tcp_listener(0)? {
@@ -82,5 +61,32 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
         server.bind(bind_address)?
     };
 
-    server.run()
+    server.start();
+    Ok(())
+}
+
+fn routes(app: &mut web::ServiceConfig) {
+    app
+        .service(web::scope("/api/v1")
+
+            .service(web::resource("items")
+                .route(web::post().to_async(items::create))
+                .route(web::get().to_async(items::read))
+                .route(web::put().to_async(items::update))
+                .route(web::delete().to_async(items::delete))
+            )
+
+            .service(web::resource("boxes")
+                .route(web::post().to_async(boxes::create))
+                .route(web::get().to_async(boxes::read))
+                .route(web::put().to_async(boxes::update))
+                .route(web::delete().to_async(boxes::delete))
+            )
+
+            .service(web::resource("pallets")
+                .route(web::post().to_async(pallets::create))
+                .route(web::get().to_async(pallets::read))
+                .route(web::delete().to_async(pallets::delete))
+            )
+        );
 }
