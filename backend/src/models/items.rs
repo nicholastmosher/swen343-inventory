@@ -10,7 +10,6 @@ pub struct Item {
     pub code: String,
     pub cost: i32,
     pub description: Option<String>,
-    pub deleted: bool,
 }
 
 /// The minimum information needed to create a new Item in the database.

@@ -12,7 +12,6 @@ table! {
         code -> Varchar,
         cost -> Int4,
         description -> Nullable<Text>,
-        deleted -> Bool,
     }
 }
 
