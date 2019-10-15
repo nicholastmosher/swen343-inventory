@@ -29,7 +29,6 @@ pub struct NewBox {
 #[changeset_options(treat_none_as_null="true")]
 pub struct ChangedBox {
     pub id: i32,
-    pub pallet_id: i32,
     pub item_quantity: i32,
 }
 
@@ -45,8 +44,8 @@ impl TryFrom<CreateBox> for NewBox {
 impl TryFrom<UpdateBox> for ChangedBox {
     type Error = String;
 
-    fn try_from(UpdateBox { id, pallet_id, item_quantity }: UpdateBox) -> Result<Self, Self::Error> {
+    fn try_from(UpdateBox { id, item_quantity }: UpdateBox) -> Result<Self, Self::Error> {
         if item_quantity < 0 { return Err("cannot set item quantity in a box less than 0".to_string()); }
-        Ok(ChangedBox { id, pallet_id, item_quantity })
+        Ok(ChangedBox { id, item_quantity })
     }
 }

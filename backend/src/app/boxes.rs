@@ -80,7 +80,6 @@ pub fn read(
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UpdateBox {
     pub id: i32,
-    pub pallet_id: i32,
     pub item_quantity: i32,
 }
 
