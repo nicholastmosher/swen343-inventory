@@ -1,6 +1,5 @@
 -- Your SQL goes here
-
-CREATE TABLE PALLETS (
-    pallet_id VARCHAR(100) PRIMARY KEY
+CREATE TABLE pallets (
+    id SERIAL PRIMARY KEY,
     deleted BOOLEAN NOT NULL DEFAULT FALSE
 );

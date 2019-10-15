@@ -23,7 +23,7 @@ impl Handler<CreateBox> for DbExecutor {
     /// an insert statement and execute it, transforming the result into a
     /// `BoxResponse` object.
     fn handle(&mut self, msg: CreateBox, _: &mut Self::Context) -> Self::Result {
-        use crate::schema::::dsl::*;
+        use crate::schema::boxes::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
         let new_product: NewBox = msg.try_into()?;
@@ -85,7 +85,7 @@ impl Handler<UpdateBox> for DbExecutor {
     /// an update statement and execute it, transforming the result into a
     /// `BoxResponse` object.
     fn handle(&mut self, msg: UpdateBox, _: &mut Self::Context) -> Self::Result {
-        use crate::schema::box::dsl::*;
+        use crate::schema::boxes::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
         let box_id = msg.id;
