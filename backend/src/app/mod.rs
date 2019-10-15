@@ -68,10 +68,9 @@ pub fn launch<S, A>(database_url: S, bind_address: A) -> std::io::Result<()>
                     .route(web::delete().to_async(boxes::delete))
                 )
 
-                .service(web::resource("boxes")
+                .service(web::resource("pallets")
                     .route(web::post().to_async(pallets::create))
                     .route(web::get().to_async(pallets::read))
-                    .route(web::put().to_async(pallets::update))
                     .route(web::delete().to_async(pallets::delete))
                 )
             )

@@ -14,25 +14,24 @@ use crate::models::boxes::Box;
 #[derive(Debug, Serialize)]
 pub struct BoxResponse {
     pub id: i32,
-    pub code: String,
-    pub quantity: i32,
-    pub pallet_id: String,
+    pub pallet_id: i32,
+    pub item_quantity: i32,
 }
 
 /// Define how to convert a `Box` entity to a `BoxResponse`.
 ///
 /// This is where we strategically exclude the "deleted" field.
 impl From<Box> for BoxResponse {
-    fn from(Box { id, code, quantity, pallet_id, .. }: Box) -> Self {
-        BoxResponse { id, code, quantity, pallet_id }
+    fn from(Box { id, pallet_id, item_quantity, .. }: Box) -> Self {
+        BoxResponse { id, pallet_id, item_quantity }
     }
 }
 
 /// Deserialize the body of a Create request using exactly these fields.
 #[derive(Debug, Deserialize)]
 pub struct CreateBox {
-    pub code: String,
-    pub quantity: i32,
+    pub pallet_id: i32,
+    pub item_quantity: i32,
 }
 
 /// Asynchronously handles a POST request to create a Box entity.
@@ -40,13 +39,13 @@ pub struct CreateBox {
 /// Implemented by sending a `CreateBox` message to the `DbExecutor` actor.
 pub fn create(
     state: web::Data<AppState>,
-    web::Json(create_product): web::Json<CreateBox>,
+    web::Json(create_box): web::Json<CreateBox>,
 ) -> impl Future<Item=HttpResponse, Error=()> {
     let db = &state.db;
 
-    db.send(create_product)
+    db.send(create_box)
         .and_then(|res| match res {
-            Ok(product) => Ok(HttpResponse::Ok().json(product)),
+            Ok(the_box) => Ok(HttpResponse::Ok().json(the_box)),
             Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
         })
         .map_err(|_| ())
@@ -81,9 +80,8 @@ pub fn read(
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UpdateBox {
     pub id: i32,
-    pub code: String,
-    pub quantity: i32,
-    pub pallet_id: String,
+    pub pallet_id: i32,
+    pub item_quantity: i32,
 }
 
 /// Asynchronously handles a PUT request to update an existing Box entity.
@@ -91,7 +89,7 @@ pub struct UpdateBox {
 /// Implemented by sending an `UpdateBox` message to the `DbExecutor` actor.
 pub fn update(
     state: web::Data<AppState>,
-    web::Json(update_product): web::Json<UpdateBox>,
+    web::Json(update_box): web::Json<UpdateBox>,
 ) -> impl Future<Item=HttpResponse, Error=()> {
     let db = &state.db;
 

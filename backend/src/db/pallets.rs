@@ -1,9 +1,9 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::pallets::{CreatePallet, ReadPallets, UpdatePallets, DeletePallet, PalletResponse};
+use crate::app::pallets::{CreatePallet, ReadPallets, DeletePallet, PalletResponse};
 use crate::db::DbExecutor;
-use crate::models::pallets::{NewPallet, Pallet, ChangedPallet};
+use crate::models::pallets::{NewPallet, Pallet};
 
 /// Allows the `CreateItem` type to be used as a Message to an Actor.
 ///
@@ -67,36 +67,6 @@ impl Handler<ReadPallets> for DbExecutor {
     }
 }
 
-/// Allows the `UpdatePallet` type to be used as a Message to an Actor.
-///
-/// The response that the actor will return is either a `PalletResponse`
-/// or a String describing why the database action failed.
-impl Message for UpdatePallets {
-    type Result = Result<PalletResponse, String>;
-}
-
-impl Handler<UpdatePallets> for DbExecutor {
-    type Result = <UpdatePallets as Message>::Result;
-
-    /// Defines how to handle the `UpdatePallets` message.
-    ///
-    /// Here we try to convert `UpdatePallet` into a `ChangedPallet` entity
-    /// which we can use in our query DSL. Then we use diesel to construct
-    /// an update statement and execute it, transforming the result into a
-    /// `PalletResponse` object.
-    fn handle(&mut self, msg: UpdatePallets, _: &mut Self::Context) -> Self::Result {
-        use crate::schema::pallets::dsl::*;
-        let conn = &self.0.get().expect("should get db connection");
-
-        let changed_pallet: ChangedPallet = msg.try_into()?;
-        diesel::update(pallets.filter(code.eq(&changed_pallet.code)))
-            .set(&changed_pallet)
-            .get_result::<Pallet>(conn)
-            .map(PalletResponse::from)
-            .map_err(|_| "failed to update pallet".to_string())
-    }
-}
-
 /// Allows the `DeletePallet` type to be used as a Message to an Actor.
 ///
 /// The response that the actor will return is either a `PalletResponse`
@@ -118,7 +88,7 @@ impl Handler<DeletePallet> for DbExecutor {
         use crate::schema::pallets::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        diesel::update(pallets.filter(code.eq(msg.code)))
+        diesel::update(pallets.filter(id.eq(msg.id)))
             .set(deleted.eq(true))
             .get_result::<Pallet>(conn)
             .map(PalletResponse::from)

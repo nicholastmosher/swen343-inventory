@@ -1,9 +1,8 @@
 table! {
     boxes (id) {
         id -> Int4,
-        pallet_id -> Nullable<Int4>,
-        item_code -> Nullable<Varchar>,
-        quantity -> Int4,
+        pallet_id -> Int4,
+        item_quantity -> Int4,
         deleted -> Bool,
     }
 }
@@ -20,12 +19,13 @@ table! {
 table! {
     pallets (id) {
         id -> Int4,
+        item_code -> Varchar,
         deleted -> Bool,
     }
 }
 
-joinable!(boxes -> items (item_code));
 joinable!(boxes -> pallets (pallet_id));
+joinable!(pallets -> items (item_code));
 
 allow_tables_to_appear_in_same_query!(
     boxes,

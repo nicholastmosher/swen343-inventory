@@ -26,8 +26,8 @@ impl Handler<CreateBox> for DbExecutor {
         use crate::schema::boxes::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        let new_product: NewBox = msg.try_into()?;
-        diesel::insert_into(boxess)
+        let new_box: NewBox = msg.try_into()?;
+        diesel::insert_into(boxes)
             .values(&new_box)
             .get_result::<Box>(conn)
             .map(BoxResponse::from)
@@ -90,8 +90,8 @@ impl Handler<UpdateBox> for DbExecutor {
 
         let box_id = msg.id;
         let changed_box: ChangedBox = msg.try_into()?;
-        diesel::update(products.filter(id.eq(product_id)))
-            .set(&changed_product)
+        diesel::update(boxes.filter(id.eq(box_id)))
+            .set(&changed_box)
             .get_result::<Box>(conn)
             .map(BoxResponse::from)
             .map_err(|_| "failed to update box".to_string())
