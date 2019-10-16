@@ -3,6 +3,7 @@ use erp::app::AppConfig;
 
 fn main() -> std::io::Result<()> {
     dotenv().ok();
+    env_logger::init();
     let actor_system = actix::System::new("inventory");
     let config = AppConfig::from_env().expect("should load app config from env");
     erp::app::launch(&config)?;

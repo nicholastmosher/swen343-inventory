@@ -10,6 +10,7 @@ use actix::{Addr, SyncArbiter};
 use actix_web::{web, HttpServer, App};
 use crate::db::DbExecutor;
 use actix_cors::Cors;
+use actix_web::middleware::Logger;
 
 pub mod items;
 pub mod boxes;
@@ -102,6 +103,7 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
 
         App::new()
             .data(AppState { db: database_addr.clone() })
+            .wrap(Logger::default())
             .wrap(cors)
             .configure(routes)
     });
