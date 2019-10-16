@@ -5,7 +5,7 @@ use crate::app::warehouses::{CreateWarehouse, UpdateWarehouse};
 
 /// An in-memory representation of a Warehouse entity in the database.
 #[derive(Debug, Queryable, Identifiable)]
-#[primary_key(address)]
+#[primary_key(name)]
 pub struct Warehouse {
     pub name: String,
     pub address: String,

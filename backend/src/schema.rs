@@ -19,7 +19,7 @@ table! {
     pallets (id) {
         id -> Int4,
         item_code -> Varchar,
-        warehouse_id -> Varchar,
+        warehouse_name -> Varchar,
         deleted -> Bool,
     }
 }
@@ -34,6 +34,7 @@ table! {
 
 joinable!(boxes -> pallets (pallet_id));
 joinable!(pallets -> items (item_code));
+joinable!(pallets -> warehouses (warehouse_name));
 
 allow_tables_to_appear_in_same_query!(
     boxes,

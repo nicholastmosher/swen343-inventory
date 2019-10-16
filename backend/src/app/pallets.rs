@@ -15,14 +15,15 @@ use crate::models::pallets::Pallet;
 pub struct PalletResponse {
     pub id: i32,
     pub item_code: String,
+    pub warehouse_name: String,
 }
 
 /// Define how to convert a `Pallet` entity to a `PalletResponse`.
 ///
 /// This is where we strategically exclude the "deleted" field.
 impl From<Pallet> for PalletResponse {
-    fn from(Pallet { id, item_code, .. }: Pallet) -> Self {
-        PalletResponse { id, item_code }
+    fn from(Pallet { id, item_code, warehouse_name, .. }: Pallet) -> Self {
+        PalletResponse { id, item_code, warehouse_name }
     }
 }
 
@@ -30,7 +31,7 @@ impl From<Pallet> for PalletResponse {
 #[derive(Debug, Deserialize)]
 pub struct CreatePallet {
     pub item_code: String,
-    pub warehouse_id: String,
+    pub warehouse_name: String,
 }
 
 /// Asynchronously handles a POST request to create a Pallet entity.
@@ -75,8 +76,33 @@ pub fn read(
         .map_err(|_| ())
 }
 
+/// Deserialize the body of an Update request using exactly these fields.
+#[derive(Debug, Deserialize)]
+pub struct UpdatePallet {
+    pub id: i32,
+    pub item_code: String,
+    pub warehouse_name: String,
+}
+
+/// Asynchronously handles a PUT request to update an existing Item entity.
+///
+/// Implemented by sending an `UpdatePallet` message to the `DbExecutor` actor.
+pub fn update(
+    state: web::Data<AppState>,
+    web::Json(update_pallet): web::Json<UpdatePallet>,
+) -> impl Future<Item=HttpResponse, Error=()> {
+    let db = &state.db;
+
+    db.send(update_pallet)
+        .and_then(|res| match res {
+            Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
+            Err(e) => Ok(HttpResponse::InternalServerError().body(e))
+        })
+        .map_err(|_| ())
+}
+
 /// Deserialize the body of a Delete request to delete an existing Pallet.
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize)]
 pub struct DeletePallet {
     pub id: i32,
 }
