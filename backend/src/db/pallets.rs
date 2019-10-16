@@ -1,9 +1,9 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::pallets::{CreatePallet, ReadPallets, DeletePallet, PalletResponse};
+use crate::app::pallets::{CreatePallet, ReadPallets, DeletePallet, PalletResponse, UpdatePallet};
 use crate::db::DbExecutor;
-use crate::models::pallets::{NewPallet, Pallet};
+use crate::models::pallets::{NewPallet, Pallet, ChangePallet};
 
 /// Allows the `CreateItem` type to be used as a Message to an Actor.
 ///
@@ -31,7 +31,7 @@ impl Handler<CreatePallet> for DbExecutor {
             .values(&new_pallet)
             .get_result::<Pallet>(conn)
             .map(PalletResponse::from)
-            .map_err(|_| "should get inserted pallet".to_string())
+            .map_err(|e| format!("failed to insert pallet: {:?}", e))
     }
 }
 
@@ -64,6 +64,36 @@ impl Handler<ReadPallets> for DbExecutor {
                     .collect()
             })
             .map_err(|_| "failed to get pallets".to_string())
+    }
+}
+
+/// Allows the `UpdatePallet` type to be used as a Message to an Actor.
+///
+/// The response that the actor will return is either a `PalletResponse`
+/// or a String describing why the database action failed.
+impl Message for UpdatePallet {
+    type Result = Result<PalletResponse, String>;
+}
+
+impl Handler<UpdatePallet> for DbExecutor {
+    type Result = <UpdatePallet as Message>::Result;
+
+    /// Defines how to handle the `UpdatePallet` message.
+    ///
+    /// Here we try to convert `UpdatePallet` into a `ChangedPallet` entity
+    /// which we can use in our query DSL. Then we use diesel to construct
+    /// an update statement and execute it, transforming the result into a
+    /// `PalletResponse` object.
+    fn handle(&mut self, msg: UpdatePallet, _: &mut Self::Context) -> Self::Result {
+        use crate::schema::pallets::dsl::*;
+        let conn = &self.0.get().expect("should get db connection");
+
+        let changed_pallet: ChangePallet = msg.try_into()?;
+        diesel::update(pallets.filter(id.eq(&changed_pallet.id)))
+            .set(&changed_pallet)
+            .get_result::<Pallet>(conn)
+            .map(PalletResponse::from)
+            .map_err(|_| "failed to update pallet".to_string())
     }
 }
 
