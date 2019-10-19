@@ -16,6 +16,7 @@ pub mod items;
 pub mod boxes;
 pub mod pallets;
 pub mod warehouses;
+pub mod rules;
 
 pub struct AppConfig {
     pub database_url: String,
@@ -148,5 +149,13 @@ fn routes(app: &mut web::ServiceConfig) {
                 .route(web::get().to_async(pallets::read))
                 .route(web::delete().to_async(pallets::delete))
             )
+
+            .service(web::resource("rules"))
+                .route(web::post().to_async(rules::create))
+                .route(web::get().to_async(rules::read))
+                .route(web::put().to_async(rules::update))
+                .route(web::delete().to_async(boxes::delte))
+            )
+
         );
 }
