@@ -4,14 +4,21 @@ html {
 }
 
 body {
-  padding-top: 80px;
-  margin-bottom: 75px;
   background-color: #a3a3ba
+}
+
+.header {
+  background-color: #eee;
+  width: 100%;
+  padding: 16px 20vw 16px 20vw;
+  text-align: left;
+  font-size: 22px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 .content {
   background-color: white;
-  padding: 10px;
+  padding: 16px 10px 16px 10px;
   border-radius: 10px;
 }
 

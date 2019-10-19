@@ -2,4 +2,4 @@
 .env
 frontend/node_modules/*
 .cd
-compose-leon.yml
+frontend/package-lock.json
