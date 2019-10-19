@@ -23,7 +23,7 @@ Start by launching the development docker-compose image. This will start a
 postgres database on port 5432 which the backend service can use.
 
 ```
-docker-compose -f deployments/development.yml up
+docker-compose -f deployments/development/docker-compose.yml up
 ```
 
 After postgres is running, navigate to the `backend/` directory and use
