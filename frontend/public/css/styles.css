@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  background-color: #a3a3ba
+  background-color: #a3a3ba;
 }
 
 .header {
@@ -29,6 +29,13 @@ hr {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.item-card-header {
+  text-align: left;
+  margin: 0px;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
 /* Items */
 
 .item-card {
@@ -43,7 +50,9 @@ hr {
 }
 
 .item {
+  text-align: left;
   display: flex;
+  min-height: 100px;
 }
 
 .item>.details {

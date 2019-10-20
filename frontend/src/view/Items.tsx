@@ -5,6 +5,7 @@ import { Item } from "../types/Interfaces";
 import { fetchItems } from "../actions/ItemActions";
 import { ThunkDispatch } from "redux-thunk";
 import { Link } from "react-router-dom";
+import util from "./util";
 
 interface StateProps {
   items: Item[];
@@ -19,49 +20,26 @@ type Props = StateProps & DispatchProps;
 const Items: React.FC<Props> = ({ items, fetchItems }) => {
   // get this from the url (or state, or router)
   let itemType = "warehouse"
-  let details
-
-  switch (itemType) {
-    case "warehouse":
-      details = (
-        <div className="warehouse-panel">
-          <h3>KennUwares prised warehouses</h3>
-        </div>
-      )
-    case "pallet":
-      // get the address from the current warehouse
-      // -> get request for warehouse from the backend      
-      let address = "19, bocker street, rochester ny"
-
-      details = (
-        <div>{address}</div>
-      )
-      break
-    // TODO: add pallets, boxes and items display formats here
-    default:
-      details = (<div>Unknown Container Type</div>)
-  }
 
   // temporary define for items
-  let fakeItems: Item[] = [{
-    code: "5",
-    cost: 500
+  let fakeItems: any[] = [{
+    address: "i live here",
   }]
   items = fakeItems;
 
+  // create (and fill) item cards
   const itemDivs = []
   for (let itemId in items) {
-    //let item = items[itemId] // TODO: swap this for real id
-
-    const name = (<h2>{itemType} #{itemId}</h2>)
-    const detailsDiv = (<div className="details">details</div>)
-    itemDivs.push(<div className="item-card col-sm-6">{name}{detailsDiv}</div>)
+    let item = items[itemId] // TODO: swap this for real id
+    const name = (<h2 className="item-card-header">{itemType} #{itemId}</h2>)
+    const itemDiv = util.itemDetails(itemType, item)
+    itemDivs.push(<div className="col-sm-6 item-card">{name}{itemDiv}</div>)
   }
 
   /* <button onClick={() => fetchItems()}>Get Items</button> */
 
   return (
-    <div className="content">
+    <div className="container pl-xs-0 pr-xs-0 pl-md-3 pr-md-3 content">
       <div className="nav">
         <div className="nav-header">
           <h1 className="inventory-header">Inventory Management</h1>
