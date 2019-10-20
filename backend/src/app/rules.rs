@@ -13,12 +13,12 @@ use crate::models::rules::Rule;
 /// Rules we send as responses are not deleted.
 #[derive(Debug, Serialize)]
 pub struct RuleResponse {
-    pub id,
-    pub warehouse,
-    pub item,
-    pub minimum,
-    pub quantity,
-    pub description,
+    pub id: u32,
+    pub warehouse: String,
+    pub item: String,
+    pub minimum: u32,
+    pub quantity: u32,
+    pub description: Option<String>,
 }
 
 /// Define how to convert a `Rule` entity to a `RuleResponse`.
