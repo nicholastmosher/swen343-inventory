@@ -29,7 +29,7 @@ const itemDetails = (itemType: string, item: any) => {
       )
       details = (
         <div className="details">
-          <div>Quantity: {pallet.item_quantity}</div>
+          <div><strong>Quantity:</strong> {pallet.item_quantity}</div>
         </div>
       )
       break
