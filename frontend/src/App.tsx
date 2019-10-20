@@ -12,6 +12,7 @@ const App: React.FC = () => {
       <Router>
         <div>
           <Route path="/" component={Items} />
+          <Route path="/catalog" component={Items} />
         </div>
       </Router>
     </div>

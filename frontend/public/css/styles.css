@@ -9,17 +9,24 @@ body {
 
 .header {
   background-color: #eee;
-  width: 100%;
-  padding: 16px 20vw 16px 20vw;
+  padding: 16px 12vw 16px 12vw;
   text-align: left;
   font-size: 22px;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
+  margin-bottom: 25px;
 }
 
 .content {
   background-color: white;
-  padding: 16px 10px 16px 10px;
+  padding: 10px 16px 10px 16px;
   border-radius: 10px;
+  width: 76vw;
+  margin: auto;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Items */
@@ -122,6 +129,13 @@ textarea {
   flex: 1;
 }
 
+.inventory-header {
+  font-weight: 100;
+  font-size: 36px;
+  text-align: left;
+  padding: 0px 10px 0px 10px;
+}
+
 .header-link {
   color: black;
   background-color: rgb(239, 251, 255);
@@ -188,12 +202,12 @@ a.create-item :hover {
 
 .pathId {
   flex: 1;
-} // Alerts
-// -------------------------
+}
+
 .alert {
   margin-top: 20px;
-} // Thumbnails
-/// -------------------------
+}
+
 .thumbnail {
   padding: 0;
   border-radius: 0;
@@ -218,12 +232,12 @@ a.create-item :hover {
 
 .product-icon {
   background-image: url("../images/product-icon.png")
-} // Font Icons
-// -------------------------
+}
+
 .fa {
   margin-right: 6px;
-} // Animations/Transitions
-// -------------------------
+}
+
 @keyframes highlight {
   from {
     background-color: white;

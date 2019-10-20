@@ -1,7 +1,8 @@
 import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
-import { Item, ItemActionTypes, RECEIVE_ITEMS } from "../types/ItemActionTypes";
+import { ItemActionTypes, RECEIVE_ITEMS } from "../types/ItemActionTypes";
 import axios from "axios";
+import { Item } from "../types/Interfaces";
 
 const host = "http://ec2-3-16-181-169.us-east-2.compute.amazonaws.com:8000";
 

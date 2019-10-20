@@ -1,10 +1,6 @@
-export const RECEIVE_ITEMS = "RECEIVE_ITEMS";
+import { Item } from "./Interfaces";
 
-export interface Item {
-  code: String,
-  cost: number,
-  description?: String,
-}
+export const RECEIVE_ITEMS = "RECEIVE_ITEMS";
 
 export interface ItemState {
   items: Item[],
