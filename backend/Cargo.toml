@@ -20,6 +20,7 @@ dotenv = "0.14.1"
 futures = "0.1.29"
 num_cpus = "1.10.1"
 listenfd = "0.3.3"
+actix-cors = "0.1.0"
 
 [lib]
 name = "erp"
