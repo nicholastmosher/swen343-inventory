@@ -4,7 +4,6 @@ import { Warehouse, Pallet } from "../types/Interfaces";
 const itemDetails = (itemType: string, item: any) => {
   // elements to fill
   let details = null
-  let nav = null
 
   switch (itemType) {
     case "warehouse":
@@ -21,11 +20,6 @@ const itemDetails = (itemType: string, item: any) => {
       let address = "19, bocker street, rochester ny"
 
       // create display elements
-      nav = (
-        <div className="warehouse-panel" >
-          <h3>{address}</h3>
-        </div>
-      )
       details = (
         <div className="details">
           <div><strong>Quantity:</strong> {pallet.item_quantity}</div>
@@ -43,9 +37,35 @@ const itemDetails = (itemType: string, item: any) => {
     </div>
   )
 
-  return (<div className="item">{details}{icon}</div>)
+  return (
+    <div className="item">{details}{icon}</div>
+  )
 }
 
+/**
+ * Create a pannel for navigation
+ * @param itemType 
+ * @param desc object with description details
+ */
+const navPanel = (itemType: string, desc: any) => {
+  let descElem = null;
+  switch (itemType) {
+    case "warehouse":
+      descElem = (
+        <div className="warehouse-panel">
+          <h3>{desc.address}</h3>
+          <button>Reorder Rules</button>
+        </div>
+      )
+      break
+    default:
+  }
+
+  return descElem
+}
+
+
 export default {
-  itemDetails
+  itemDetails,
+  navPanel
 }

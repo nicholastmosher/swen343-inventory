@@ -95,8 +95,19 @@ hr {
   background-color: #aaa;
 }
 
+/* Inputs */
+
+.item-form {
+  text-align: left;
+}
+
 textarea {
   resize: vertical;
+  min-height: 100px;
+}
+
+.full-button {
+  min-width: 100%;
 }
 
 .flex-all {

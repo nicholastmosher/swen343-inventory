@@ -27,31 +27,10 @@ class Items extends Component<Props, {}> {
   render() {
     const { items, fetchItems } = this.props;
 
-    // get this from the url (or state, or router)
+    // TODO: get this from the url (or state, or router)
     let itemType = "warehouse"
-    let details
 
-    switch (itemType) {
-      case "warehouse":
-        details = (
-          <div className="warehouse-panel">
-            <h3>KennUwares prised warehouses</h3>
-          </div>
-        )
-      case "pallet":
-        // get the address from the current warehouse
-        // -> get request for warehouse from the backend
-        let address = "19, bocker street, rochester ny"
-
-        details = (
-          <div>{address}</div>
-        )
-        break
-      // TODO: add pallets, boxes and items display formats here
-      default:
-        details = (<div>Unknown Container Type</div>)
-    }
-
+    // generate the item cards
     const itemDivs = []
     for (let itemId in items) {
       //let item = items[itemId] // TODO: swap this for real id
@@ -68,7 +47,6 @@ class Items extends Component<Props, {}> {
       itemDivs.push(ButtonItem("Add Item", "/catalog/add"))
     }
 
-    /* <button onClick={() => fetchItems()}>Get Items</button> */
 
     return (
       <div className="content">
@@ -77,6 +55,7 @@ class Items extends Component<Props, {}> {
             <h1 className="inventory-header">Inventory Management</h1>
             <Link className="header-link" to="/catalog">Catalog View</Link>
           </div>
+          {util.navPanel}
         </div>
 
         <hr />
