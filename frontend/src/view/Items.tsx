@@ -6,6 +6,7 @@ import { fetchItems } from "../actions/ItemActions";
 import { ThunkDispatch } from "redux-thunk";
 import { Link } from "react-router-dom";
 import util from "./util";
+import ButtonItem from "./AddButton";
 
 interface StateProps {
   items: Item[];
@@ -58,6 +59,13 @@ class Items extends Component<Props, {}> {
       const name = (<h2>{itemType} #{itemId}</h2>)
       const detailsDiv = (<div className="details">details</div>)
       itemDivs.push(<div className="item-card col-sm-6">{name}{detailsDiv}</div>)
+    }
+
+    // add the optional 'add' element
+    if (itemType == "warehouse") {
+      itemDivs.push(ButtonItem("Add Warehouse", "/warehouse/add"))
+    } else if (itemType == "catalog") {
+      itemDivs.push(ButtonItem("Add Item", "/catalog/add"))
     }
 
     /* <button onClick={() => fetchItems()}>Get Items</button> */

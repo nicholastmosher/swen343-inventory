@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Header from "./view/Header";
 import Items from "./view/Items";
+import AddItem from "./view/AddItemForm";
+import AddWarehouse from "./view/AddWarehouseForm";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 
 const App: React.FC = () => {
@@ -11,8 +13,10 @@ const App: React.FC = () => {
       <Header />
       <Router>
         <div>
-          <Route path="/" component={Items} />
-          <Route path="/catalog" component={Items} />
+          <Route exact path="/" component={Items} />
+          <Route exact path="/catalog" component={Items} />
+          <Route exact path="/catalog/add" component={AddItem} />
+          <Route exact path="/warehouse/add" component={AddWarehouse} />
         </div>
       </Router>
     </div>
