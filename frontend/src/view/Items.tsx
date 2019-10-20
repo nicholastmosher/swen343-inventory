@@ -18,6 +18,8 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 const Items: React.FC<Props> = ({ items, fetchItems }) => {
+  /* <button onClick={() => fetchItems()}>Get Items</button> */
+
   // get this from the url (or state, or router)
   let itemType = "warehouse"
 
@@ -36,7 +38,6 @@ const Items: React.FC<Props> = ({ items, fetchItems }) => {
     itemDivs.push(<div className="col-sm-6 item-card">{name}{itemDiv}</div>)
   }
 
-  /* <button onClick={() => fetchItems()}>Get Items</button> */
 
   return (
     <div className="container pl-xs-0 pr-xs-0 pl-md-3 pr-md-3 content">

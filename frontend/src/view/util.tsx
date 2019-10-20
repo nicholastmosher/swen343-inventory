@@ -2,7 +2,6 @@ import React from "react";
 import { Warehouse, Pallet } from "../types/Interfaces";
 
 const itemDetails = (itemType: string, item: any) => {
-
   // elements to fill
   let details = null
   let nav = null
