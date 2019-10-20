@@ -1,19 +1,18 @@
 use std::convert::TryFrom;
 use diesel::{Queryable, Insertable, Identifiable, AsChangeset};
 use crate::schema::rules;
-use crate::app::rules::{CreateRule, UpdateRule};
+use crate::app::rules::{CreateRule, UpdateRules};
 use crate::models::warehouses::Warehouse;
 
 /// An in-memory representation of a Box entity in the database.
-#[derive(Debug, Queryable, Identifiable)]
+#[derive(Debug, Queryable, Identifiable, Associations)]
 #[belongs_to(Warehouse)]
-#[table_name = "rules"]
 pub struct Rule {
-    pub id: u32,
-    pub warehouse: String,
+    pub id: i32,
+    pub warehouse_id: String,
     pub item: String,
-    pub minimum: u32,
-    pub quantity: u32,
+    pub minimum: i32,
+    pub quantity: i32,
     pub description: Option<String>,
     pub deleted: bool,
 }
@@ -22,10 +21,10 @@ pub struct Rule {
 #[derive(Debug, Insertable)]
 #[table_name = "rules"]
 pub struct NewRule {
-    pub warehouse: String,
+    pub warehouse_id: String,
     pub item: String,
-    pub minimum: u32,
-    pub quantity: u32,
+    pub minimum: i32,
+    pub quantity: i32,
     pub description: Option<String>
 }
 
@@ -34,10 +33,10 @@ pub struct NewRule {
 #[table_name = "rules"]
 #[changeset_options(treat_none_as_null="true")]
 pub struct ChangedRule {
-    pub id: u32,
+    pub id: i32,
     pub item: String,
-    pub minimum: u32,
-    pub quantity: u32,
+    pub minimum: i32,
+    pub quantity: i32,
     pub description: Option<String>
 }
 

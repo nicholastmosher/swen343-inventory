@@ -13,11 +13,11 @@ use crate::models::rules::Rule;
 /// Rules we send as responses are not deleted.
 #[derive(Debug, Serialize)]
 pub struct RuleResponse {
-    pub id: u32,
-    pub warehouse: String,
+    pub id: i32,
+    pub warehouse_id: String,
     pub item: String,
-    pub minimum: u32,
-    pub quantity: u32,
+    pub minimum: i32,
+    pub quantity: i32,
     pub description: Option<String>,
 }
 
@@ -25,8 +25,8 @@ pub struct RuleResponse {
 ///
 /// This is where we strategically exclude the "deleted" field.
 impl From<Rule> for RuleResponse {
-    fn from(Rule { warehouse, item, minimum, quantity, description, .. }: Rule) -> Self {
-        RuleResponse { warehouse, item, minimum, quantity, description }
+    fn from(Rule { id, warehouse_id, item, minimum, quantity, description, .. }: Rule) -> Self {
+        RuleResponse { id, warehouse_id, item, minimum, quantity, description }
     }
 }
 

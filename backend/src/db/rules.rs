@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::rules::{CreateRule, ReadRulees, UpdateRule, DeleteRule, RuleResponse};
+use crate::app::rules::{CreateRule, ReadRules, UpdateRules, DeleteRule, RuleResponse};
 use crate::db::DbExecutor;
 use crate::models::rules::{NewRule, Rule, ChangedRule};
 
@@ -26,7 +26,7 @@ impl Handler<CreateRule> for DbExecutor {
         use crate::schema::rules::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        let new_box: NewRule = msg.try_into()?;
+        let new_rule: NewRule = msg.try_into()?;
         diesel::insert_into(rules)
             .values(&new_rule)
             .get_result::<Rule>(conn)
@@ -55,7 +55,7 @@ impl Handler<ReadRules> for DbExecutor {
         use crate::schema::rules::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        boxes
+        rules
             .filter(deleted.eq(false))
             .load::<Rule>(conn)
             .map(|read_boxes| {
@@ -71,12 +71,12 @@ impl Handler<ReadRules> for DbExecutor {
 ///
 /// The response that the actor will return is either a `RuleResponse`
 /// or a String describing why the database action failed.
-impl Message for UpdateRule {
+impl Message for UpdateRules {
     type Result = Result<RuleResponse, String>;
 }
 
-impl Handler<UpdateRule> for DbExecutor {
-    type Result = <UpdateRule as Message>::Result;
+impl Handler<UpdateRules> for DbExecutor {
+    type Result = <UpdateRules as Message>::Result;
 
     /// Defines how to handle the `UpdateRule` message.
     ///
@@ -84,14 +84,14 @@ impl Handler<UpdateRule> for DbExecutor {
     /// which we can use in our query DSL. Then we use diesel to construct
     /// an update statement and execute it, transforming the result into a
     /// `RuleResponse` object.
-    fn handle(&mut self, msg: UpdateRule, _: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, msg: UpdateRules, _: &mut Self::Context) -> Self::Result {
         use crate::schema::rules::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
         let rule_id = msg.id;
         let changed_rule: ChangedRule = msg.try_into()?;
-        diesel::update(boxes.filter(id.eq(rule_id)))
-            .set(&changed_box)
+        diesel::update(rules.filter(id.eq(rule_id)))
+            .set(&changed_rule)
             .get_result::<Rule>(conn)
             .map(RuleResponse::from)
             .map_err(|_| "failed to update box".to_string())

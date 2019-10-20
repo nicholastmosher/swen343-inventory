@@ -33,6 +33,18 @@ table! {
 }
 
 table! {
+    rules (id) {
+        id -> Int4,
+        warehouse -> Varchar,
+        item -> Varchar,
+        minimum -> Int4,
+        quantity -> Int4,
+        decription -> Nullable<Text>,
+        deleted -> Bool,
+    }
+}
+
+table! {
     warehouses (name) {
         name -> Varchar,
         address -> Text,
@@ -42,11 +54,13 @@ table! {
 
 joinable!(boxes -> pallets (pallet_id));
 joinable!(pallets -> items (item_code));
+joinable!(rules -> warehouses (warehouse));
 
 allow_tables_to_appear_in_same_query!(
     boxes,
     items,
     pallets,
     products,
+    rules,
     warehouses,
 );
