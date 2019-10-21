@@ -1,7 +1,7 @@
 import React, {Component, FormEvent} from 'react'
 import {ThunkDispatch} from "redux-thunk";
 import {Warehouse} from "../types/Interfaces";
-import {insertWarehouse} from "../actions/ItemActions";
+import {createWarehouse} from "../actions/ItemActions";
 import {connect} from "react-redux";
 import util from './util';
 
@@ -78,7 +78,7 @@ class AddWarehouse extends Component<Props, State> {
 
 const mapDispatchToProps =
   (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => ({
-    insertWarehouse: (warehouse: Warehouse) => dispatch(insertWarehouse(warehouse))
+    insertWarehouse: (warehouse: Warehouse) => dispatch(createWarehouse(warehouse))
   });
 
 export default connect(state => state, mapDispatchToProps)(AddWarehouse);
