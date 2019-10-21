@@ -48,20 +48,26 @@ const itemDetails = (itemType: string, item: any) => {
  * @param desc object with description details
  */
 const navPanel = (itemType: string, desc: any) => {
+  // TODO add nav elements here
+  let nav = null
+  /*
   let descElem = null;
   switch (itemType) {
     case "warehouse":
       descElem = (
         <div className="warehouse-panel">
           <h3>{desc.address}</h3>
+          <div className="nav-tree">
+            <div
+          </div>
           <button>Reorder Rules</button>
-        </div>
-      )
-      break
-    default:
-  }
-
-  return descElem
+          </div>
+          )
+          break
+        default:
+      }
+    */
+  return null
 }
 
 
