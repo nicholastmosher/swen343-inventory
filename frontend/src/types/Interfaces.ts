@@ -10,11 +10,13 @@ export interface Item {
 }
 
 export interface Pallet {
-  pallet_id: number,
-  item_quantity: number
+  id: number;
+  item_code: number;
+  warehouse_name: string;
 }
 
 export interface Box {
-  item_code: string,
-  warehouse_name: string
+  id: number;
+  pallet_id: string;
+  item_quantity: string;
 }

@@ -20,8 +20,8 @@ const itemDetails = (itemType: string, item: any) => {
       let pallet: Pallet = item;
       details = (
         <div className="details">
-          <div><strong>ID:</strong> {pallet.pallet_id}</div>
-          <div><strong>Quantity:</strong> {pallet.item_quantity}</div>
+          <div><strong>ID:</strong> {pallet.id}</div>
+          <div><strong>Quantity:</strong> {pallet.item_code}</div>
         </div>
       )
       break
@@ -30,9 +30,9 @@ const itemDetails = (itemType: string, item: any) => {
       let box: Box = item;
       details = (
         <div className="details">
-          <div><strong>ID:</strong> {box.item_code}</div>
-          <div><strong>Name:</strong> {box.warehouse_name}</div>
-          <div><strong>Count:</strong> {box.warehouse_name}</div>
+          {/*<div><strong>ID:</strong> {box.item_code}</div>*/}
+          {/*<div><strong>Name:</strong> {box.warehouse_name}</div>*/}
+          {/*<div><strong>Count:</strong> {box.warehouse_name}</div>*/}
         </div>
       )
       break

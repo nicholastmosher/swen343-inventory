@@ -91,7 +91,7 @@ class Items extends Component<Props, {}> {
       <div className="content">
         <div className="nav">
           <div className="nav-header">
-            {util.inventoryHeader()}
+            {/*{util.inventoryHeader()}*/}
             {headerLink}
           </div>
           {util.navPanel(unitType, ids)}
