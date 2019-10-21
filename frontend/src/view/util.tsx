@@ -32,16 +32,7 @@ const itemDetails = (itemType: string, item: any) => {
         <div className="details">
           <div><strong>ID:</strong> {box.item_code}</div>
           <div><strong>Name:</strong> {box.warehouse_name}</div>
-        </div>
-      )
-      break
-    case "unit":
-      let unit: Item = item;
-      details = (
-        <div className="details">
-          <div><strong>ID:</strong> {unit.code}</div>
-          <div><strong>Cost:</strong> {unit.cost}</div>
-          <div><strong>Description:</strong> {unit.description}</div>
+          <div><strong>Count:</strong> {box.warehouse_name}</div>
         </div>
       )
       break
@@ -66,22 +57,22 @@ const itemDetails = (itemType: string, item: any) => {
  * @param itemType 
  * @param desc object with description details
  */
-const navPanel = (itemType: string) => {
-  let breadcrumbs = null
-  let descElem = null
+const navPanel = (itemType: string, ids: any) => {
+  let breadcrumbs = null // TODO
+
   switch (itemType) {
     case "warehouse":
       // TODO: add the address here when once the backend sends it over
-      descElem = (
+      return (
         <div className="warehouse-panel">
           <div className="nav-tree"></div>
-          <Link to="/reorder-rules">Reorder Rules</Link>
+          <Link className="reorder-rules-link" to={`/warehouses/${ids.warehouseid}/reorder-rules`}>Reorder Rules</Link>
         </div>
       )
       break
     default:
   }
-  return descElem
+  return null
 }
 
 
