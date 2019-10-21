@@ -2,6 +2,12 @@ import React from "react";
 import { Warehouse, Pallet, Box, Item } from "../types/Interfaces";
 import { Link } from "react-router-dom";
 
+const getIcon = (itemType: string) => {
+  return (
+    <div className={`${itemType}-icon`}></div>
+  )
+}
+
 const itemDetails = (itemType: string, item: any) => {
   // elements to fill
   let details = null
@@ -43,7 +49,7 @@ const itemDetails = (itemType: string, item: any) => {
 
   let icon = (
     <div className="icon">
-      <div className={`${itemType}-icon`}></div>
+      getIcon(itemType)
     </div>
   )
 
@@ -58,21 +64,57 @@ const itemDetails = (itemType: string, item: any) => {
  * @param desc object with description details
  */
 const navPanel = (itemType: string, ids: any) => {
-  let breadcrumbs = null // TODO
+  let breadcrumbs: any[] = []
+  let elem: any = null
+
+  if (itemType == "warehouse") {
+    elem = (
+      <div className="warehouse-panel">
+        <div className="nav-tree"></div>
+        <Link className="reorder-rules-link" to={`/warehouses/${ids.warehouseid}/reorder-rules`}>Reorder Rules</Link>
+      </div>
+    )
+  }
 
   switch (itemType) {
-    case "warehouse":
-      // TODO: add the address here when once the backend sends it over
-      return (
-        <div className="warehouse-panel">
-          <div className="nav-tree"></div>
-          <Link className="reorder-rules-link" to={`/warehouses/${ids.warehouseid}/reorder-rules`}>Reorder Rules</Link>
+    case "box":
+      breadcrumbs.push(
+        <div className="location">
+          <div className="nav-icon">
+            {getIcon("box")}
+          </div>
+          <div className="pathId">
+            #{ids.boxid}
+          </div>
         </div>
       )
-      break
+    case "pallet":
+      breadcrumbs.push(
+        <div className="location">
+          <div className="nav-icon">
+            {getIcon("pallet")}
+          </div>
+          <div className="pathId">
+            #{ids.palletid}
+          </div>
+        </div>
+      )
+    case "warehouse":
+      breadcrumbs.push(
+        <div className="location">
+          <div className="nav-icon">
+            {getIcon("warehouse")}
+          </div>
+          <div className="pathId">
+            #{ids.warehouseid}
+          </div>
+        </div>
+      )
     default:
   }
-  return null
+  return (
+    <div className="nav-tree">{elem}{breadcrumbs}</div>
+  )
 }
 
 const inventoryHeader = () => {

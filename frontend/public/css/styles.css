@@ -139,6 +139,7 @@ textarea {
 
 .nav-tree {
   font-weight: 600;
+  text-align: left;
 }
 
 .nav-header {
@@ -215,6 +216,7 @@ a.create-item :hover {
   border: solid 1px #eeeeee;
   padding: 5px;
   display: inline-flex;
+  margin-top: 10px;
 }
 
 .location:hover {
@@ -261,6 +263,10 @@ a.create-item :hover {
 
 .box-icon {
   background-image: url("../images/box-icon.png");
+}
+
+.unit-icon {
+  background-image: url("../images/product-icon.png")
 }
 
 .part-icon {
