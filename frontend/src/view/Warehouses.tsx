@@ -36,23 +36,10 @@ class Items extends Component<Props, {}> {
     ));
 
     return (
-      <div className="content">
-        <div className="nav">
-          <div className="nav-header">
-            <Link className="inventory-link" to="/">
-              <h1 className="inventory-header">Inventory Management</h1>
-            </Link>
-            <Link className="header-link" to="/catalog">Catalog View</Link>
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="row">
+      <>
           {warehouseComponents}
           {ButtonItem("Add Warehouse", "/warehouse/add")}
-        </div>
-      </div>
+      </>
     )
   }
 }
