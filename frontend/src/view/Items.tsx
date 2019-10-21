@@ -83,7 +83,7 @@ class Items extends Component<Props, {}> {
       itemDivs.push(ButtonItem("Add Item", "/catalog/add"))
       headerLink = (<Link className="header-link" to="/">Inventory View</Link>)
     }
-
+    //  {util.navPanel(itemType)}
     return (
       <div className="content">
         <div className="nav">
@@ -93,7 +93,6 @@ class Items extends Component<Props, {}> {
             </Link>
             {headerLink}
           </div>
-          {util.navPanel}
         </div>
 
         <hr />

@@ -1,5 +1,6 @@
 import React from "react";
-import { Warehouse, Pallet } from "../types/Interfaces";
+import { Warehouse, Pallet, Box, Item } from "../types/Interfaces";
+import { Link } from "react-router-dom";
 
 const itemDetails = (itemType: string, item: any) => {
   // elements to fill
@@ -9,24 +10,42 @@ const itemDetails = (itemType: string, item: any) => {
     case "warehouse":
       let warehouse: Warehouse = item;
       details = (
-        <div className="details">{warehouse.address}</div>
+        <div className="details">
+          <div><strong>Name:</strong> {warehouse.name}</div>
+          <div><strong>Address:</strong> {warehouse.address}</div>
+        </div>
       )
       break;
     case "pallet":
       let pallet: Pallet = item;
-
-      // get the address from the current warehouse
-      // -> get request for warehouse from the backend      
-      let address = "19, bocker street, rochester ny"
-
-      // create display elements
       details = (
         <div className="details">
+          <div><strong>ID:</strong> {pallet.pallet_id}</div>
           <div><strong>Quantity:</strong> {pallet.item_quantity}</div>
         </div>
       )
       break
     // TODO: add pallets, boxes and units display formats here
+    case "box":
+      let box: Box = item;
+      details = (
+        <div className="details">
+          <div><strong>ID:</strong> {box.item_code}</div>
+          <div><strong>Name:</strong> {box.warehouse_name}</div>
+        </div>
+      )
+      break
+    case "unit":
+      let unit: Item = item;
+      details = (
+        <div className="details">
+          <div><strong>ID:</strong> {unit.code}</div>
+          <div><strong>Cost:</strong> {unit.cost}</div>
+          <div><strong>Description:</strong> {unit.description}</div>
+        </div>
+      )
+      break
+
     default:
       details = (<div>Unknown Container Type </div>)
   }
@@ -47,27 +66,22 @@ const itemDetails = (itemType: string, item: any) => {
  * @param itemType 
  * @param desc object with description details
  */
-const navPanel = (itemType: string, desc: any) => {
-  // TODO add nav elements here
-  let nav = null
-  /*
-  let descElem = null;
+const navPanel = (itemType: string) => {
+  let breadcrumbs = null
+  let descElem = null
   switch (itemType) {
     case "warehouse":
+      // TODO: add the address here when once the backend sends it over
       descElem = (
         <div className="warehouse-panel">
-          <h3>{desc.address}</h3>
-          <div className="nav-tree">
-            <div
-          </div>
-          <button>Reorder Rules</button>
-          </div>
-          )
-          break
-        default:
-      }
-    */
-  return null
+          <div className="nav-tree"></div>
+          <Link to="/reorder-rules">Reorder Rules</Link>
+        </div>
+      )
+      break
+    default:
+  }
+  return descElem
 }
 
 
