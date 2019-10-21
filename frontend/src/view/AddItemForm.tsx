@@ -1,9 +1,10 @@
 import React from 'react'
+import util from './util';
 
 const AddItem: React.FC = () => {
   return (
     <div className="content">
-      <h1 className="inventory-header">Inventory Management</h1>
+      {util.inventoryHeader()}
 
       <hr />
 

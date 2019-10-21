@@ -75,8 +75,14 @@ const navPanel = (itemType: string, ids: any) => {
   return null
 }
 
+const inventoryHeader = () => {
+  return (<Link className="inventory-link" to="/">
+    <h1 className="inventory-header">Inventory Management</h1>
+  </Link>)
+}
 
 export default {
   itemDetails,
-  navPanel
+  navPanel,
+  inventoryHeader
 }

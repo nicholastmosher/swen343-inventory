@@ -3,6 +3,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {Warehouse} from "../types/Interfaces";
 import {insertWarehouse} from "../actions/ItemActions";
 import {connect} from "react-redux";
+import util from './util';
 
 interface State {
   name: string,
@@ -52,7 +53,7 @@ class AddWarehouse extends Component<Props, State> {
   render() {
     return (
       <div className="content">
-        <h1 className="inventory-header">Inventory Management</h1>
+        {util.inventoryHeader()}
 
         <hr />
 
