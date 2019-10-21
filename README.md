@@ -1,6 +1,6 @@
 # TERM-PROJECT: KennUWare
 
-An ERP system developed using Rust and React, with a PostgreSQL database.
+qAn ERP system developed using Rust and React, with a PostgreSQL database.
 
 ## Team Inventory
 
@@ -17,7 +17,7 @@ A typical development flow requires installing the following tools:
 * [Docker](https://docs.docker.com/v17.09/engine/installation/#desktop)
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
-## How to begin
+## How to setup the backend
 
 Start by launching the development docker-compose image. This will start a
 postgres database on port 5432 which the backend service can use.
@@ -62,6 +62,19 @@ Finally, launch the backend service using cargo:
 ```
 cargo run
 ```
+
+## How to setup the frontend
+Firstly, make sure yarn is installed.
+
+To start the server, run the following commands in the `frontend` directory
+```
+yarn
+yarn build
+yarn start
+```
+
+This should open up the url in a browser, if not navigate to `localhost:3000`
+
 
 ## Connecting to Production and Deploying
 
