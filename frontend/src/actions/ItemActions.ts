@@ -14,16 +14,30 @@ const host = "http://localhost:8000";
 export const fetchWarehouses =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    const warehouses: Warehouse[] = await fetch(`${host}/api/v1/warehouses`)
+  const warehouses: Warehouse[] = await fetch(`${host}/api/v1/warehouses`)
     .then(res => res.json());
 
-    dispatch(receiveWarehouses(warehouses))
-  };
+  dispatch(receiveWarehouses(warehouses))
+};
 
 export const receiveWarehouses = (warehouses: Warehouse[]): ItemActionTypes => ({
   type: RECEIVE_WAREHOUSES,
   warehouses,
 });
+
+export const insertWarehouse =
+  (warehouse: Warehouse): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
+
+  await fetch(`${host}/api/v1/warehouses`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(warehouse),
+  }).then(res => res.json());
+
+  dispatch(fetchWarehouses());
+};
 
 export const fetchItems =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
@@ -42,11 +56,11 @@ export const receiveItems = (items: Item[]): ItemActionTypes => ({
 export const fetchPallets =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    const pallets: Pallet[] = await fetch(`${host}/api/v1/pallets`)
+  const pallets: Pallet[] = await fetch(`${host}/api/v1/pallets`)
     .then(res => res.json());
 
-    dispatch(receivePallets(pallets));
-  };
+  dispatch(receivePallets(pallets));
+};
 
 export const receivePallets = (pallets: Pallet[]): ItemActionTypes => ({
   type: RECEIVE_PALLETS,
@@ -56,11 +70,11 @@ export const receivePallets = (pallets: Pallet[]): ItemActionTypes => ({
 export const fetchBoxes =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    const boxes: Box[] = await fetch(`${host}/api/v1/boxes`)
+  const boxes: Box[] = await fetch(`${host}/api/v1/boxes`)
     .then(res => res.json());
 
-    dispatch(receiveBoxes(boxes));
-  };
+  dispatch(receiveBoxes(boxes));
+};
 
 export const receiveBoxes = (boxes: Box[]): ItemActionTypes => ({
   type: RECEIVE_BOXES,

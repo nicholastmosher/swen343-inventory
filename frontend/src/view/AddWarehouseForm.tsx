@@ -1,28 +1,83 @@
-import React from 'react'
+import React, {Component, FormEvent} from 'react'
+import {ThunkDispatch} from "redux-thunk";
+import {Warehouse} from "../types/Interfaces";
+import {insertWarehouse} from "../actions/ItemActions";
+import {connect} from "react-redux";
 
-const AddWarehouse: React.FC = () => {
-  return (
-    <div className="content">
-      <h1 className="inventory-header">Inventory Management</h1>
+interface State {
+  name: string,
+  address: string,
+}
 
-      <hr />
+interface DispatchProps {
+  insertWarehouse: (warehouse: Warehouse) => void;
+}
 
-      <h3>Create Warehouse</h3>
-      <form className="item-form" action="/" method="get">
-        <div className="flex-row">
-          <span>Name</span>
-          <input type="text" name="itemName"></input>
+type Props = DispatchProps;
+
+class AddWarehouse extends Component<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      name: "",
+      address: "",
+    };
+  }
+
+  handleNameChange = (event: FormEvent<HTMLInputElement>) => {
+    this.setState({
+      ...this.state,
+      name: event.currentTarget.value,
+    });
+  };
+
+  handleDescriptionChange = (event: FormEvent<HTMLInputElement>) => {
+    this.setState({
+      ...this.state,
+      address: event.currentTarget.value,
+    })
+  };
+
+  handleSubmit = () => {
+    const warehouse = {
+      name: this.state.name,
+      address: this.state.address,
+    };
+    this.props.insertWarehouse(warehouse);
+    this.setState({ name: "", address: "" });
+  };
+
+  render() {
+    return (
+      <div className="content">
+        <h1 className="inventory-header">Inventory Management</h1>
+
+        <hr />
+
+        <h3>Create Warehouse</h3>
+        <div className="item-form">
+          <div className="flex-row">
+            <span>Name</span>
+            <input type="text" onChange={this.handleNameChange} value={this.state.name} />
+          </div>
+          <div className="flex-row tall-field">
+            <span>Address</span>
+            <input type="text" onChange={this.handleDescriptionChange} value={this.state.address} />
+          </div>
+          <div className="flex-all">
+            <button className="full-button" onClick={this.handleSubmit}>Create</button>
+          </div>
         </div>
-        <div className="flex-row tall-field">
-          <span>Description</span>
-          <textarea name="itemDesc"></textarea>
-        </div>
-        <div className="flex-all">
-          <button className="full-button">create</button>
-        </div>
-      </form>
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
-export default AddWarehouse
+const mapDispatchToProps =
+  (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => ({
+    insertWarehouse: (warehouse: Warehouse) => dispatch(insertWarehouse(warehouse))
+  });
+
+export default connect(state => state, mapDispatchToProps)(AddWarehouse);
