@@ -4,7 +4,7 @@ import { AppState } from "../reducers";
 import {Box, Pallet, Warehouse} from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
 import { Link } from "react-router-dom";
-import {fetchBoxes, fetchPallets} from "../actions/ItemActions";
+import { fetchBoxes } from "../actions/ItemActions";
 import { RouteComponentProps } from "react-router-dom";
 
 interface StateProps {
@@ -31,14 +31,15 @@ class Boxes extends Component<Props, {}> {
   render() {
     const { boxes, match } = this.props;
 
-    const boxComponents = boxes.map((box: Box) => (
-      <div className="item-card col-sm-6">
-        <a href={`/warehouses/${match.params.warehouseName}/pallet/${match.params.palletId}/`}>
+    const boxComponents = boxes
+      .filter(box => box.pallet_id.toString() === match.params.palletId)
+      .map((box: Box) => (
+        <div className="item-card col-sm-6">
           <h2>Box: {box.id}</h2>
+          <div>Pallet: {box.pallet_id}</div>
           <div className="details">{box.item_quantity}</div>
-        </a>
-      </div>
-    ));
+        </div>
+      ));
 
     return (
       <div className="content">

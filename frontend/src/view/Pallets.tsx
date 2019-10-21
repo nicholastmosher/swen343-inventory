@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../reducers";
-import {Pallet, Warehouse} from "../types/Interfaces";
+import { Pallet } from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
 import { Link } from "react-router-dom";
 import {fetchPallets} from "../actions/ItemActions";
@@ -30,14 +30,16 @@ class Pallets extends Component<Props, {}> {
   render() {
     const { pallets, match } = this.props;
 
-    const palletComponents = pallets.map((pallet: Pallet) => (
-      <div className="item-card col-sm-6">
-        <a href={`/warehouses/${match.params.warehouseName}/pallet/${pallet.id}`}>
-          <h2>Pallet: {pallet.id}</h2>
-          <div className="details">{pallet.item_code}</div>
-        </a>
-      </div>
-    ));
+    const palletComponents = pallets
+      .filter(pallet => pallet.warehouse_name === match.params.warehouseName)
+      .map(pallet => (
+        <div className="item-card col-sm-6">
+          <Link to={`/warehouses/${match.params.warehouseName}/pallet/${pallet.id}`}>
+            <h2>Pallet: {pallet.id}</h2>
+            <div className="details">{pallet.item_code}</div>
+          </Link>
+        </div>
+      ));
 
     return (
       <div className="content">
