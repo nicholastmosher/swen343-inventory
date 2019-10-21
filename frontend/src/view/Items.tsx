@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../reducers";
-import { Item } from "../types/Interfaces";
-import { fetchItems } from "../actions/ItemActions";
+import {Box, Item, Pallet, Warehouse} from "../types/Interfaces";
+import {fetchBoxes, fetchItems, fetchPallets, fetchWarehouses} from "../actions/ItemActions";
 import { ThunkDispatch } from "redux-thunk";
 import { Link, useLocation, useParams } from "react-router-dom";
 import util from "./util";
 import ButtonItem from "./AddButton";
 
 interface StateProps {
+  warehouses: Warehouse[],
   items: Item[];
+  pallets: Pallet[],
+  boxes: Box[],
 }
 
 interface DispatchProps {
+  fetchWarehouses: () => void;
   fetchItems: () => void;
+  fetchPallets: () => void;
+  fetchBoxes: () => void;
 }
 
 type Props = StateProps & DispatchProps;
@@ -96,12 +102,18 @@ class Items extends Component<Props, {}> {
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
+  warehouses: state.ItemReducer.warehouses,
   items: state.ItemReducer.items,
+  pallets: state.ItemReducer.pallets,
+  boxes: state.ItemReducer.boxes,
 });
 
 const mapDispatchToProps =
   (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => ({
-    fetchItems: () => dispatch(fetchItems())
+    fetchWarehouses: () => dispatch(fetchWarehouses()),
+    fetchItems: () => dispatch(fetchItems()),
+    fetchPallets: () => dispatch(fetchPallets()),
+    fetchBoxes: () => dispatch(fetchBoxes()),
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Items);

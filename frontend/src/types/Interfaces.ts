@@ -1,12 +1,12 @@
+export interface Warehouse {
+  name: string,
+  address: string,
+}
+
 export interface Item {
   code: string,
   cost: number,
   description?: string,
-}
-
-export interface Warehouse {
-  name: string,
-  address: string,
 }
 
 export interface Pallet {
