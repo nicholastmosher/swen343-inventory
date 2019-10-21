@@ -15,7 +15,7 @@ const AddWarehouse: React.FC = () => {
         </div>
         <div className="flex-row tall-field">
           <span>Description</span>
-          <textarea name="itemName"></textarea>
+          <textarea name="itemDesc"></textarea>
         </div>
         <div className="flex-all">
           <button className="full-button">create</button>

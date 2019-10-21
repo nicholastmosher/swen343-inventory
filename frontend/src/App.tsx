@@ -17,6 +17,9 @@ const App: React.FC = () => {
           <Route exact path="/catalog" component={Items} />
           <Route exact path="/catalog/add" component={AddItem} />
           <Route exact path="/warehouse/add" component={AddWarehouse} />
+          <Route exact path="/warehouses/:warehouseid" component={Items} />
+          <Route exact path="/warehouses/:warehouseid/pallet/:palletid" component={Items} />
+          <Route exact path="/warehouses/:warehouseid/pallet/:palletid/box/:boxid" component={Items} />
         </div>
       </Router>
     </div>

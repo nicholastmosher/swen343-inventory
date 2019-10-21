@@ -156,6 +156,11 @@ textarea {
   padding: 0px 10px 0px 10px;
 }
 
+.inventory-link {
+  text-decoration: none !important;
+  color: black;
+}
+
 .header-link {
   color: black;
   background-color: rgb(239, 251, 255);

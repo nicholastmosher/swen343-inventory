@@ -26,7 +26,7 @@ const itemDetails = (itemType: string, item: any) => {
         </div>
       )
       break
-    // TODO: add pallets, boxes and items display formats here
+    // TODO: add pallets, boxes and units display formats here
     default:
       details = (<div>Unknown Container Type </div>)
   }
