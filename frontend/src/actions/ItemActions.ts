@@ -10,8 +10,8 @@ import {
 } from "../types/ItemActionTypes";
 
 const localhost = "http://localhost:8000";
-//const remotehost = "http://ec2-user@ec2-3-16-181-169.us-east-2.compute.amazonaws.com:8000"
-const host = localhost;
+const remotehost = "http://ec2-3-16-181-169.us-east-2.compute.amazonaws.com:8000"
+const host = remotehost;
 
 export const fetchWarehouses =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
