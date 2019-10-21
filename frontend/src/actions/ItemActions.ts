@@ -15,10 +15,8 @@ const host = remotehost;
 
 export const fetchWarehouses =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
-
     const warehouses: Warehouse[] = await fetch(`${host}/api/v1/warehouses`)
       .then(res => res.json());
-
     dispatch(receiveWarehouses(warehouses))
   };
 
