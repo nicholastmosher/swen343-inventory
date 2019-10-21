@@ -9,6 +9,7 @@ import ReorderRules from './view/ReorderRules';
 import Warehouses from "./view/Warehouses";
 import Pallets from "./view/Pallets";
 import Boxes from "./view/Boxes";
+import Catalog from "./view/Catalog";
 
 const App: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const App: React.FC = () => {
       <Router>
         <div>
           <Route exact path="/" component={Warehouses} />
-          <Route exact path="/catalog" component={Items} />
+          <Route exact path="/catalog" component={Catalog} />
           <Route exact path="/catalog/add" component={AddItem} />
           <Route exact path="/warehouse/add" component={AddWarehouse} />
           <Route exact path="/warehouses/:warehouseName/reorder-rules" component={ReorderRules} />
