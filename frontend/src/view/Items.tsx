@@ -27,7 +27,10 @@ type Props = StateProps & DispatchProps;
 class Items extends Component<Props, {}> {
 
   componentDidMount(): void {
+    this.props.fetchWarehouses();
     this.props.fetchItems();
+    this.props.fetchPallets();
+    this.props.fetchBoxes();
   }
 
   render() {
