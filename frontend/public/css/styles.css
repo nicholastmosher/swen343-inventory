@@ -1,0 +1,291 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: #a3a3ba;
+}
+
+.header {
+  background-color: #eee;
+  padding: 16px 12vw 16px 12vw;
+  text-align: left;
+  font-size: 22px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  margin-bottom: 25px;
+}
+
+.content {
+  background-color: white;
+  padding: 10px 16px 10px 16px;
+  border-radius: 10px;
+  width: 76vw;
+  margin: auto;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.item-card-header {
+  text-align: left;
+  margin: 0px;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+/* Items */
+
+.item-card {
+  padding: 20px;
+}
+
+.item-card:hover {
+  cursor: pointer;
+  animation-name: highlight;
+  animation-duration: 0.3s;
+  background-color: #dedede;
+}
+
+.item {
+  text-align: left;
+  display: flex;
+  min-height: 100px;
+}
+
+.item>.details {
+  flex: 1;
+}
+
+.item>.icon {
+  flex: 1;
+}
+
+.icon {
+  max-width: 150px;
+}
+
+.icon>* {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  border: solid 1px white;
+}
+
+.location-desc {
+  padding: 20px;
+}
+
+.unit {
+  border-radius: 5px;
+  border: solid 1px #eee;
+  display: inline-block;
+  max-width: fit-content;
+  padding: 5px;
+  padding-bottom: 2px;
+}
+
+.unit :hover {
+  cursor: pointer;
+  background-color: #aaa;
+}
+
+/* Inputs */
+
+.item-form {
+  text-align: left;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.full-button {
+  min-width: 100%;
+}
+
+.flex-all {
+  display: flex;
+  padding: 10px;
+}
+
+.flex-row>* {
+  flex: 1;
+}
+
+.flex-row {
+  display: flex;
+  padding: 10px;
+}
+
+.flex-row>* {
+  flex: 1;
+  max-width: 50%;
+}
+
+/* Navigation */
+
+.navbar-nav img {
+  width: 30px;
+  height: 30px;
+  margin: -15px 15px -15px;
+}
+
+.nav-tree {
+  font-weight: 600;
+  text-align: left;
+}
+
+.nav-header {
+  display: flex;
+}
+
+.nav-header>* {
+  flex: 1;
+}
+
+.inventory-header {
+  font-weight: 100;
+  font-size: 36px;
+  text-align: left;
+  padding: 0px 10px 0px 10px;
+}
+
+.inventory-link {
+  text-decoration: none !important;
+  color: black;
+}
+
+.header-link {
+  color: black;
+  background-color: rgb(239, 251, 255);
+  text-align: center;
+  margin: auto;
+  max-height: min-content;
+  padding: 10px;
+  max-width: min-content;
+  align-content: right;
+  border-radius: 10px;
+  border: solid 1px #ccc;
+}
+
+.header-link a :hover {
+  background-color: #aaa;
+  text-decoration: none;
+}
+
+.warehouse-panel {
+  text-align: left;
+  padding: 5px;
+}
+
+.reorder-rules-link {
+  text-align: left;
+  background-color: #eee;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+a.create-item {
+  color: black;
+}
+
+a.create-item :hover {
+  text-decoration: none;
+}
+
+.create-icon {
+  border: solid 2px black;
+  font-size: 36px;
+  margin: auto;
+  text-align: center;
+  width: 100px;
+  line-height: 98px;
+  border-radius: 50%;
+}
+
+.location {
+  max-width: 70px;
+  border-radius: 10px;
+  border: solid 1px #eeeeee;
+  padding: 5px;
+  display: inline-flex;
+  margin-top: 10px;
+}
+
+.location:hover {
+  cursor: pointer;
+}
+
+.location>.nav-icon {
+  flex: 1;
+  min-width: 30px;
+}
+
+.nav-icon>* {
+  min-width: 100%;
+  min-height: 100%;
+  border: solid 1px #cccccc;
+  border: solid 1px white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+}
+
+.pathId {
+  flex: 1;
+}
+
+.alert {
+  margin-top: 20px;
+}
+
+.thumbnail {
+  padding: 0;
+  border-radius: 0;
+  box-shadow: 0 0 5px #ccc, inset 0 0 0 #000;
+}
+
+.warehouse-icon {
+  background-image: url("../images/warehouse-icon.png");
+}
+
+.pallet-icon {
+  background-image: url("../images/pallet-icon.png")
+}
+
+.box-icon {
+  background-image: url("../images/box-icon.png");
+}
+
+.unit-icon {
+  background-image: url("../images/product-icon.png")
+}
+
+.part-icon {
+  background-image: url("../images/part-icon.png")
+}
+
+.product-icon {
+  background-image: url("../images/product-icon.png")
+}
+
+.fa {
+  margin-right: 6px;
+}
+
+@keyframes highlight {
+  from {
+    background-color: white;
+  }
+  to {
+    background-color: #dedede;
+  }
+}
