@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::boxes::{CreateBox, ReadBoxes, UpdateBox, DeleteBox, BoxResponse};
+use crate::app::v1::boxes::{CreateBox, ReadBoxes, UpdateBox, DeleteBox, BoxResponse};
 use crate::db::DbExecutor;
 use crate::models::boxes::{NewBox, Box, ChangedBox};
 

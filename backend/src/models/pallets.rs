@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 use diesel::{Queryable, Insertable, Identifiable, Associations};
 use crate::schema::pallets;
-use crate::app::pallets::{CreatePallet, UpdatePallet};
+use crate::app::v1::pallets::{CreatePallet, UpdatePallet};
 use crate::models::warehouses::Warehouse;
 
 /// An in-memory representation of a Pallet entity in the database.

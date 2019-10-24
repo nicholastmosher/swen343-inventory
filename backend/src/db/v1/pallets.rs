@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::pallets::{CreatePallet, ReadPallets, DeletePallet, PalletResponse, UpdatePallet};
+use crate::app::v1::pallets::{CreatePallet, ReadPallets, DeletePallet, PalletResponse, UpdatePallet};
 use crate::db::DbExecutor;
 use crate::models::pallets::{NewPallet, Pallet, ChangePallet};
 

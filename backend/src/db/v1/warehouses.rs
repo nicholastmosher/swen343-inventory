@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::warehouses::{CreateWarehouse, ReadWarehouses, UpdateWarehouse, WarehouseResponse, DeleteWarehouse};
+use crate::app::v1::warehouses::{CreateWarehouse, ReadWarehouses, UpdateWarehouse, WarehouseResponse, DeleteWarehouse};
 use crate::db::DbExecutor;
 use crate::models::warehouses::{NewWarehouse, Warehouse, ChangedWarehouse};
 

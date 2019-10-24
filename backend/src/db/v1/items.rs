@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::items::{CreateItem, ReadItems, UpdateItems, DeleteItem, ItemResponse};
+use crate::app::v1::items::{CreateItem, ReadItems, UpdateItems, DeleteItem, ItemResponse};
 use crate::db::DbExecutor;
 use crate::models::items::{NewItem, Item, ChangedItem};
 

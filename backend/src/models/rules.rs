@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 use diesel::{Queryable, Insertable, Identifiable, AsChangeset};
 use crate::schema::rules;
-use crate::app::rules::{CreateRule, UpdateRules};
+use crate::app::v1::rules::{CreateRule, UpdateRules};
 use crate::models::warehouses::Warehouse;
 
 /// An in-memory representation of a Rule entity in the database.

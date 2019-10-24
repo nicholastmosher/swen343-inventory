@@ -1,7 +1,7 @@
 use std::convert::TryInto;
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::rules::{CreateRule, ReadRules, UpdateRules, DeleteRule, RuleResponse};
+use crate::app::v1::rules::{CreateRule, ReadRules, UpdateRules, DeleteRule, RuleResponse};
 use crate::db::DbExecutor;
 use crate::models::rules::{NewRule, Rule, ChangedRule};
 
