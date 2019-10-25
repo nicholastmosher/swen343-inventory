@@ -5,7 +5,7 @@ type Props = RouteComponentProps<{}>;
 
 const ContentHeader: React.FC<Props> = (props: Props) => {
 
-  const headerLink = (props.match.path.includes("catalog")) ?
+  const headerLink = (props.location.pathname.includes("catalog")) ?
     <Link className="header-link" to="/">Inventory view</Link> :
     <Link className="header-link" to="/catalog">Catalog view</Link>;
 

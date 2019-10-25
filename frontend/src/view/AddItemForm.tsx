@@ -1,5 +1,4 @@
 import React, {Component, FormEvent} from 'react'
-import util from './util';
 import {ThunkDispatch} from "redux-thunk";
 import {createItem} from "../actions/ItemActions";
 import {Item} from "../types/Interfaces";
@@ -67,10 +66,6 @@ class AddItemForm extends Component<Props, State> {
   render() {
     return (
       <div className="content">
-        {util.inventoryHeader()}
-
-        <hr/>
-
         <h3>Create a New Item</h3>
         <div className="item-form">
 
