@@ -13,6 +13,7 @@ use actix_cors::Cors;
 use actix_web::middleware::Logger;
 
 pub mod v1;
+pub mod v2;
 
 pub struct AppConfig {
     pub database_url: String,
@@ -117,5 +118,6 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
 
 fn routes(app: &mut web::ServiceConfig) {
     app
-        .service(v1::routes(web::scope("/api/v1")));
+        .service(v1::routes(web::scope("/api/v1")))
+        .service(v2::routes(web::scope("/api/v2")));
 }
