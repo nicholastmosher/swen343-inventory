@@ -4,6 +4,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {createItem} from "../actions/ItemActions";
 import {Item} from "../types/Interfaces";
 import {connect} from "react-redux";
+import {RouteComponentProps} from "react-router-dom";
 
 interface State {
   name: string;
@@ -23,7 +24,7 @@ interface DispatchProps {
   createItem: (item: Item) => void;
 }
 
-type Props = DispatchProps;
+type Props = DispatchProps & RouteComponentProps<{}>;
 
 class AddItemForm extends Component<Props, State> {
 
@@ -60,6 +61,7 @@ class AddItemForm extends Component<Props, State> {
     };
     this.props.createItem(item);
     this.setState(initialState);
+    this.props.history.push("/catalog");
   };
 
   render() {
