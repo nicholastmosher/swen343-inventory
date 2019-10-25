@@ -27,7 +27,7 @@ class Items extends Component<Props, {}> {
 
     const warehouseComponents = warehouses.map((warehouse: Warehouse) => (
       <div className="item-card col-sm-6">
-        <a href={`/warehouses/${warehouse.name}`}>
+        <a href={`/warehouse/${warehouse.name}`}>
           <h2>Warehouse: {warehouse.name}</h2>
           <div className="details">{warehouse.address}</div>
         </a>

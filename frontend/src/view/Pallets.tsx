@@ -33,7 +33,7 @@ class Pallets extends Component<Props, {}> {
       .filter(pallet => pallet.warehouse_name === match.params.warehouseName)
       .map(pallet => (
         <div className="item-card col-sm-6">
-          <Link to={`/warehouses/${match.params.warehouseName}/pallet/${pallet.id}`}>
+          <Link to={`/warehouse/${match.params.warehouseName}/pallet/${pallet.id}`}>
             <h2>Pallet: {pallet.id}</h2>
             <div className="details">{pallet.item_code}</div>
           </Link>

@@ -30,9 +30,9 @@ const App: React.FC = () => {
                 <Route exact path="/catalog" component={Catalog} />
                 <Route exact path="/catalog/add" component={AddItemForm} />
                 <Route exact path="/warehouse/add" component={AddWarehouseForm} />
-                <Route exact path="/warehouses/:warehouseName" component={Pallets} />
-                <Route exact path="/warehouses/:warehouseName/reorder-rules" component={ReorderRules} />
-                <Route exact path="/warehouses/:warehouseName/pallet/:palletId" component={Boxes} />
+                <Route exact path="/warehouse/:warehouseName" component={Pallets} />
+                <Route exact path="/warehouse/:warehouseName/reorder-rules" component={ReorderRules} />
+                <Route exact path="/warehouse/:warehouseName/pallet/:palletId" component={Boxes} />
               </Switch>
           </div>
         </div>
