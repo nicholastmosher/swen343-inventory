@@ -17,7 +17,7 @@ const initialState = {
   name: "",
   cost: "",
   description: "",
-  itemType: "",
+  itemType: "part",
 };
 
 interface DispatchProps {
