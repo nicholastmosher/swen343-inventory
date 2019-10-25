@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { AppState } from "../reducers";
 import { Item } from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
-import CreateEntityCard from "./CreateEntityCard";
+import CreateEntityCard from "./components/CreateEntityCard";
 import { fetchItems } from "../actions/ItemActions";
 
 interface StateProps {

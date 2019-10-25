@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
-import Header from "./view/Header";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Header from "./view/components/Header";
+import ContentHeader from "./view/components/ContentHeader";
 import AddItem from "./view/AddItemForm";
 import AddWarehouse from "./view/AddWarehouseForm";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import ReorderRules from './view/ReorderRules';
 import Warehouses from "./view/Warehouses";
 import Pallets from "./view/Pallets";
 import Boxes from "./view/Boxes";
 import Catalog from "./view/Catalog";
-import ContentHeader from "./view/ContentHeader";
 
 const App: React.FC = () => {
   return (
