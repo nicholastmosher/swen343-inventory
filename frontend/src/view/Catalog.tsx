@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { AppState } from "../reducers";
 import { Item } from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
-import { Link } from "react-router-dom";
 import ButtonItem from "./AddButton";
 import { fetchItems } from "../actions/ItemActions";
 
