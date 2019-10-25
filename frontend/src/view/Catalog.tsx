@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { AppState } from "../reducers";
 import { Item } from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
-import ButtonItem from "./AddButton";
+import CreateEntityCard from "./CreateEntityCard";
 import { fetchItems } from "../actions/ItemActions";
 
 interface StateProps {
@@ -32,7 +32,7 @@ class Items extends Component<Props, {}> {
     return (
         <>
           {itemComponents}
-          {ButtonItem("Add Item", "/catalog/add")}
+          <CreateEntityCard title="Add Item" actionPath="/catalog/add"/>
         </>
     )
   }

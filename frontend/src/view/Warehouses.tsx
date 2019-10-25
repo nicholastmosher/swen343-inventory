@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { AppState } from "../reducers";
 import { Warehouse } from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
-import { Link } from "react-router-dom";
-import ButtonItem from "./AddButton";
+import CreateEntityCard from "./CreateEntityCard";
 import {fetchWarehouses} from "../actions/ItemActions";
 
 interface StateProps {
@@ -38,7 +37,7 @@ class Items extends Component<Props, {}> {
     return (
       <>
           {warehouseComponents}
-          {ButtonItem("Add Warehouse", "/warehouse/add")}
+          <CreateEntityCard title="Add Warehouse" actionPath="/warehouse/add"/>
       </>
     )
   }
