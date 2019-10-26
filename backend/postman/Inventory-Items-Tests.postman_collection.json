@@ -1,0 +1,1274 @@
+{
+	"info": {
+		"_postman_id": "c7e64c3b-5fa1-441b-9ba4-0de4215e82e4",
+		"name": "Inventory-Items-Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Items Tests",
+			"item": [
+				{
+					"name": "Items: Empty Database Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Checking for Empty Database\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.eql();",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Items: Empty Database Delete Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f107f871-f757-4fe5-b233-a012d7189149",
+								"exec": [
+									"pm.test(\"Status code is 500 on deleting non-existant item(s)\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for deleting items"
+					},
+					"response": [
+						{
+							"name": "Delete an Item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Post New Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc8598d2-f822-49bc-a11d-75b29167ff7c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Verifying post was effective",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Ensuring right items were created\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:A\",",
+									"                cost: 1000,",
+									"                description: \"The Actives\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Items: Post Same Item fails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bff2a264-4d44-475b-91a2-f6d95c7dbb28",
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Post Same Item fails check 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bff2a264-4d44-475b-91a2-f6d95c7dbb28",
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 3300,\n\t\"description\": \"The Bros\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Ensuring no Changes Occured",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Ensuring right items still exits\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    let jsonObject = jsonData[0];",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:A\",",
+									"                cost: 1000,",
+									"                description: \"The Actives\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Items: Edit Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2671080-0714-4aef-803f-e449a9ba0306",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for editing the details of an item"
+					},
+					"response": [
+						{
+							"name": "Update an existing Item",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Get Edited Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring right items were created\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    let jsonObject = jsonData[0];",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:A\",",
+									"                cost: 2000,",
+									"                description: \"The updated description for Product A\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Items: Creating Second Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bff2a264-4d44-475b-91a2-f6d95c7dbb28",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:B\",\n\t\"cost\": 700,\n\t\"description\": \"The Night-owls\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Creating Third Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bff2a264-4d44-475b-91a2-f6d95c7dbb28",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:C\",\n\t\"cost\": 2500,\n\t\"description\": \"Winter is Coming\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Remove one item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10758c8f-c084-45cd-9591-336b6076441e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for deleting items"
+					},
+					"response": [
+						{
+							"name": "Delete an Item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Check delete was proper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring right items were created\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    let jsonObject = jsonData[0];",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:B\",",
+									"                cost: 700,",
+									"                description: \"The Night-owls\"",
+									"            },",
+									"            {",
+									"                code: \"product:C\",",
+									"                cost: 2500,",
+									"                description: \"Winter is Coming\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Items: Remove Item Two",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e8e428d-01a1-4915-b47d-68fce1d92c72",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:B\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for deleting items"
+					},
+					"response": [
+						{
+							"name": "Delete an Item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Remove Item Three",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e8e428d-01a1-4915-b47d-68fce1d92c72",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:C\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for deleting items"
+					},
+					"response": [
+						{
+							"name": "Delete an Item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Items: Check Database is now empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Checking for Empty Database\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.eql();",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
