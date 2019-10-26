@@ -25,7 +25,7 @@ export const receiveWarehouses = (warehouses: Warehouse[]): ItemActionTypes => (
   warehouses,
 });
 
-export const insertWarehouse =
+export const createWarehouse =
   (warehouse: Warehouse): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
     await fetch(`${host}/api/v1/warehouses`, {
@@ -53,6 +53,20 @@ export const receiveItems = (items: Item[]): ItemActionTypes => ({
   items,
 });
 
+export const createItem =
+  (item: Item): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
+
+  await fetch(`${host}/api/v1/items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  });
+
+  dispatch(fetchItems());
+};
+
 export const fetchPallets =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
@@ -67,6 +81,20 @@ export const receivePallets = (pallets: Pallet[]): ItemActionTypes => ({
   pallets,
 });
 
+export const createPallet =
+  (pallet: Pallet): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
+
+  await fetch(`${host}/api/v1/pallets`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(pallet),
+  });
+
+  dispatch(fetchPallets());
+};
+
 export const fetchBoxes =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
@@ -80,3 +108,17 @@ export const receiveBoxes = (boxes: Box[]): ItemActionTypes => ({
   type: RECEIVE_BOXES,
   boxes,
 });
+
+export const createBox =
+  (box: Box): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
+
+    await fetch(`${host}/api/v1/boxes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(box),
+    });
+
+    dispatch(fetchBoxes());
+  };

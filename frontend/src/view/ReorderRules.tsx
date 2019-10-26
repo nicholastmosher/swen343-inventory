@@ -1,6 +1,5 @@
 import React from 'react'
 import { Item } from '../types/Interfaces';
-import util from './util';
 
 const ReorderRules: React.FC = () => {
   let warehouseid = 1 // get from params
@@ -35,10 +34,6 @@ const ReorderRules: React.FC = () => {
 
   return (
     <div className="content">
-      {util.inventoryHeader()}
-
-      <hr />
-
       <h3>Reorder Rules</h3>
       {itemDivs}
     </div>

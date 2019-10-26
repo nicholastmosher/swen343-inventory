@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { AppState } from "../reducers";
-import {Pallet, Warehouse} from "../types/Interfaces";
-import { ThunkDispatch } from "redux-thunk";
-import { Link } from "react-router-dom";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {AppState} from "../reducers";
+import {Pallet} from "../types/Interfaces";
+import {ThunkDispatch} from "redux-thunk";
+import {Link, RouteComponentProps} from "react-router-dom";
 import {fetchPallets} from "../actions/ItemActions";
-import { RouteComponentProps } from "react-router-dom";
 
 interface StateProps {
   pallets: Pallet[];
@@ -30,33 +29,16 @@ class Pallets extends Component<Props, {}> {
   render() {
     const { pallets, match } = this.props;
 
-    const palletComponents = pallets.map((pallet: Pallet) => (
-      <div className="item-card col-sm-6">
-        <a href={`/warehouses/${match.params.warehouseName}/pallet/${pallet.id}`}>
-          <h2>Pallet: {pallet.id}</h2>
-          <div className="details">{pallet.item_code}</div>
-        </a>
-      </div>
-    ));
-
-    return (
-      <div className="content">
-        <div className="nav">
-          <div className="nav-header">
-            <Link className="inventory-link" to="/">
-              <h1 className="inventory-header">Inventory Management</h1>
-            </Link>
-            <Link className="header-link" to="/catalog">Catalog View</Link>
-          </div>
+    return pallets
+      .filter(pallet => pallet.warehouse_name === match.params.warehouseName)
+      .map(pallet => (
+        <div className="item-card col-sm-6">
+          <Link to={`/warehouse/${match.params.warehouseName}/pallet/${pallet.id}`}>
+            <h2>Pallet: {pallet.id}</h2>
+            <div className="details">{pallet.item_code}</div>
+          </Link>
         </div>
-
-        <hr />
-
-        <div className="row">
-          {palletComponents}
-        </div>
-      </div>
-    )
+      ));
   }
 }
 

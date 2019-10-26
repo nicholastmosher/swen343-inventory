@@ -17,6 +17,6 @@ export interface Pallet {
 
 export interface Box {
   id: number;
-  pallet_id: string;
+  pallet_id: number;
   item_quantity: string;
 }
