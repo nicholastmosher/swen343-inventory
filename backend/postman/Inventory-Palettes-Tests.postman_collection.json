@@ -1,0 +1,1829 @@
+{
+	"info": {
+		"_postman_id": "4189f23f-c11d-42fb-8400-3c6e3b2f910c",
+		"name": "Inventory-Palettes-Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Palette Tests",
+			"item": [
+				{
+					"name": "Palettes: Empty Database Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ede771c2-bb3f-43ae-9448-63d759c22254",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Checking for Empty Database\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.eql();",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Empty Database Delete Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b403ff52-30ed-496b-8273-0c95bb319edc",
+								"exec": [
+									"pm.test(\"Status code is 500 on deleting non-existant Palettes(s)\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for deleting pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Post New Palette Without Warehouse",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3825ba7-badc-418e-8018-ed3feb64f355",
+								"exec": [
+									"pm.test(\"Creating Palette without Warehouse\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for creating pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Post Palette Warehouse",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf7a8ab7-6de0-4ebb-8b40-bffe482f9481",
+								"exec": [
+									"pm.test(\"Creating Palette Warehouse\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"primary-warehouse\",\n\t\"address\": \"123 Friendly road\",\n\t\"description\": \"The friendliest warehouse around\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/warehouses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						},
+						"description": "Endpoint for creating new warehouses"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Post New Palette Without Items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "100a256a-5340-4845-92dd-80ed2bbd02b1",
+								"exec": [
+									"pm.test(\"Creating Palette without Item\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for creating pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Post Palette Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa5b3ed3-1f9e-4590-9e78-222cf725beb3",
+								"exec": [
+									"pm.test(\"Creating Palette Item\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Post New Palette Proper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "673cc537-83a9-4f1e-a6b2-f4da4a94644f",
+								"exec": [
+									"pm.test(\"Creating Palette Proper\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for creating pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Checking Palette Duplication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f162b886-6354-475d-9301-37343e1ff92f",
+								"exec": [
+									"pm.test(\"Attempting to Duplicate Item. Should Succeed for Palettes.\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for creating pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Check Palette Was Created Well",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2c8cb7c5-6b8b-407f-8dcf-5c89184d9def",
+								"exec": [
+									"pm.test(\"Checking new Palette Existence\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring Palette was Properly Created\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"            \t\"item_code\": \"product:A\",",
+									"            \t\"warehouse_name\": \"primary-warehouse\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Edit Palette Product Error",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "94564442-761d-4620-8f34-9c927a15ef43",
+								"exec": [
+									"pm.test(\"Editing Palette with nonexistent item\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:B\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for editing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Edit Palette Warehouse Error",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bbcdd6f4-2046-48e7-85b5-e83179726525",
+								"exec": [
+									"pm.test(\"Editing Palette with nonexistant Warehouse\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"secondary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for editing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Post Palette Secondary Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa5b3ed3-1f9e-4590-9e78-222cf725beb3",
+								"exec": [
+									"pm.test(\"Creating Palette Item for the PUT test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:B\",\n\t\"cost\": 550,\n\t\"description\": \"Let's Put Stuff Everywhere\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Edit Palette Warehouse Error Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9d998476-1e31-455a-9b08-3a1105584eda",
+								"exec": [
+									"pm.test(\"Palette should now be accept a put request\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:B\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for editing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Get Edited Palette",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e477228f-a9d3-4241-902d-855aa4bd906a",
+								"exec": [
+									"pm.test(\"Palette should now be properly edited\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring Palette Edit was Properly Done\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"            \t\"item_code\": \"product:B\",",
+									"            \t\"warehouse_name\": \"primary-warehouse\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Creating Second Palette Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa5b3ed3-1f9e-4590-9e78-222cf725beb3",
+								"exec": [
+									"pm.test(\"Palette two's item should be successfully created\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:C\",\n\t\"cost\": 330,\n\t\"description\": \"Items Galore\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Creating Second Palette",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f898af72-9a7c-42dc-8f60-6ddf670ebf77",
+								"exec": [
+									"pm.test(\"Palette Two should now be properly created\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:C\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for creating pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Creating Third Palette Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa5b3ed3-1f9e-4590-9e78-222cf725beb3",
+								"exec": [
+									"pm.test(\"Palette Three's Item should now be properly created\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:D\",\n\t\"cost\": 4500,\n\t\"description\": \"The Accolades\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for creating new Items"
+					},
+					"response": [
+						{
+							"name": "Create a new Item",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Creating Third Palette Warehouse",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0852a4c6-8240-403a-b6de-942c9ae98a6e",
+								"exec": [
+									"pm.test(\"Palette Three's Warehouse should now be properly created\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"secondary-warehouse\",\n\t\"address\": \"456 Hate Everything road\",\n\t\"description\": \"The Meanest warehouse around\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/warehouses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						},
+						"description": "Endpoint for creating new warehouses"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Creating Third Palette",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c4e70de-be14-4afc-afa3-47e650832800",
+								"exec": [
+									"pm.test(\"Palette Three should now be properly created\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"item_code\": \"product:D\",\n\t\"warehouse_name\": \"secondary-warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for creating pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Checking Presence of 2nd and 3rd Palettes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e477228f-a9d3-4241-902d-855aa4bd906a",
+								"exec": [
+									"pm.test(\"Palette should now be properly edited\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring Palette Edit was Properly Done\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"            \t\"item_code\": \"product:B\",",
+									"            \t\"warehouse_name\": \"primary-warehouse\"",
+									"            },",
+									"            {",
+									"            \t\"item_code\": \"product:C\",",
+									"            \t\"warehouse_name\": \"primary-warehouse\"",
+									"            },",
+									"            {",
+									"            \t\"item_code\": \"product:D\",",
+									"            \t\"warehouse_name\": \"secondary-warehouse\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Delete Second Palette Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e8e428d-01a1-4915-b47d-68fce1d92c72",
+								"exec": [
+									"pm.test(\"Second Palette's Item should be Successfully Removed\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:C\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for deleting items"
+					},
+					"response": [
+						{
+							"name": "Delete an Item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Checking Delete Result on Palette",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7de92c40-afe2-401b-9d96-9ebad5cd7c09",
+								"exec": [
+									"pm.test(\"Palette should now be properly edited\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring Palette Edit was Properly Done\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"            \t\"item_code\": \"product:B\",",
+									"            \t\"warehouse_name\": \"primary-warehouse\"",
+									"            },",
+									"            {",
+									"            \t\"item_code\": \"product:D\",",
+									"            \t\"warehouse_name\": \"secondary-warehouse\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Items: Checking Deletion Result on Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring right items were created\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:A\",",
+									"                cost: 1000,",
+									"                description: \"The Actives\"",
+									"            },",
+									"            {",
+									"                code: \"product:B\",",
+									"            \tcost: 550,",
+									"            \tdescription: \"Let's Put Stuff Everywhere\"",
+									"            },",
+									"            {",
+									"                code: \"product:D\",",
+									"            \tcost: 4500,",
+									"            \tdescription: \"The Accolades\"",
+									"            },",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Delete Third Palette Warehouse",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02aa9ec1-d155-4c3e-8fa0-01d5f24785cf",
+								"exec": [
+									"pm.test(\"Warehouse should successfully be removed from system\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"secondary-warehouse\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/warehouses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						},
+						"description": "Endpoint for deleting pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Check Deletion of 3rd Warehouse",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02aa9ec1-d155-4c3e-8fa0-01d5f24785cf",
+								"exec": [
+									"pm.test(\"Checking to see secondary warehouse is gone\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring right items currently remain\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                name: \"primary-warehouse\",",
+									"            \taddress: \"123 Friendly road\",",
+									"            \tdescription: \"The friendliest warehouse around\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/warehouses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						},
+						"description": "Endpoint for deleting pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Checking Palette Deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a121165c-1b59-4e17-88d1-afcd336037d8",
+								"exec": [
+									"pm.test(\"Palette should be deleted with removal of warehouse\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Checking Item Deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58cf7bc1-5234-486b-bec4-3071edb2a825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring right items currently remain\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:A\",",
+									"                cost: 1000,",
+									"                description: \"The Actives\"",
+									"            },",
+									"            {",
+									"                code: \"product:B\",",
+									"            \tcost: 550,",
+									"            \tdescription: \"Let's Put Stuff Everywhere\"",
+									"            },",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for getting all of the existing Items"
+					},
+					"response": [
+						{
+							"name": "Get existing Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n\t{\n\t\t\"code\": \"product:A\",\n\t\t\"cost\": 1000,\n\t\t\"description\": \"The Actives\"\n\t}\n]"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Delete First Palette Raw",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9cfa6860-bc4b-40df-9f2b-f07f70389232",
+								"exec": [
+									"pm.test(\"Last palette should be successfully deleted\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for deleting pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Checking Raw Delete Result on Pallette",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "39af5c66-4642-4ce4-9969-0d20c86402a2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"No palettes should remain\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql();",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Checking Raw Delete Result on Item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2d4a941-41ba-43c5-b131-268a1564610f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only product A should exist in items atm\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql",
+									"    (",
+									"        [",
+									"            {",
+									"                code: \"product:A\",",
+									"                cost: 1000,",
+									"                description: \"The Actives\"",
+									"            }",
+									"        ]",
+									"    );",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/pallets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pallets"
+							]
+						},
+						"description": "Endpoint for getting existing pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Clean up with final warehouse deletion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02aa9ec1-d155-4c3e-8fa0-01d5f24785cf",
+								"exec": [
+									"pm.test(\"Warehouse should successfully be removed from system\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"primary-warehouse\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/warehouses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						},
+						"description": "Endpoint for deleting pallets"
+					},
+					"response": []
+				},
+				{
+					"name": "Palettes: Clean up with final item delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e8e428d-01a1-4915-b47d-68fce1d92c72",
+								"exec": [
+									"pm.test(\"Final Product A should be successfully deleted\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": \"product:A\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/items",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"items"
+							]
+						},
+						"description": "Endpoint for deleting items"
+					},
+					"response": [
+						{
+							"name": "Delete an Item",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"code\": \"product:A\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/items",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"items"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Palettes: Check Deletion of final warehouse",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "02aa9ec1-d155-4c3e-8fa0-01d5f24785cf",
+								"exec": [
+									"pm.test(\"Checking to see primary warehouse is gone\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Ensuring right items currently remain\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql();",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/warehouses",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						},
+						"description": "Endpoint for deleting pallets"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
