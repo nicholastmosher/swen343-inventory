@@ -33,11 +33,11 @@ impl From<Rule> for RuleResponse {
 /// Deserialize the body of a Create request using exactly these fields.
 #[derive(Debug, Deserialize)]
 pub struct CreateRule {
-    pub id: u32,
-    pub warehouse: String,
+    pub id: i32,
+    pub warehouse_id: String,
     pub item: String,
-    pub minimum: u32,
-    pub quantity: u32,
+    pub minimum: i32,
+    pub quantity: i32,
     pub description: Option<String>,
 }
 
@@ -47,7 +47,7 @@ pub struct CreateRule {
 pub fn create(
     state: web::Data<AppState>,
     web::Json(create_item): web::Json<CreateRule>,
-) -> impl Future<Rule=HttpResponse, Error=()> {
+) -> impl Future<Item=HttpResponse, Error=()> {
     let db = &state.db;
 
     db.send(create_item)
@@ -71,7 +71,7 @@ pub struct ReadRules;
 /// Implemented by sending a `ReadRules` message to the `DbExecutor` actor.
 pub fn read(
     state: web::Data<AppState>,
-) -> impl Future<Rule=HttpResponse, Error=()> {
+) -> impl Future<Item=HttpResponse, Error=()> {
     let db = &state.db;
     let read_items = ReadRules;
 
@@ -86,11 +86,11 @@ pub fn read(
 /// Deserialize the body of an Update request using exactly these fields.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UpdateRules {
-    pub id: u32,
-    pub warehouse: String,
+    pub id: i32,
+    pub warehouse_id: String,
     pub item: String,
-    pub minimum: u32,
-    pub quantity: u32,
+    pub minimum: i32,
+    pub quantity: i32,
     pub description: Option<String>,
 }
 
@@ -100,7 +100,7 @@ pub struct UpdateRules {
 pub fn update(
     state: web::Data<AppState>,
     web::Json(update_items): web::Json<UpdateRules>,
-) -> impl Future<Rule=HttpResponse, Error=()> {
+) -> impl Future<Item=HttpResponse, Error=()> {
     let db = &state.db;
 
     db.send(update_items)
@@ -114,7 +114,7 @@ pub fn update(
 /// Deserialize the body of a Delete request to delete an existing Rule.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DeleteRule {
-    pub id: u32,
+    pub id: i32,
 }
 
 /// Asynchronously handles a DELETE request to delete an existing Rule.
@@ -124,7 +124,7 @@ pub struct DeleteRule {
 pub fn delete(
     state: web::Data<AppState>,
     web::Json(delete_item): web::Json<DeleteRule>,
-) -> impl Future<Rule=HttpResponse, Error=()> {
+) -> impl Future<Item=HttpResponse, Error=()> {
     let db = &state.db;
 
     db.send(delete_item)
