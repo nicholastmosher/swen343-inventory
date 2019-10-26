@@ -4,3 +4,4 @@ pub mod items;
 pub mod boxes;
 pub mod pallets;
 pub mod warehouses;
+pub mod rules;

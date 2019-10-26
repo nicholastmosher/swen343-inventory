@@ -21,6 +21,7 @@ pub mod items;
 pub mod boxes;
 pub mod pallets;
 pub mod warehouses;
+pub mod rules;
 
 pub type Conn = PgConnection;
 pub type DbPool = Pool<ConnectionManager<Conn>>;

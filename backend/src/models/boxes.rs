@@ -23,6 +23,8 @@ pub struct NewBox {
     pub item_quantity: i32,
 }
 
+
+
 /// A representation of changes to a Box entity in the database.
 #[derive(Debug, AsChangeset)]
 #[table_name = "boxes"]
