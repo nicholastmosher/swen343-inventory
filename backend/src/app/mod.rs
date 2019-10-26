@@ -154,7 +154,7 @@ fn routes(app: &mut web::ServiceConfig) {
                 .route(web::post().to_async(rules::create))
                 .route(web::get().to_async(rules::read))
                 .route(web::put().to_async(rules::update))
-                .route(web::delete().to_async(boxes::delete))
+                .route(web::delete().to_async(rules::delete))
             )
 
         );

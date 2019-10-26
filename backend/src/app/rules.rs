@@ -14,7 +14,7 @@ use crate::models::rules::Rule;
 #[derive(Debug, Serialize)]
 pub struct RuleResponse {
     pub id: i32,
-    pub warehouse_id: String,
+    pub warehouse_name: String,
     pub item: String,
     pub minimum: i32,
     pub quantity: i32,
@@ -25,16 +25,15 @@ pub struct RuleResponse {
 ///
 /// This is where we strategically exclude the "deleted" field.
 impl From<Rule> for RuleResponse {
-    fn from(Rule { id, warehouse_id, item, minimum, quantity, description, .. }: Rule) -> Self {
-        RuleResponse { id, warehouse_id, item, minimum, quantity, description }
+    fn from(Rule { id, warehouse_name, item, minimum, quantity, description, .. }: Rule) -> Self {
+        RuleResponse { id, warehouse_name, item, minimum, quantity, description }
     }
 }
 
 /// Deserialize the body of a Create request using exactly these fields.
 #[derive(Debug, Deserialize)]
 pub struct CreateRule {
-    pub id: i32,
-    pub warehouse_id: String,
+    pub warehouse_name: String,
     pub item: String,
     pub minimum: i32,
     pub quantity: i32,
@@ -87,7 +86,7 @@ pub fn read(
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UpdateRules {
     pub id: i32,
-    pub warehouse_id: String,
+    pub warehouse_name: String,
     pub item: String,
     pub minimum: i32,
     pub quantity: i32,
