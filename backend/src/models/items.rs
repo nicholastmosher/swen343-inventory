@@ -1,6 +1,6 @@
 use diesel::{Queryable, Insertable, Identifiable, AsChangeset};
 use crate::schema::items;
-use crate::app::items::{CreateItem, UpdateItems};
+use crate::app::v1::items::{CreateItem, UpdateItems};
 use std::convert::TryFrom;
 
 /// An in-memory representation of a Item entity in the database.

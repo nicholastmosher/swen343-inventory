@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 use diesel::{Queryable, Insertable, Identifiable};
 use crate::schema::warehouses;
-use crate::app::warehouses::{CreateWarehouse, UpdateWarehouse};
+use crate::app::v1::warehouses::{CreateWarehouse, UpdateWarehouse};
 
 /// An in-memory representation of a Warehouse entity in the database.
 #[derive(Debug, Queryable, Identifiable)]

@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 use diesel::{Queryable, Insertable, Identifiable, AsChangeset};
 use crate::schema::boxes;
-use crate::app::boxes::{CreateBox, UpdateBox};
+use crate::app::v1::boxes::{CreateBox, UpdateBox};
 use crate::models::pallets::Pallet;
 
 /// An in-memory representation of a Box entity in the database.

@@ -12,11 +12,8 @@ use crate::db::DbExecutor;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
 
-pub mod items;
-pub mod boxes;
-pub mod pallets;
-pub mod warehouses;
-pub mod rules;
+pub mod v1;
+pub mod v2;
 
 pub struct AppConfig {
     pub database_url: String,
@@ -121,41 +118,6 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
 
 fn routes(app: &mut web::ServiceConfig) {
     app
-        .service(web::scope("/api/v1")
-
-            .service(web::resource("warehouses")
-                .route(web::post().to_async(warehouses::create))
-                .route(web::get().to_async(warehouses::read))
-                .route(web::put().to_async(warehouses::update))
-                .route(web::delete().to_async(warehouses::delete))
-            )
-
-            .service(web::resource("items")
-                .route(web::post().to_async(items::create))
-                .route(web::get().to_async(items::read))
-                .route(web::put().to_async(items::update))
-                .route(web::delete().to_async(items::delete))
-            )
-
-            .service(web::resource("boxes")
-                .route(web::post().to_async(boxes::create))
-                .route(web::get().to_async(boxes::read))
-                .route(web::put().to_async(boxes::update))
-                .route(web::delete().to_async(boxes::delete))
-            )
-
-            .service(web::resource("pallets")
-                .route(web::post().to_async(pallets::create))
-                .route(web::get().to_async(pallets::read))
-                .route(web::delete().to_async(pallets::delete))
-            )
-
-            .service(web::resource("rules")
-                .route(web::post().to_async(rules::create))
-                .route(web::get().to_async(rules::read))
-                .route(web::put().to_async(rules::update))
-                .route(web::delete().to_async(rules::delete))
-            )
-
-        );
+        .service(v1::routes(web::scope("/api/v1")))
+        .service(v2::routes(web::scope("/api/v2")));
 }
