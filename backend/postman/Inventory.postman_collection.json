@@ -9,7 +9,14 @@
 			"name": "api/v1/items",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "Endpoint for creating new items",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\" \n}"
@@ -42,6 +49,13 @@
 						"api",
 						"v1",
 						"items"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for getting all of the existing items"
+						}
 					]
 				}
 			},
@@ -65,6 +79,13 @@
 						"api",
 						"v1",
 						"items"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for editing the details of an item"
+						}
 					]
 				}
 			},
@@ -88,6 +109,13 @@
 						"api",
 						"v1",
 						"items"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for deleting items"
+						}
 					]
 				}
 			},
@@ -111,6 +139,13 @@
 						"api",
 						"v1",
 						"items"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for creating pallets"
+						}
 					]
 				}
 			},
@@ -130,6 +165,13 @@
 						"api",
 						"v1",
 						"palletes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for getting existing pallets"
+						}
 					]
 				}
 			},
@@ -153,6 +195,13 @@
 						"api",
 						"v1",
 						"palletes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for editing pallets"
+						}
 					]
 				}
 			},
@@ -176,6 +225,13 @@
 						"api",
 						"v1",
 						"palletes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for deleting pallets"
+						}
 					]
 				}
 			},
@@ -199,6 +255,13 @@
 						"api",
 						"v1",
 						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for creating a Box on a Pallet"
+						}
 					]
 				}
 			},
@@ -218,6 +281,13 @@
 						"api",
 						"v1",
 						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for getting Boxes"
+						}
 					]
 				}
 			},
@@ -241,6 +311,13 @@
 						"api",
 						"v1",
 						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for editing a Box"
+						}
 					]
 				}
 			},
@@ -264,6 +341,13 @@
 						"api",
 						"v1",
 						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for deleting Boxes"
+						}
 					]
 				}
 			},
@@ -287,6 +371,13 @@
 						"api",
 						"v1",
 						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for creating new warehouses"
+						}
 					]
 				}
 			},
@@ -306,6 +397,13 @@
 						"api",
 						"v1",
 						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for reading warehouses"
+						}
 					]
 				}
 			},
@@ -329,6 +427,18 @@
 						"api",
 						"v1",
 						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endp"
+						},
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for editing warehouses"
+						}
 					]
 				}
 			},
@@ -352,6 +462,13 @@
 						"api",
 						"v1",
 						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"description": "Endpoint for deleting a warehouse"
+						}
 					]
 				}
 			},
