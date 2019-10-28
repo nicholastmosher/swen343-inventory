@@ -47,6 +47,7 @@ table! {
 joinable!(boxes -> pallets (pallet_id));
 joinable!(pallets -> items (item_code));
 joinable!(pallets -> warehouses (warehouse_name));
+joinable!(rules -> items (item));
 joinable!(rules -> warehouses (warehouse_name));
 
 allow_tables_to_appear_in_same_query!(
