@@ -12,6 +12,7 @@ use crate::db::DbExecutor;
 use actix_files::Files;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
+use crate::http::{HttpExecutor, HttpConfig};
 
 pub mod v1;
 pub mod v2;
@@ -37,6 +38,7 @@ impl AppConfig {
 /// The only application state used is a reference to the database Actor inbox.
 pub struct AppState {
     db: Addr<DbExecutor>,
+    http: Addr<HttpExecutor>,
 }
 
 /// Given a URL to the database and a web address, launches the web server.
@@ -85,6 +87,13 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
         move || DbExecutor::new(database_url.clone()),
     );
 
+    let http_config = HttpConfig::from_env().expect("should get http config");
+    let http_executor = HttpExecutor::new(http_config);
+    let http_addr = SyncArbiter::start(
+        num_cpus::get(),
+        move || http_executor.clone(),
+    );
+
     let mut server = HttpServer::new(move || {
         let cors = match &frontend_address {
             Some(origin) => {
@@ -100,8 +109,13 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
             },
         };
 
+        let state = AppState {
+            db: database_addr.clone(),
+            http: http_addr.clone(),
+        };
+
         App::new()
-            .data(AppState { db: database_addr.clone() })
+            .data(state)
             .wrap(Logger::default())
             .wrap(cors)
             .configure(routes)
