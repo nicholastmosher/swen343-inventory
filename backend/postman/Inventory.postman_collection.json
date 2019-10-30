@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "/api/v1/warehouses",
+			"name": "{{inventory}}/api/v1/warehouses",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -27,9 +27,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{inventory}}/api/v1/warehouses",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -41,14 +41,14 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/warehouses",
+			"name": "{{inventory}}/api/v1/warehouses",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{inventory}}/api/v1/warehouses",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -60,7 +60,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/warehouses",
+			"name": "{{inventory}}/api/v1/warehouses",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -81,9 +81,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{inventory}}/api/v1/warehouses",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -95,7 +95,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/warehouses",
+			"name": "{{inventory}}/api/v1/warehouses",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -116,9 +116,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{inventory}}/api/v1/warehouses",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -130,7 +130,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/items",
+			"name": "{{inventory}}/api/v1/items",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -151,9 +151,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/items",
+					"raw": "{{inventory}}/api/v1/items",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -166,14 +166,14 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/items",
+			"name": "{{inventory}}/api/v1/items",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v1/items",
+					"raw": "{{inventory}}/api/v1/items",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -186,7 +186,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/items",
+			"name": "{{inventory}}/api/v1/items",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -207,9 +207,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/items",
+					"raw": "{{inventory}}/api/v1/items",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -222,7 +222,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/items",
+			"name": "{{inventory}}/api/v1/items",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -243,9 +243,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/items",
+					"raw": "{{inventory}}/api/v1/items",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -258,7 +258,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/pallets",
+			"name": "{{inventory}}/api/v1/pallets",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -279,9 +279,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/pallets",
+					"raw": "{{inventory}}/api/v1/pallets",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -294,14 +294,14 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/pallets",
+			"name": "{{inventory}}/api/v1/pallets",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v1/pallets",
+					"raw": "{{inventory}}/api/v1/pallets",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -314,7 +314,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/pallets",
+			"name": "{{inventory}}/api/v1/pallets",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -335,9 +335,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/pallets",
+					"raw": "{{inventory}}/api/v1/pallets",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -350,7 +350,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/boxes",
+			"name": "{{inventory}}/api/v1/boxes",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -371,9 +371,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/boxes",
+					"raw": "{{inventory}}/api/v1/boxes",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -386,14 +386,14 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/boxes",
+			"name": "{{inventory}}/api/v1/boxes",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v1/boxes",
+					"raw": "{{inventory}}/api/v1/boxes",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -406,7 +406,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/boxes",
+			"name": "{{inventory}}/api/v1/boxes",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -427,9 +427,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/boxes",
+					"raw": "{{inventory}}/api/v1/boxes",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -442,7 +442,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/boxes",
+			"name": "{{inventory}}/api/v1/boxes",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -463,9 +463,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/boxes",
+					"raw": "{{inventory}}/api/v1/boxes",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -478,7 +478,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
+			"name": "{{inventory}}/api/v1/rules",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -499,9 +499,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/rules",
+					"raw": "{{inventory}}/api/v1/rules",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -513,14 +513,14 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
+			"name": "{{inventory}}/api/v1/rules",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v1/rules",
+					"raw": "{{inventory}}/api/v1/rules",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -532,7 +532,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
+			"name": "{{inventory}}/api/v1/rules",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -553,9 +553,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/rules",
+					"raw": "{{inventory}}/api/v1/rules",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -567,7 +567,7 @@
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
+			"name": "{{inventory}}/api/v1/rules",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -588,9 +588,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/rules",
+					"raw": "{{inventory}}/api/v1/rules",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -602,19 +602,29 @@
 			"response": []
 		},
 		{
-			"name": "/api/v2/warehouses",
+			"name": "{{inventory}}/api/v2/warehouses",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v2/warehouses",
+					"raw": "{{inventory}}/api/v2/warehouses?item_code=A&item_type=product",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
 						"v2",
 						"warehouses"
+					],
+					"query": [
+						{
+							"key": "item_code",
+							"value": "A"
+						},
+						{
+							"key": "item_type",
+							"value": "product"
+						}
 					]
 				}
 			},
@@ -625,7 +635,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v2/warehouses",
+							"raw": "{{host}}/api/v2/warehouses?item_type=product&item_code=A&warehouse_section=shipping",
 							"host": [
 								"{{host}}"
 							],
@@ -633,25 +643,39 @@
 								"api",
 								"v2",
 								"warehouses"
+							],
+							"query": [
+								{
+									"key": "item_type",
+									"value": "product"
+								},
+								{
+									"key": "item_code",
+									"value": "A"
+								},
+								{
+									"key": "warehouse_section",
+									"value": "shipping"
+								}
 							]
 						}
 					},
 					"_postman_previewlanguage": "json",
 					"header": [],
 					"cookie": [],
-					"body": "[\n\t{\n\t\t\"name\": \"primary-warehouse\",\n\t\t\"address\": \"123 Friendly Road\",\n\t\t\"inventory_value\": 700000,\n\t\t\"items\": [\n\t\t\t{\n\t\t\t\t\"item_code\": \"product:A\",\n\t\t\t\t\"item_cost\": 1000,\n\t\t\t\t\"total_quantity\": 500,\n\t\t\t\t\"number_pallets\": 2\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"item_code\": \"product:B\",\n\t\t\t\t\"item_cost\": 2000,\n\t\t\t\t\"total_quantity\": 100,\n\t\t\t\t\"number_pallets\": 1\n\t\t\t}\n\t\t]\n\t}\n]"
+					"body": "{\n\t\"warehouses\": [\n\t\t{\n\t\t\t\"name\": \"primary-warehouse\",\n\t\t\t\"address\": \"123 Friendly Road\",\n\t\t\t\"inventory_value\": 700000,\n\t\t\t\"products\": [\n\t\t\t\t{\n\t\t\t\t\t\"item_code\": \"A\",\n\t\t\t\t\t\"item_cost\": 1000,\n\t\t\t\t\t\"total_quantity\": 500,\n\t\t\t\t\t\"number_pallets\": 2,\n\t\t\t\t\t\"number_boxes\": 2,\n\t\t\t\t\t\"pallets\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"id\": 1,\n\t\t\t\t\t\t\t\"boxes\": [\n\t\t\t\t\t\t\t\t{ \"id\": 1 },\n\t\t\t\t\t\t\t\t{ \"id\": 2 }\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"id\": 2,\n\t\t\t\t\t\t\t\"boxes\": [\n\t\t\t\t\t\t\t\t{ \"id\": 3 },\n\t\t\t\t\t\t\t\t{ \"id\": 4 }\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"parts\": [\n\t\t\t\t{\n\t\t\t\t\t\"item_code\": \"Display\",\n\t\t\t\t\t\"item_cost\": 10,\n\t\t\t\t\t\"total_quantity\": 5000,\n\t\t\t\t\t\"number_pallets\": 1,\n\t\t\t\t\t\"number_boxes\": 2,\n\t\t\t\t\t\"pallets\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"id\": 3,\n\t\t\t\t\t\t\t\"boxes\": [\n\t\t\t\t\t\t\t\t{ \"id\": 5 },\n\t\t\t\t\t\t\t\t{ \"id\": 6 }\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}"
 				}
 			]
 		},
 		{
-			"name": "/api/v2/products",
+			"name": "{{inventory}}/api/v2/products",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/v2/products",
+					"raw": "{{inventory}}/api/v2/products",
 					"host": [
-						"{{host}}"
+						"{{inventory}}"
 					],
 					"path": [
 						"api",
@@ -682,6 +706,189 @@
 					"header": null,
 					"cookie": [],
 					"body": "[\n\t{\n\t\t\"name\": \"A\",\n\t\t\"cost\": 2000,\n\t\t\"description\": \"The Actives\",\n\t\t\"warehouses\": [\n\t\t\t{\n\t\t\t\t\"name\": \"primary-warehouse\",\n\t\t\t\t\"quantity\": 500\n\t\t\t}\n\t\t]\n\t},\n\t{\n\t\t\"name\": \"B\",\n\t\t\"cost\": 4000,\n\t\t\"description\": \"The BIOs\",\n\t\t\"warehouses\": [\n\t\t\t{\n\t\t\t\t\"name\": \"secondary-warehouse\",\n\t\t\t\t\"quantity\": 1000\n\t\t\t}\n\t\t]\n\t}\n]"
+				}
+			]
+		},
+		{
+			"name": "{{inventory}}/api/v2/rest/receiveItems",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"order_id\": 1,\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"refurbished\": false\n\t\t}\n\t],\n\t\"parts\": [\n\t\t{\n\t\t\t\"item_code\": \"Display\",\n\t\t\t\"quantity\": 1,\n\t\t\t\"refurbished\": true\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{inventory}}/api/v2/rest/receiveItems",
+					"host": [
+						"{{inventory}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"rest",
+						"receiveItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{manufacturing}}/assembly/recipeInfo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{manufacturing}}/assembly/recipeInfo",
+					"host": [
+						"{{manufacturing}}"
+					],
+					"path": [
+						"assembly",
+						"recipeInfo"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "{{manufacturing}}/assembly/recipeInfo",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{manufacturing}}/assembly/recipeInfo",
+							"host": [
+								"{{manufacturing}}"
+							],
+							"path": [
+								"assembly",
+								"recipeInfo"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"parts\": [\n\t\t\t\t{\n\t\t\t\t\t\"item_code\": \"Display\",\n\t\t\t\t\t\"quantity\": 100\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}"
+				}
+			]
+		},
+		{
+			"name": "{{manufacturing}}/assembly/make",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"order_id\": 1,\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"parts\": [\n\t\t\t\t{\n\t\t\t\t\t\"item_code\": \"Display\",\n\t\t\t\t\t\"quantity\": 100\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{manufacturing}}/assembly/make",
+					"host": [
+						"{{manufacturing}}"
+					],
+					"path": [
+						"assembly",
+						"make"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "{{manufacturing}}/assembly/make",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"order_id\": 1,\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"parts\": [\n\t\t\t\t{\n\t\t\t\t\t\"item_code\": \"Display\",\n\t\t\t\t\t\"quantity\": 100\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{manufacturing}}/assembly/make",
+							"host": [
+								"{{manufacturing}}"
+							],
+							"path": [
+								"assembly",
+								"make"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n\t\"status\": \"success\"\n}"
 				}
 			]
 		}
