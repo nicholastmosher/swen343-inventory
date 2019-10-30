@@ -1,282 +1,147 @@
 {
 	"info": {
-		"_postman_id": "2d1de8c4-da12-49b9-93f1-e5a7f56e3272",
+		"_postman_id": "e3bcc9cc-a4f0-49a2-a22f-211da561453f",
 		"name": "Inventory",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "/api/v1/warehouses",
+			"name": "api/v1/items",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for creating new items",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"secondary-warehouse\",\n\t\"address\": \"456 Pleasant Lane\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\" \n}"
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{host}}/api/v1/items",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"warehouses"
+						"items"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/warehouses",
+			"name": "api/v1/items",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "Endpoint for getting all of the existing items",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{host}}/api/v1/items",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"warehouses"
+						"items"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/warehouses",
+			"name": "api/v1/items",
 			"request": {
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for editing the details of an item",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"new-name\",\n\t\"address\": \"123 place road\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\" \n}"
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{host}}/api/v1/items?=",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"warehouses"
+						"items"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/warehouses",
+			"name": "api/v1/items",
 			"request": {
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for deleting an item",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"primary-warehouse\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"code\": \"product:A\"\n}"
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/warehouses",
+					"raw": "{{host}}/api/v1/items",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"warehouses"
+						"items"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/items",
+			"name": "api/v1/palletes",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for creating pallets",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/v1/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"items"
-					]
-				},
-				"description": "Enables creating new item types"
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/items",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/v1/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"items"
-					]
-				},
-				"description": "A simple endpoint for checking whether the service is online and responding to requests."
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/items",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/v1/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"items"
-					]
-				},
-				"description": "An endpoint for editing the details of an item type"
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/items",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"code\": \"product:A\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/v1/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"items"
-					]
-				},
-				"description": "Endpoint for deleting items"
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/pallets",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"item_code\": \"product:A\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"primary-warehouse\" \n}"
 				},
 				"url": {
 					"raw": "{{host}}/api/v1/pallets",
@@ -288,16 +153,22 @@
 						"v1",
 						"pallets"
 					]
-				},
-				"description": "Endpoint for creating pallets"
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/pallets",
+			"name": "api/v1/palletes",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "Endpoint for getting existing pallets",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{host}}/api/v1/pallets",
 					"host": [
@@ -308,31 +179,25 @@
 						"v1",
 						"pallets"
 					]
-				},
-				"description": "Endpoint for getting existing pallets"
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/pallets",
+			"name": "api/v1/palletes",
 			"request": {
-				"method": "DELETE",
+				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for editing pallets",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": 2\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"warehouse_name\": \"primary-warehouse\" \n}"
 				},
 				"url": {
 					"raw": "{{host}}/api/v1/pallets",
@@ -344,123 +209,54 @@
 						"v1",
 						"pallets"
 					]
-				},
-				"description": "Endpoint for deleting pallets"
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/boxes",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"pallet_id\": 3,\n\t\"item_quantity\": 25\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/v1/boxes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"boxes"
-					]
-				},
-				"description": "Endpoint for creating a Box on a Pallet"
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/boxes",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/v1/boxes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"boxes"
-					]
-				},
-				"description": "Endpoint for getting Boxes"
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/boxes",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"id\": 2,\n\t\"item_quantity\": 24\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/v1/boxes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"boxes"
-					]
-				},
-				"description": "Endpoint for editing a Box"
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/boxes",
+			"name": "api/v1/palletes",
 			"request": {
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
+						"value": "application/json",
+						"description": "Endpoint for deleting pallets",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 2\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/pallets",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pallets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/boxes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
 						"value": "application/json",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": 2\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"pallet_id\": 3,\n\t\"item_quantity\": 25 \n}"
 				},
 				"url": {
 					"raw": "{{host}}/api/v1/boxes",
@@ -472,218 +268,253 @@
 						"v1",
 						"boxes"
 					]
-				},
-				"description": "Endpoint for deleting Boxes"
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
+			"name": "api/v1/boxes",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [
 					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
+						"key": "",
+						"value": "",
+						"description": "Endpoint for getting Boxes",
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"warehouse_name\": \"primary-warehouse\",\n\t\"item\": \"product:A\",\n\t\"minimum\": 50,\n\t\"quantity\": 100,\n\t\"description\": \"Order 100 Actives when stock drops below 50\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				"url": {
+					"raw": "{{host}}/api/v1/boxes?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
 						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/v1/rules",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"rules"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/v1/rules",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"rules"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/v1/rules",
+			"name": "api/v1/boxes",
 			"request": {
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for editing a Box",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": 1,\n\t\"warehouse_name\": \"primary-warehouse\",\n\t\"item\": \"product:A\",\n\t\"minimum\": 25,\n\t\"quantity\": 100,\n\t\"description\": \"Rule description\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"id\": 1,\n\t\"item_quantity\": 38 \n}"
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/rules",
+					"raw": "{{host}}/api/v1/boxes?=",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"rules"
+						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/rules",
+			"name": "api/v1/boxes",
 			"request": {
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
+						"description": "Endpoint for deleting Boxes",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": 1\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"id\": 1\n}"
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/rules",
+					"raw": "{{host}}/api/v1/boxes?=",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"rules"
+						"boxes"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v2/warehouses",
+			"name": "api/v1/warehouses",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Endpoint for creating new warehouses",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"primary-warehouse\",\n\t\"address\": \"123 Friendly road\" ,\n\t\"description\": \"The friendliest warehouses around\"\n}"
+				},
 				"url": {
-					"raw": "{{host}}/api/v2/warehouses",
+					"raw": "{{host}}/api/v1/warehouses?=",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v1",
 						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Get Warehouses and inventory",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/v2/warehouses",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"warehouses"
-							]
-						}
-					},
-					"_postman_previewlanguage": "json",
-					"header": [],
-					"cookie": [],
-					"body": "[\n\t{\n\t\t\"name\": \"primary-warehouse\",\n\t\t\"address\": \"123 Friendly Road\",\n\t\t\"inventory_value\": 700000,\n\t\t\"items\": [\n\t\t\t{\n\t\t\t\t\"item_code\": \"product:A\",\n\t\t\t\t\"item_cost\": 1000,\n\t\t\t\t\"total_quantity\": 500,\n\t\t\t\t\"number_pallets\": 2\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"item_code\": \"product:B\",\n\t\t\t\t\"item_cost\": 2000,\n\t\t\t\t\"total_quantity\": 100,\n\t\t\t\t\"number_pallets\": 1\n\t\t\t}\n\t\t]\n\t}\n]"
-				}
-			]
+			"response": []
 		},
 		{
-			"name": "/api/v2/products",
+			"name": "api/v1/warehouses",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "Endpoint for reading warehouses",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{host}}/api/v2/products",
+					"raw": "{{host}}/api/v1/warehouses?=",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
-						"v2",
-						"products"
+						"v1",
+						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Get Products",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/v2/items",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"items"
-							]
+			"response": []
+		},
+		{
+			"name": "api/v1/warehouses",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Endpoint for editing warehouses",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"primary-warehouse\",\n\t\"address\": \"456 Changed Address\" ,\n\t\"description\": \"Changed description\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/warehouses?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
 						}
-					},
-					"_postman_previewlanguage": "json",
-					"header": null,
-					"cookie": [],
-					"body": "[\n\t{\n\t\t\"name\": \"A\",\n\t\t\"cost\": 2000,\n\t\t\"description\": \"The Actives\",\n\t\t\"warehouses\": [\n\t\t\t{\n\t\t\t\t\"name\": \"primary-warehouse\",\n\t\t\t\t\"quantity\": 500\n\t\t\t}\n\t\t]\n\t},\n\t{\n\t\t\"name\": \"B\",\n\t\t\"cost\": 4000,\n\t\t\"description\": \"The BIOs\",\n\t\t\"warehouses\": [\n\t\t\t{\n\t\t\t\t\"name\": \"secondary-warehouse\",\n\t\t\t\t\"quantity\": 1000\n\t\t\t}\n\t\t]\n\t}\n]"
+					]
 				}
-			]
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/warehouses",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Endpoint for deleting a warehouse",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"primary-warehouse\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/warehouses?=",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"warehouses"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
