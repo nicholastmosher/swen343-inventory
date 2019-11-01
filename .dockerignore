@@ -1,0 +1,11 @@
+.git
+.github
+.idea
+Dockerfile
+docker-compose.yml
+backend/target
+backend/.env
+frontend/build
+frontend/dist
+frontend/node_modules
+frontend/.env

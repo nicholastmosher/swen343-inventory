@@ -7,8 +7,9 @@
 //! instances of processes.
 
 use actix::{Addr, SyncArbiter};
-use actix_web::{web, HttpServer, App};
+use actix_web::{web, HttpServer, App, HttpRequest, HttpResponse};
 use crate::db::DbExecutor;
+use actix_files::Files;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
 
@@ -117,7 +118,18 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
 }
 
 fn routes(app: &mut web::ServiceConfig) {
+    let frontend_public_path = std::env::var("FRONTEND_PUBLIC_PATH")
+        .unwrap_or("../frontend/build/".to_string());
+
     app
+        // Redirect index requests to /app/
+        .service(web::resource("/").to(|_: HttpRequest|
+            HttpResponse::Found()
+                .header(actix_web::http::header::LOCATION, "/app/")
+                .finish())
+        )
+        // Serve our static site at /app/
+        .service(Files::new("/app", frontend_public_path).index_file("index.html"))
         .service(v1::routes(web::scope("/api/v1")))
         .service(v2::routes(web::scope("/api/v2")));
 }
