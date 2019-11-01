@@ -1,14 +1,18 @@
-FROM node:lts AS frontend
+FROM rust:latest as backend
+WORKDIR /inventory/backend
+COPY ./backend/Cargo.toml .
+RUN mkdir -p src/bin && \
+    touch src/lib.rs && \
+    echo "fn main() {println!(\"If you see this, the build broke\");}" > src/bin/main.rs && \
+    cargo build
+COPY ./backend/src ./src
+RUN touch src/bin/main.rs && touch src/lib.rs && cargo build
 
+FROM node:lts AS frontend
 WORKDIR /inventory/frontend
 COPY ./frontend .
 RUN yarn
 RUN yarn build
-
-FROM rust:latest as backend
-WORKDIR /inventory/backend
-COPY ./backend .
-RUN cargo build
 
 FROM centos:latest
 RUN yum install -y libpq
