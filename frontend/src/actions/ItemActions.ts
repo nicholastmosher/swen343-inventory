@@ -9,13 +9,11 @@ import {
   RECEIVE_WAREHOUSES
 } from "../types/ItemActionTypes";
 
-const localhost = "http://localhost:8000";
-const remotehost = "http://ec2-3-16-181-169.us-east-2.compute.amazonaws.com:8000"
-const host = remotehost;
+import { BACKEND_URL } from "../config";
 
 export const fetchWarehouses =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
-    const warehouses: Warehouse[] = await fetch(`${host}/api/v1/warehouses`)
+    const warehouses: Warehouse[] = await fetch(`${BACKEND_URL}/api/v1/warehouses`)
       .then(res => res.json());
     dispatch(receiveWarehouses(warehouses))
   };
@@ -28,7 +26,7 @@ export const receiveWarehouses = (warehouses: Warehouse[]): ItemActionTypes => (
 export const createWarehouse =
   (warehouse: Warehouse): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    await fetch(`${host}/api/v1/warehouses`, {
+    await fetch(`${BACKEND_URL}/api/v1/warehouses`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +40,7 @@ export const createWarehouse =
 export const fetchItems =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    const items: Item[] = await fetch(`${host}/api/v1/items`)
+    const items: Item[] = await fetch(`${BACKEND_URL}/api/v1/items`)
       .then(res => res.json());
 
     dispatch(receiveItems(items));
@@ -56,7 +54,7 @@ export const receiveItems = (items: Item[]): ItemActionTypes => ({
 export const createItem =
   (item: Item): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-  await fetch(`${host}/api/v1/items`, {
+  await fetch(`${BACKEND_URL}/api/v1/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -70,7 +68,7 @@ export const createItem =
 export const fetchPallets =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    const pallets: Pallet[] = await fetch(`${host}/api/v1/pallets`)
+    const pallets: Pallet[] = await fetch(`${BACKEND_URL}/api/v1/pallets`)
       .then(res => res.json());
 
     dispatch(receivePallets(pallets));
@@ -84,7 +82,7 @@ export const receivePallets = (pallets: Pallet[]): ItemActionTypes => ({
 export const createPallet =
   (pallet: Pallet): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-  await fetch(`${host}/api/v1/pallets`, {
+  await fetch(`${BACKEND_URL}/api/v1/pallets`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -98,7 +96,7 @@ export const createPallet =
 export const fetchBoxes =
   (): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    const boxes: Box[] = await fetch(`${host}/api/v1/boxes`)
+    const boxes: Box[] = await fetch(`${BACKEND_URL}/api/v1/boxes`)
       .then(res => res.json());
 
     dispatch(receiveBoxes(boxes));
@@ -112,7 +110,7 @@ export const receiveBoxes = (boxes: Box[]): ItemActionTypes => ({
 export const createBox =
   (box: Box): ThunkAction<void, {}, {}, AnyAction> => async dispatch => {
 
-    await fetch(`${host}/api/v1/boxes`, {
+    await fetch(`${BACKEND_URL}/api/v1/boxes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

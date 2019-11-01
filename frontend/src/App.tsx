@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import Header from "./view/components/Header";
 import ContentHeader from "./view/components/ContentHeader";
 import AddItemForm from "./view/AddItemForm";

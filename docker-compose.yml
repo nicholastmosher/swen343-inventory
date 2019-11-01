@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  inventory_database:
+    image: postgres
+    container_name: "inventory-database"
+    restart: always
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_PASSWORD: inventory-database-password
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+  inventory:
+    image: nicholastmosher/swen343-inventory:latest
+    container_name: "inventory"
+    depends_on:
+      - inventory_database
+    environment:
+      DATABASE_URL: "postgres://postgres:inventory-database-password@inventory_database/inventory"
+      BIND_ADDRESS: "0.0.0.0:8000"
+      RUST_LOG: "actix_web=INFO,erp=DEBUG"
+    ports:
+      - 80:8000
