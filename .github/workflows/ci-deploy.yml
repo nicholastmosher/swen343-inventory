@@ -1,0 +1,21 @@
+name: Build Docker image
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "r*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@2.7
+      with:
+        name: nicholastmosher/swen343-inventory
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
