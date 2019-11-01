@@ -2,6 +2,7 @@ table! {
     boxes (id) {
         id -> Int4,
         pallet_id -> Int4,
+        item_condition -> Text,
         item_quantity -> Int4,
         deleted -> Bool,
     }
