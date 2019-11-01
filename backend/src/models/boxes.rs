@@ -11,6 +11,7 @@ use crate::models::pallets::Pallet;
 pub struct Box {
     pub id: i32,
     pub pallet_id: i32,
+    pub item_condition: String,
     pub item_quantity: i32,
     pub deleted: bool,
 }
@@ -20,6 +21,7 @@ pub struct Box {
 #[table_name = "boxes"]
 pub struct NewBox {
     pub pallet_id: i32,
+    pub item_condition: String,
     pub item_quantity: i32,
 }
 
@@ -31,23 +33,24 @@ pub struct NewBox {
 #[changeset_options(treat_none_as_null="true")]
 pub struct ChangedBox {
     pub id: i32,
+    pub item_condition: String,
     pub item_quantity: i32,
 }
 
 impl TryFrom<CreateBox> for NewBox {
     type Error = String;
 
-    fn try_from(CreateBox { pallet_id, item_quantity }: CreateBox) -> Result<Self, Self::Error> {
+    fn try_from(CreateBox { pallet_id, item_condition, item_quantity }: CreateBox) -> Result<Self, Self::Error> {
         if pallet_id < 0 { return Err("pallet_id cannot be less than 0".to_string()); }
-        Ok(NewBox { pallet_id, item_quantity })
+        Ok(NewBox { pallet_id, item_condition, item_quantity })
     }
 }
 
 impl TryFrom<UpdateBox> for ChangedBox {
     type Error = String;
 
-    fn try_from(UpdateBox { id, item_quantity }: UpdateBox) -> Result<Self, Self::Error> {
+    fn try_from(UpdateBox { id, item_condition, item_quantity }: UpdateBox) -> Result<Self, Self::Error> {
         if item_quantity < 0 { return Err("cannot set item quantity in a box less than 0".to_string()); }
-        Ok(ChangedBox { id, item_quantity })
+        Ok(ChangedBox { id, item_condition, item_quantity })
     }
 }

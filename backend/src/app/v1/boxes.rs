@@ -15,6 +15,7 @@ use crate::models::boxes::Box;
 pub struct BoxResponse {
     pub id: i32,
     pub pallet_id: i32,
+    pub item_condition: String,
     pub item_quantity: i32,
 }
 
@@ -22,8 +23,8 @@ pub struct BoxResponse {
 ///
 /// This is where we strategically exclude the "deleted" field.
 impl From<Box> for BoxResponse {
-    fn from(Box { id, pallet_id, item_quantity, .. }: Box) -> Self {
-        BoxResponse { id, pallet_id, item_quantity }
+    fn from(Box { id, pallet_id, item_condition, item_quantity, .. }: Box) -> Self {
+        BoxResponse { id, pallet_id, item_condition, item_quantity }
     }
 }
 
@@ -31,6 +32,7 @@ impl From<Box> for BoxResponse {
 #[derive(Debug, Deserialize)]
 pub struct CreateBox {
     pub pallet_id: i32,
+    pub item_condition: String,
     pub item_quantity: i32,
 }
 
@@ -80,6 +82,7 @@ pub fn read(
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UpdateBox {
     pub id: i32,
+    pub item_condition: String,
     pub item_quantity: i32,
 }
 
