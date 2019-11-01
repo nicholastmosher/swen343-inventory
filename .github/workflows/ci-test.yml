@@ -1,17 +1,19 @@
-name: Rust
+name: Build and Test
 
 on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
-    - name: Install
+
+    - name: Install backend dependencies
       run: sudo apt-get install libpq-dev
-    - name: Build
+    - name: Build backend
       run: cargo build --manifest-path=backend/Cargo.toml --verbose
-    - name: Run tests
+    - name: Run backend tests
       run: cargo test --manifest-path=backend/Cargo.toml --verbose
+
+    - name: Build frontend
+      run: "(cd frontend; yarn && yarn build)"
