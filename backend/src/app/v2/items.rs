@@ -16,8 +16,8 @@ pub struct Unit {
 pub struct Import {
     pub order_id: u32,
     pub used: bool,
-    products: Vec<Unit>,
     parts: Vec<Unit>
+    products: Vec<Unit>,
 }
 
 
