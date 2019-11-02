@@ -12,9 +12,9 @@ const ContentHeader: React.FC<Props> = (props: Props) => {
   return (
     <div className="nav">
       <div className="nav-header">
-        <a className="inventory-link" href="/">
+        <Link className="inventory-link" to="/">
           <h1 className="inventory-header">Inventory Management</h1>
-        </a>
+        </Link>
         {headerLink}
       </div>
     </div>

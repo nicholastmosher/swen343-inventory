@@ -5,6 +5,7 @@ import { Warehouse } from "../types/Interfaces";
 import { ThunkDispatch } from "redux-thunk";
 import CreateEntityCard from "./components/CreateEntityCard";
 import {fetchWarehouses} from "../actions/ItemActions";
+import {Link} from "react-router-dom";
 
 interface StateProps {
   warehouses: Warehouse[],
@@ -27,10 +28,10 @@ class Items extends Component<Props, {}> {
 
     const warehouseComponents = warehouses.map((warehouse: Warehouse) => (
       <div className="item-card col-sm-6">
-        <a href={`/warehouse/${warehouse.name}`}>
+        <Link to={`/warehouse/${warehouse.name}`}>
           <h2>Warehouse: {warehouse.name}</h2>
           <div className="details">{warehouse.address}</div>
-        </a>
+        </Link>
       </div>
     ));
 
