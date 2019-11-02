@@ -4,10 +4,13 @@ An ERP system developed using Rust and React, with a PostgreSQL database.
 
 ## Team Inventory
 
-- Nick Mosher (Team Coordinator/VC Coordinator)
-- Leon Kuhne (Integration Coordinator)
-- Bryce Murphy (Requirements Coordinator/Configuration Coordinator)
-- Fikayo Olutunji (Quality Assurance Coordinator) 
+
+- **Nick Mosher** (Team Coordinator/VC Coordinator)
+- **Leon Kuhne** (Integration Coordinator)
+- **Bryce Murphy** (Requirements Coordinator/Configuration Coordinator)
+- **Fikayo Olutunji** (Quality Assurance Coordinator) 
+
+---
 
 ## Prerequisites
 
@@ -16,6 +19,8 @@ A typical development flow requires installing the following tools:
 * [Rust](https://rustup.rs)
 * [Docker](https://docs.docker.com/v17.09/engine/installation/#desktop)
 * [Docker Compose](https://docs.docker.com/compose/install/)
+
+---
 
 ## How to setup the backend
 
@@ -63,6 +68,8 @@ Finally, launch the backend service using cargo:
 cargo run
 ```
 
+---
+
 ## How to setup the frontend
 Firstly, make sure yarn is installed.
 
@@ -75,6 +82,7 @@ yarn start
 
 This should open up the url in a browser, if not navigate to `localhost:3000`
 
+---
 
 ## Connecting to Production and Deploying
 
@@ -169,6 +177,88 @@ What this does is:
 * Launches the image tagged as `erp-prod` (the one you just built)
 * Connects the container's port 8000 to the AWS box port 8000
 * Sets the DATABASE_URL and BIND_ADDRESS environment variables
+
+---
+## Architecture
+
+The inventory component of the ERP system is a web application which hosts a REST service as a backend and a React client-side application as a frontend. The inventory frontend provides a graphical user interface for interacting with the inventory system for use cases which are isolated to the inventory domain. However, the backend exposes more endpoints which are available for other components of the ERP system to use, which is how we enable integration with those other components. Separating our architecture allowed for more of our team to work on the code at the same time, and for a more directed architecture.  
+
+![alt text](docs/InventoryArchitecture.png "Inventory Architecture")
+
+### Frontend
+
+Our frontend is a statically-served is a nodejs application, using ReactDOM, WebPack, and pug, which dynamically fetch content to render. These calls target our backend service, which hosts a server to respond to the requests of the client application. We chose this stack along with npm, a powerful package manager, because of their simple, fast, and well documented capabilities. (HTML) templates are used to allow for much of our frontend UI to be duplicated, making for less work during later modifications.
+
+### Backend
+
+Our backend is a Rust web service which uses the actix-web web framework for handling HTTP requests. This framework is supported by the actix Actor framework which enables high concurrency and load balancing even with local resources. Actix-web pairs nicely with the Serde (serialization/deserialization) Rust library, which allows for automatic deserialization of requests and serialization of responses. Finally, the application communicates with our Postgres database through the Diesel Object Relational Mapper (ORM) for Rust, which allows us to use native Rust functions to describe a query, and auto generates the corresponding SQL with the proper variable bindings.
+
+![alt text](docs/BackendArchitecture.png "Backend Architecture")
+
+### Database
+
+![alt text](docs/DatabaseArchitecture.png "Database Architecture")
+
+---
+
+## Order Fulfillment Flow
+
+![alt text](docs/InventorySequence-OrderFulfillment.png "Order Fulfillment Flow")
+
+---
+
+
+
+## API Endpoints
+
+W.I.P.
+
+
+---
+
+## Design Patterns
+
+* Actor Model - The Actix-web framework we’re using is built on top of the Actix actor system. This means that requests are handled by passing strongly typed messages to actors which understand how to handle those message types. This gives the runtime a great amount of flexibility to load-balance actors and message queues on thread pools and to make our request handlers asynchronous.
+* Domain Model - Because the hope for this software is to have it grow to be an enterprise software solution, we plan to implement the Domain Model design pattern for managing our data and component interactions. Having the system be divided into objects that all contain their own data and behavior will make the system easier to work with as it grows larger and more complex
+* Transform View - We are using the transform view pattern for the frontend mainly because that is the default flow of our chosen frontend technology, React. By default, React steps through the domain data it is working with and directly manipulates the DOM based on what is found and in any format desired.
+
+---
+
+## Potential Risks
+
+**Miscommunication**
+* Issue
+  * We’ve learned from the series of events leading up to R1 that miscommunication between our team members can be a major problematic factor for us. There were rather large misunderstandings regarding how our system was to be built, resulting in costly delays.
+* Plan
+  * In the future, we plan to engage in more whiteboard demonstrations and pair programming sessions to ensure that all team members are on the same page regarding the actual physical implementation of what we wish to build or accomplish.
+
+**Lack of Software Familiarity (relates to #3)**
+* Issue
+   * The technologies we have chosen were in large part decided upon due to the benefits the offer, such as API Endpoint Governance for Rust and massive community support for Postgres. However, not all members are familiar with all the pieces of our technology stack, so there are issues when it comes to cross checking and feedback of work between team members
+ * Plan
+   * Because there is at least one member that is familiar with each piece of our stack, whenever work is done for the project, we’d like to have that member run through what was done with the rest of the team during work reviews. This way, the non-familiar members will be able to learn about and become caught up on the technology, and the explaining team member will now, through the process of explaining, be double-checking the work they have done. To elaborate, should the explaining team member be unable to express the work they’ve worked towards, there is a good chance something is amiss somewhere
+**Random changing of team members**
+ * Issue
+   * When working in teams, team members become strongly integrated in the work they perform in said team. Planning, work responsibility, roles, understanding of strengths and weaknesses, and other such forming and storming phase activities take time and effort to get through. Having team members be forced to switch teams mid-project causes the teams having their members switched around be forcibly pushed back to these early-stage team phases, which is especially problematic when a lot of plans and procedures have been solidified.
+ * Plan
+   * Our plan for this is to keep a solid line of documentation of our work and plans - done mostly through our master document - to allow new team members a way to get caught up to the team’s flow as quickly as possible. In addition to this, each team member must have at least one other member that is able to understand and/or perform the work they are doing so that there is someone to cover for them if they are moved to another team and to also give the new members time to catch up.
+
+**Cross-team integration**
+ * Issue
+   * Moving forward, a big issue will be combining our team’s work with that of other component teams. While we’ve already experienced some pains in combining visions for the front and back end into one cohesive system, it may very well be escalated when we start talking with other teams. We already know from our past meetings that different teams have different ideas of how communication will be handled through APIs, and with Inventory’s large network of people who depend on us, we could be in for some long discussions and refactoring.
+ * Plan
+   * Already, we’ve been talking with other CT’s about general practices when designing their endpoints, but there really isn’t any way to know what they’re doing until we start working with them. Therefore, the best plan of action is to communicate early with these teams so we can squash any issues we have right away, and start working on our component.
+
+
+
+**Unexpected additional requirements**
+ * Issue
+   * We have experienced earlier in this project that it is possible for the client to add in previously undisclosed requirements to the project. The further along a project goes, the more costly additional requirements become, and, depending on the nature of the new requirement, may potentially damage the project’s progress greatly.
+ * Plan
+   * The best course of action for this is to keep in touch with the client to ensure that we are regularly on the right path, and the event of an unexpected extra requirement, must always be prepared to estimate the costs of implementing said requirement. The costs must then be relayed to the client and a conversation must happen on whether or not the client is willing to accept the extra costs (or other such consequences) of trying to add the new requirement at whatever stage of the project it is proposed within.
+
+
+---
 
 ## License
 
