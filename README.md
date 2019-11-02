@@ -207,12 +207,9 @@ Our backend is a Rust web service which uses the actix-web web framework for han
 
 ---
 
-
-
 ## API Endpoints
 
 All our API Documentation is filled out in our Postman Documentation, located [here](http://dev-inventory.kennuware.xyz)!
-
 
 ---
 
