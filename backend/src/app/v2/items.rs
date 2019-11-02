@@ -7,8 +7,8 @@ use crate::app::AppState;
 
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct CreateUnit {
-    pub unit_code: String,
+pub struct Unit {
+    pub item_code: String,
     pub quantity: u32
 }
 
@@ -16,8 +16,8 @@ pub struct CreateUnit {
 pub struct Import {
     pub order_id: u32,
     pub used: bool,
-    products: Vec<CreateUnit>,
-    parts: Vec<CreateUnit>
+    products: Vec<Unit>,
+    parts: Vec<Unit>
 }
 
 
