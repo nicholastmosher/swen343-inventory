@@ -9,8 +9,9 @@ table! {
 }
 
 table! {
-    items (code) {
-        code -> Varchar,
+    items (item_code) {
+        item_code -> Varchar,
+        item_type -> Nullable<Varchar>,
         cost -> Int4,
         description -> Nullable<Text>,
     }
