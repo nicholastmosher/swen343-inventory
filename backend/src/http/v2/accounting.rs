@@ -2,9 +2,12 @@ use serde::{Deserialize, Serialize};
 use actix::{Message, Handler};
 use crate::http::HttpExecutor;
 
+/// A `BudgetRequest` message requires no parameters and causes the HttpExecutor
+/// to send the request to Accounting.
 #[derive(Debug)]
 pub struct BudgetRequest;
 
+/// The structure of the response received from Accounting.
 #[derive(Debug, Deserialize)]
 pub struct BudgetResponse {
     pub status: String,
@@ -46,6 +49,7 @@ impl Handler<BudgetRequest> for HttpExecutor {
     }
 }
 
+/// An `ExpenseRequest` asks Accounting to spend money on a particular expense.
 #[derive(Debug, Serialize)]
 pub struct ExpenseRequest {
     pub amount: f32,
@@ -53,6 +57,7 @@ pub struct ExpenseRequest {
     pub department: String,
 }
 
+/// After an Expense is made, we receive the following information from Accounting.
 #[derive(Debug, Deserialize)]
 pub struct ExpenseResponse {
     pub status: String,
@@ -88,6 +93,56 @@ impl Handler<ExpenseRequest> for HttpExecutor {
                     report_id: 1,
                     department: "INVENTORY".to_string(),
                     balance: 99_100.0,
+                }
+            }
+        };
+
+        Ok(response)
+    }
+}
+
+/// A `BudgetIncreaseRequest` is used to ask for more budget when we're out of money.
+#[derive(Debug, Serialize)]
+pub struct BudgetIncreaseRequest {
+    amount: f32,
+    category: String,
+    department: String,
+    reason: String,
+}
+
+/// A `BudgetIncreaseResponse` tells us what petition our budget increase goes to.
+#[derive(Debug, Deserialize)]
+pub struct BudgetIncreaseResponse {
+    petition_id: i32,
+    status: String,
+    message: String,
+}
+
+impl Message for BudgetIncreaseRequest {
+    type Result = Result<BudgetIncreaseResponse, String>;
+}
+
+impl Handler<BudgetIncreaseRequest> for HttpExecutor {
+    type Result = <BudgetIncreaseRequest as Message>::Result;
+
+    fn handle(&mut self, msg: BudgetIncreaseRequest, _: &mut Self::Context) -> Self::Result {
+        let accounting_url = &self.config.accounting_url;
+
+        let response = match accounting_url {
+            Some(accounting_url) => {
+                let mut response = self.client.post(accounting_url)
+                    .json(&msg)
+                    .send()
+                    .map_err(|e| format!("failed to increase budget: {:?}", e))?;
+
+                response.json::<BudgetIncreaseResponse>()
+                    .map_err(|e| format!("failed to parse increase-budget response: {:?}", e))?
+            },
+            None => {
+                BudgetIncreaseResponse {
+                    petition_id: 1,
+                    status: "SUCCESS".to_string(),
+                    message: "Hooray!".to_string(),
                 }
             }
         };
