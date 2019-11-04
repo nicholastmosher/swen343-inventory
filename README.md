@@ -1,6 +1,6 @@
 # TERM-PROJECT: KennUWare
 
-qAn ERP system developed using Rust and React, with a PostgreSQL database.
+An ERP system developed using Rust and React, with a PostgreSQL database.
 
 ## Team Inventory
 
