@@ -6,14 +6,13 @@ pub mod v2;
 
 /// Configurations for the HttpExecutor such as hostnames for other services.
 pub struct HttpConfig {
-    pub manufacturing_url: String,
+    pub manufacturing_url: Option<String>,
 }
 
 impl HttpConfig {
     /// Constructs an HttpConfig from environment variables
     pub fn from_env() -> Result<Self, String> {
-        let manufacturing_url = std::env::var("MANUFACTURING_URL")
-            .map_err(|_| "should get MANUFACTURING_URL from environment".to_string())?;
+        let manufacturing_url = std::env::var("MANUFACTURING_URL").ok();
         Ok(HttpConfig {
             manufacturing_url,
         })
