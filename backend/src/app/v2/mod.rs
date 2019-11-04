@@ -10,7 +10,7 @@ pub fn routes(app: Scope) -> Scope {
         )
         .service(web::resource("products")
         )
-        .service(web::resource("rest/addItems")
+        .service(web::resource("rest/receiveItems")
             .route(web::post().to_async(items::add))
         )
 }
