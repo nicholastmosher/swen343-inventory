@@ -23,11 +23,13 @@ impl Handler<BudgetRequest> for HttpExecutor {
     type Result = <BudgetRequest as Message>::Result;
 
     fn handle(&mut self, _: BudgetRequest, _: &mut Self::Context) -> Self::Result {
-        let accounting_url = &self.config.accounting_url;
+        let url = &self.config.accounting_url;
 
-        let response = match accounting_url {
-            Some(accounting_url) => {
-                let mut response = self.client.get(accounting_url)
+        let response = match url {
+            Some(url) => {
+                let url = &format!("{}/budget", &url);
+
+                let mut response = self.client.get(url)
                     .query(&[("department", "inventory")])
                     .send()
                     .map_err(|e| format!("budget request failed: {:?}", e))?;
@@ -74,11 +76,12 @@ impl Handler<ExpenseRequest> for HttpExecutor {
     type Result = <ExpenseRequest as Message>::Result;
 
     fn handle(&mut self, msg: ExpenseRequest, _: &mut Self::Context) -> Self::Result {
-        let accounting_url = &self.config.accounting_url;
+        let url = &self.config.accounting_url;
 
-        let response = match accounting_url {
-            Some(accounting_url) => {
-                let mut response = self.client.post(accounting_url)
+        let response = match url {
+            Some(url) => {
+                let url = &format!("{}/budget/expense", &url);
+                let mut response = self.client.post(url)
                     .json(&msg)
                     .send()
                     .map_err(|e| format!("expense request failed: {:?}", e))?;
@@ -126,11 +129,13 @@ impl Handler<BudgetIncreaseRequest> for HttpExecutor {
     type Result = <BudgetIncreaseRequest as Message>::Result;
 
     fn handle(&mut self, msg: BudgetIncreaseRequest, _: &mut Self::Context) -> Self::Result {
-        let accounting_url = &self.config.accounting_url;
+        let url = &self.config.accounting_url;
 
-        let response = match accounting_url {
-            Some(accounting_url) => {
-                let mut response = self.client.post(accounting_url)
+        let response = match url {
+            Some(url) => {
+                let url = &format!("{}/budget/increase", &url);
+
+                let mut response = self.client.post(url)
                     .json(&msg)
                     .send()
                     .map_err(|e| format!("failed to increase budget: {:?}", e))?;

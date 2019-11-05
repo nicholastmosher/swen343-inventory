@@ -47,12 +47,14 @@ impl Handler<RecipeRequest> for HttpExecutor {
 
     /// Defines how to send a `RecipeRequest` to the Manufacturing silo.
     fn handle(&mut self, recipe_request: RecipeRequest, _: &mut Self::Context) -> Self::Result {
-        let manufacturing_url = &self.config.manufacturing_url;
+        let url = &self.config.manufacturing_url;
 
-        let recipe_response = match manufacturing_url {
-            Some(manufacturing_url) => {
+        let recipe_response = match url {
+            Some(url) => {
+                let url = &format!("{}/assembly/recipeInfo", &url);
+
                 let mut response = self.client
-                    .post(manufacturing_url)
+                    .post(url)
                     .json(&recipe_request)
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
