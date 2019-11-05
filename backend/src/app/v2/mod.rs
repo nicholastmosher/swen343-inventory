@@ -4,6 +4,7 @@ use actix_web::{web, Scope};
 
 pub mod items;
 pub mod stock;
+pub mod order;
 
 pub fn routes(app: Scope) -> Scope {
     app
@@ -12,5 +13,8 @@ pub fn routes(app: Scope) -> Scope {
         )
         .service(web::resource("rest/receiveItems")
             .route(web::post().to_async(items::add))
+        )
+        .service(web::resource("rest/order")
+            .route(web::post().to_async(order::place_order))
         )
 }
