@@ -3,10 +3,12 @@ use diesel::{Queryable, Insertable, Identifiable, Associations};
 use crate::schema::pallets;
 use crate::app::v1::pallets::{CreatePallet, UpdatePallet};
 use crate::models::warehouses::Warehouse;
+use crate::models::items::Item;
 
 /// An in-memory representation of a Pallet entity in the database.
 #[derive(Debug, Queryable, Identifiable, Associations)]
 #[belongs_to(Warehouse, foreign_key="warehouse_name")]
+#[belongs_to(Item, foreign_key="item_code")]
 #[primary_key(id)]
 pub struct Pallet {
     pub id: i32,
