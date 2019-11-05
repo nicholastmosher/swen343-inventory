@@ -182,7 +182,7 @@ What this does is:
 
 ## Stubbing
 
-For testing purposes, envieronment variables can be set in the `.env` file, such that other silos' endpoints can be tested against, given the correct url. The variables are case sensitive and once they're added, the code will automatically try these endpoints.
+For testing purposes, environment variables can be set in the `.env` file, such that other silos' endpoints can be tested against, given the correct url. The variables are case sensitive and once they're added, the code will automatically try these endpoints. If any of these silo URLs are not given, then Inventory will pretend to receive dummy responses without actually calling out to the service.
 
 ```
 MANUFACTURING_URL=
