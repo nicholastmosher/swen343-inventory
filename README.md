@@ -179,6 +179,19 @@ What this does is:
 * Sets the DATABASE_URL and BIND_ADDRESS environment variables
 
 ---
+
+## Stubbing
+
+For testing purposes, environment variables can be set in the `.env` file, such that other silos' endpoints can be tested against, given the correct url. The variables are case sensitive and once they're added, the code will automatically try these endpoints. If any of these silo URLs are not given, then Inventory will pretend to receive dummy responses without actually calling out to the service.
+
+```
+MANUFACTURING_URL=
+ACCOUNTING_URL=
+SALES_URL=
+```
+
+---
+
 ## Architecture
 
 The inventory component of the ERP system is a web application which hosts a REST service as a backend and a React client-side application as a frontend. The inventory frontend provides a graphical user interface for interacting with the inventory system for use cases which are isolated to the inventory domain. However, the backend exposes more endpoints which are available for other components of the ERP system to use, which is how we enable integration with those other components. Separating our architecture allowed for more of our team to work on the code at the same time, and for a more directed architecture.  
@@ -207,12 +220,9 @@ Our backend is a Rust web service which uses the actix-web web framework for han
 
 ---
 
-
-
 ## API Endpoints
 
 All our API Documentation is filled out in our Postman Documentation, located [here](http://dev-inventory.kennuware.xyz)!
-
 
 ---
 
