@@ -41,6 +41,10 @@ pub struct AppState {
     http: Addr<HttpExecutor>,
 }
 
+pub struct RulesActor {
+    app: AppState,
+}
+
 /// Given a URL to the database and a web address, launches the web server.
 ///
 /// Notice that the configuration of the web server is declarative. Rather
@@ -113,6 +117,10 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
             db: database_addr.clone(),
             http: http_addr.clone(),
         };
+
+        let rules_actor = RulesActor {
+            app: state.clone(),
+        }
 
         App::new()
             .data(state)
