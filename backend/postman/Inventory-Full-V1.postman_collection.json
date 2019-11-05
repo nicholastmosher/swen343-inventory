@@ -106,7 +106,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -193,7 +193,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -268,7 +268,8 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:A\",",
+									"                item_code: \"product:A\",",
+									"                item_type: null,",
 									"                cost: 1000,",
 									"                description: \"The Actives\"",
 									"            }",
@@ -355,7 +356,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -442,7 +443,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 3300,\n\t\"description\": \"The Bros\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"cost\": 3300,\n\t\"description\": \"The Bros\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -518,7 +519,8 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:A\",",
+									"                item_code: \"product:A\",",
+									"                item_type: null,",
 									"                cost: 1000,",
 									"                description: \"The Actives\"",
 									"            }",
@@ -605,7 +607,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"cost\": 2000,\n\t\"description\": \"The updated description for Product A\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -680,7 +682,8 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:A\",",
+									"                item_code: \"product:A\",",
+									"                item_type: null,",
 									"                cost: 2000,",
 									"                description: \"The updated description for Product A\"",
 									"            }",
@@ -767,7 +770,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:B\",\n\t\"cost\": 700,\n\t\"description\": \"The Night-owls\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:B\",\n\t\"cost\": 700,\n\t\"description\": \"The Night-owls\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -854,7 +857,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:C\",\n\t\"cost\": 2500,\n\t\"description\": \"Winter is Coming\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:C\",\n\t\"cost\": 2500,\n\t\"description\": \"Winter is Coming\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -941,7 +944,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -1016,12 +1019,14 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:B\",",
+									"                item_code: \"product:B\",",
+									"                item_type: null,",
 									"                cost: 700,",
 									"                description: \"The Night-owls\"",
 									"            },",
 									"            {",
-									"                code: \"product:C\",",
+									"                item_code: \"product:C\",",
+									"                item_type: null,",
 									"                cost: 2500,",
 									"                description: \"Winter is Coming\"",
 									"            }",
@@ -1108,7 +1113,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:B\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:B\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -1195,7 +1200,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:C\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:C\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -1569,7 +1574,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -1880,7 +1885,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:B\",\n\t\"cost\": 330,\n\t\"description\": \"Items Galore\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:B\",\n\t\"cost\": 330,\n\t\"description\": \"Items Galore\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -2009,7 +2014,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:C\",\n\t\"cost\": 4500,\n\t\"description\": \"The Accolades\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:C\",\n\t\"cost\": 4500,\n\t\"description\": \"The Accolades\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -2241,7 +2246,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:B\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:B\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -2351,7 +2356,7 @@
 					"response": []
 				},
 				{
-					"name": "Items: Checking Deletion Result on Item",
+					"name": "Palettes: Checking Deletion Result on Item",
 					"event": [
 						{
 							"listen": "test",
@@ -2368,12 +2373,14 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:A\",",
+									"                item_code: \"product:A\",",
+									"                item_type: null,",
 									"                cost: 1000,",
 									"                description: \"The Actives\"",
 									"            },",
 									"            {",
-									"                code: \"product:C\",",
+									"                item_code: \"product:C\",",
+									"                item_type: null,",
 									"            \tcost: 4500,",
 									"            \tdescription: \"The Accolades\"",
 									"            },",
@@ -2599,12 +2606,14 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:A\",",
+									"                item_code: \"product:A\",",
+									"                item_type: null,",
 									"                cost: 1000,",
 									"                description: \"The Actives\"",
 									"            },",
 									"            {",
-									"                code: \"product:C\",",
+									"                item_code: \"product:C\",",
+									"                item_type: null,",
 									"                cost: 4500,",
 									"                description: \"The Accolades\"",
 									"            }",
@@ -2759,12 +2768,14 @@
 									"    (",
 									"        [",
 									"            {",
-									"                code: \"product:A\",",
+									"                item_code: \"product:A\",",
+									"                item_type: null,",
 									"                cost: 1000,",
 									"                description: \"The Actives\"",
 									"            },",
 									"            {",
-									"                code: \"product:C\",",
+									"                item_code: \"product:C\",",
+									"                item_type: null,",
 									"                cost: 4500,",
 									"                description: \"The Accolades\"",
 									"            }",
@@ -2867,7 +2878,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:A\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:A\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
@@ -2951,7 +2962,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"product:C\"\n}"
+							"raw": "{\n\t\"item_code\": \"product:C\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/api/v1/items",
