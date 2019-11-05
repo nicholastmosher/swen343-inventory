@@ -21,23 +21,21 @@ impl Handler<OrderStatusRequest> for HttpExecutor {
 
     /// Defines how to send a `RecipeRequest` to the Manufacturing silo.
     fn handle(&mut self, order_status_request: OrderStatusRequest, _: &mut Self::Context) -> Self::Result {
-        let sales_url = &self.config.sales_url;
+        let url = &self.config.sales_url;
 
-        let sales_response = match sales_url {
-            Some(sales_url) => {
-                let sales_url = &format!("{}/orders?status&order_id", &sales_url);
+        match url {
+            Some(url) => {
+                let url = &format!("{}/orders?status&order_id", &url);
 
                 let mut response = self.client
-                    .put(sales_url)
+                    .put(url)
                     .json(&order_status_request)
                     .send()
                     .map_err(|e| format!("failed to send request to Sales: {:?}", e))?;
-
-                return Ok(())
             },
-            None => Ok(())
+            None => ()
         };
 
-        Ok(sales_response)
+        Ok(())
     }
 }
