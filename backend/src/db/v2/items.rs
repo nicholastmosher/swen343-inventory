@@ -80,7 +80,7 @@ impl Handler<ReceiveItemsRequest> for DbExecutor {
                 (item, boxes, pallets)
             }).collect();
 
-        for (item, mut box_count, pallet_count) in counts {
+        for (mut item, box_count, pallet_count) in counts {
 
             let pallet = NewPallet {
                 item_code: item.item_code,
@@ -97,24 +97,28 @@ impl Handler<ReceiveItemsRequest> for DbExecutor {
 
             let mut bs = Vec::with_capacity(box_count as usize);
             for pallet in inserted_pallets {
-                let quantity = if box_count > box_capacity {
-                    box_count -= box_capacity;
-                    box_capacity
-                } else {
-                    box_count
-                };
+                while item.quantity > 0 {
+                    let quantity = if item.quantity > box_capacity {
+                        item.quantity -= box_capacity;
+                        box_capacity
+                    } else {
+                        let count = item.quantity;
+                        item.quantity = 0;
+                        count
+                    };
 
-                let condition = if item.refurbished {
-                    "refurbished"
-                } else {
-                    "new"
-                };
+                    let condition = if item.refurbished {
+                        "refurbished"
+                    } else {
+                        "new"
+                    };
 
-                bs.push(NewBox {
-                    pallet_id: pallet.id,
-                    item_quantity: quantity as i32,
-                    item_condition: condition.to_string(),
-                });
+                    bs.push(NewBox {
+                        pallet_id: pallet.id,
+                        item_quantity: quantity as i32,
+                        item_condition: condition.to_string(),
+                    });
+                }
             }
 
             let inserted_boxes = diesel::insert_into(boxes::table)
