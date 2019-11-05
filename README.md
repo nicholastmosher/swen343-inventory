@@ -178,6 +178,50 @@ What this does is:
 * Connects the container's port 8000 to the AWS box port 8000
 * Sets the DATABASE_URL and BIND_ADDRESS environment variables
 
+### Running the Postman Integration Tests
+
+Testing for this project is done via the postman api. To run these tests,
+make sure to first install newman, the command line collection-runner for
+Postman. To install newman globally, run the following command:
+
+```
+npm install -g newman
+```
+
+If you wish to install it locally, simply remove the '-g' tag.
+If you do not have the npm package manager, you can install that
+here: https://www.npmjs.com/get-npm.
+
+Once newman is installed, launch the docker-compose image if it is
+not already running:
+
+```
+docker-compose -f deployments/development/docker-compose.yml up
+```
+
+The newman tests assume that the database is empty and will make
+its judgments based on that. In order to ensure that the database
+is in a proper state for this, in a new terminal, run:
+
+```
+diesel database reset
+```
+
+Now, launch the backend service with the following command
+(remember that you have to be in the 'backend' folder for this)
+
+```
+cargo run
+```
+
+With another new terminal, navigate to the postman tests directory
+(from the root directory, this is 'backend/postman') and run the
+tests with this:
+
+```
+newman run Inventory-Full-V1.postman_collection.json -e Development.postman_environment.json
+```
+
 ---
 ## Architecture
 
