@@ -13,6 +13,7 @@ use actix_files::Files;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
 use crate::http::{HttpExecutor, HttpConfig};
+use crate::rules::{RulesActor};
 
 pub mod v1;
 pub mod v2;
@@ -39,10 +40,7 @@ impl AppConfig {
 pub struct AppState {
     db: Addr<DbExecutor>,
     http: Addr<HttpExecutor>,
-}
-
-pub struct RulesActor {
-    app: AppState,
+    rules: Addr<RulesActor>,
 }
 
 /// Given a URL to the database and a web address, launches the web server.
