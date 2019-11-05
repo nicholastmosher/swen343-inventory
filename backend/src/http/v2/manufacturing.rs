@@ -7,12 +7,6 @@ use crate::http::HttpExecutor;
 /// A request for fetching the recipes and required parts for given products.
 #[derive(Debug, Serialize)]
 pub struct RecipeRequest {
-    pub products: Vec<ProductInRecipeRequest>,
-}
-
-/// A description of a single product lookup in a recipe request.
-#[derive(Debug, Serialize)]
-pub struct ProductInRecipeRequest {
     pub item_code: String,
     pub quantity: u32,
 }
@@ -20,12 +14,6 @@ pub struct ProductInRecipeRequest {
 /// A response describing the raw parts required for the requested products.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RecipeResponse {
-    pub products: Vec<ProductInRecipeResponse>,
-}
-
-/// A description of a product that was requested and the parts needed to build it.
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ProductInRecipeResponse {
     pub item_code: String,
     pub quantity: u32,
     pub parts: Vec<PartInRecipeResponse>,
@@ -66,18 +54,14 @@ impl Handler<RecipeRequest> for HttpExecutor {
             },
             None => {
                 RecipeResponse {
-                    products: recipe_request.products.into_iter().map(|product| {
-                        ProductInRecipeResponse {
-                            item_code: product.item_code,
-                            quantity: product.quantity,
-                            parts: vec![
-                                PartInRecipeResponse {
-                                    item_code: "needed_part_1".to_string(),
-                                    quantity: 10,
-                                }
-                            ],
+                    item_code: recipe_request.item_code,
+                    quantity: recipe_request.quantity,
+                    parts: vec![
+                        PartInRecipeResponse {
+                            item_code: "needed_part_2".to_string(),
+                            quantity: 10,
                         }
-                    }).collect()
+                    ],
                 }
             }
         };
