@@ -5,9 +5,10 @@ use std::convert::TryFrom;
 
 /// An in-memory representation of a Item entity in the database.
 #[derive(Debug, Queryable, Identifiable)]
-#[primary_key(code)]
+#[primary_key(item_code)]
 pub struct Item {
-    pub code: String,
+    pub item_code: String,
+    pub item_type: Option<String>,
     pub cost: i32,
     pub description: Option<String>,
 }
@@ -16,7 +17,8 @@ pub struct Item {
 #[derive(Debug, Insertable)]
 #[table_name = "items"]
 pub struct NewItem {
-    pub code: String,
+    pub item_code: String,
+    pub item_type: Option<String>,
     pub cost: i32,
     pub description: Option<String>,
 }
@@ -26,7 +28,8 @@ pub struct NewItem {
 #[table_name = "items"]
 #[changeset_options(treat_none_as_null="true")]
 pub struct ChangedItem {
-    pub code: String,
+    pub item_code: String,
+    pub item_type: Option<String>,
     pub cost: i32,
     pub description: Option<String>,
 }
@@ -42,9 +45,9 @@ pub struct ChangedItem {
 impl TryFrom<CreateItem> for NewItem {
     type Error = String;
 
-    fn try_from(CreateItem { code, cost, description }: CreateItem) -> Result<Self, Self::Error> {
+    fn try_from(CreateItem { item_code, item_type, cost, description }: CreateItem) -> Result<Self, Self::Error> {
         if cost > std::i32::MAX as u32 { return Err("cost out of bounds".to_string()); }
-        Ok(NewItem { code, cost: cost as i32, description })
+        Ok(NewItem { item_code, item_type, cost: cost as i32, description })
     }
 }
 
@@ -59,8 +62,8 @@ impl TryFrom<CreateItem> for NewItem {
 impl TryFrom<UpdateItems> for ChangedItem {
     type Error = String;
 
-    fn try_from(UpdateItems { code, cost, description }: UpdateItems) -> Result<Self, Self::Error> {
+    fn try_from(UpdateItems { item_code, item_type, cost, description }: UpdateItems) -> Result<Self, Self::Error> {
         if cost > std::i32::MAX as u32 { return Err("cost out of bounds".to_string()); }
-        Ok(ChangedItem { code, cost: cost as i32, description })
+        Ok(ChangedItem { item_code, item_type, cost: cost as i32, description })
     }
 }

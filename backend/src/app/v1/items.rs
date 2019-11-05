@@ -13,7 +13,8 @@ use crate::models::items::Item;
 /// Items we send as responses are not deleted.
 #[derive(Debug, Serialize)]
 pub struct ItemResponse {
-    pub code: String,
+    pub item_code: String,
+    pub item_type: Option<String>,
     pub cost: u32,
     pub description: Option<String>,
 }
@@ -22,15 +23,16 @@ pub struct ItemResponse {
 ///
 /// This is where we strategically exclude the "deleted" field.
 impl From<Item> for ItemResponse {
-    fn from(Item { code, cost, description, .. }: Item) -> Self {
-        ItemResponse { code, cost: cost as u32, description }
+    fn from(Item { item_code, item_type, cost, description, .. }: Item) -> Self {
+        ItemResponse { item_code, item_type, cost: cost as u32, description }
     }
 }
 
 /// Deserialize the body of a Create request using exactly these fields.
 #[derive(Debug, Deserialize)]
 pub struct CreateItem {
-    pub code: String,
+    pub item_code: String,
+    pub item_type: Option<String>,
     pub cost: u32,
     pub description: Option<String>
 }
@@ -80,7 +82,8 @@ pub fn read(
 /// Deserialize the body of an Update request using exactly these fields.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct UpdateItems {
-    pub code: String,
+    pub item_code: String,
+    pub item_type: Option<String>,
     pub cost: u32,
     pub description: Option<String>,
 }
@@ -105,7 +108,7 @@ pub fn update(
 /// Deserialize the body of a Delete request to delete an existing Item.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DeleteItem {
-    pub code: String,
+    pub item_code: String,
 }
 
 /// Asynchronously handles a DELETE request to delete an existing Item.

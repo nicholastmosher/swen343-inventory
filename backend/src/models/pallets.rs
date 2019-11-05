@@ -16,7 +16,7 @@ pub struct Pallet {
 }
 
 /// The minimum information needed to create a new Pallet in the database.
-#[derive(Debug, Insertable)]
+#[derive(Debug, Clone, Insertable)]
 #[table_name = "pallets"]
 pub struct NewPallet {
     pub item_code: String,

@@ -88,7 +88,7 @@ impl Handler<UpdateItems> for DbExecutor {
         let conn = &self.0.get().expect("should get db connection");
 
         let changed_item: ChangedItem = msg.try_into()?;
-        diesel::update(items.filter(code.eq(&changed_item.code)))
+        diesel::update(items.filter(item_code.eq(&changed_item.item_code)))
             .set(&changed_item)
             .get_result::<Item>(conn)
             .map(ItemResponse::from)
@@ -117,7 +117,7 @@ impl Handler<DeleteItem> for DbExecutor {
         use crate::schema::items::dsl::*;
         let conn = &self.0.get().expect("should get db connection");
 
-        diesel::delete(items.filter(code.eq(msg.code)))
+        diesel::delete(items.filter(item_code.eq(msg.item_code)))
             .get_result::<Item>(conn)
             .map(ItemResponse::from)
             .map_err(|_| "failed to delete item".to_string())
