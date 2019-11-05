@@ -1,4 +1,4 @@
--- Your SQL goes here
+ -- Your SQL goes here
 
 CREATE TABLE rules (
     id SERIAL PRIMARY KEY,
