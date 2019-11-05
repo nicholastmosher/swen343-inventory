@@ -8,6 +8,7 @@ pub mod v2;
 pub struct HttpConfig {
     pub accounting_url: Option<String>,
     pub manufacturing_url: Option<String>,
+    pub sales_url: Option<String>,
 }
 
 impl HttpConfig {
@@ -15,9 +16,11 @@ impl HttpConfig {
     pub fn from_env() -> Result<Self, String> {
         let accounting_url = std::env::var("ACCOUNTING_URL").ok();
         let manufacturing_url = std::env::var("MANUFACTURING_URL").ok();
+        let sales_url = std::env::var("SALES_URL").ok();
         Ok(HttpConfig {
             accounting_url,
             manufacturing_url,
+            sales_url,
         })
     }
 }
