@@ -83,3 +83,58 @@ impl Handler<RecipeRequest> for HttpExecutor {
         Ok(recipe_response)
     }
 }
+
+/// Send parts to manufactoring
+#[derive(Debug, Serialize)]
+pub struct PartRequest {
+    pub item_code: String,
+    pub quantity: u32,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ProductRequest {
+    pub item_code: String,
+    pub quantity: u32,
+    pub parts: Vec<PartRequest>
+}
+
+#[derive(Debug, Serialize)]
+pub struct SendPartsRequest {
+    pub order_id: u32,
+    pub warehouse_id: String,
+    pub products: Vec<ProductRequest>
+}
+
+impl Message for SendPartsRequest {
+    type Result = Result<(), String>;
+}
+
+impl Handler<SendPartsRequest> for HttpExecutor {
+    type Result = <SendPartsRequest as Message>::Result;
+
+    /// Defines how to send a `SendPartsRequest` to the Manufacturing silo.
+    fn handle(&mut self, req: SendPartsRequest, _: &mut Self::Context) -> Self::Result {
+        let url = &self.config.manufacturing_url;
+
+        match url {
+            Some(url) => {
+                let url = &format!("{}/assembly/make", &url);
+
+                let mut response = self.client
+                    .post(url)
+                    .json(&req)
+                    .send()
+                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
+
+                if (!response.status().is_success()) {
+                    return Err("Failed to get request".to_string())
+                }
+            },
+            None => ()
+        };
+
+        Ok(())
+    }
+}
+
+
