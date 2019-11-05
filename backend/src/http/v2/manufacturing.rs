@@ -86,10 +86,23 @@ impl Handler<RecipeRequest> for HttpExecutor {
 
 /// Send parts to manufactoring
 #[derive(Debug, Serialize)]
+pub struct PartRequest {
+    pub item_code: String,
+    pub quantity: u32,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ProductRequest {
+    pub item_code: String,
+    pub quantity: u32,
+    pub parts: Vec<PartRequest>
+}
+
+#[derive(Debug, Serialize)]
 pub struct SendPartsRequest {
     pub order_id: u32,
     pub warehouse_id: String,
-    pub quantity: u32, // TODO
+    pub products: Vec<ProductRequest>
 }
 
 impl Message for SendPartsRequest {
