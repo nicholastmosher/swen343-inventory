@@ -10,9 +10,7 @@ services:
     expose:
       - 5432
   inventory_database_initialization:
-    build:
-      context: "../../"
-      dockerfile: "deployments/testing/diesel/Dockerfile"
+    image: "nicholastmosher/swen343-inventory:diesel-initializer"
     container_name: "diesel"
     depends_on:
       - inventory_database
