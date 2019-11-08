@@ -23,6 +23,6 @@ COPY ./backend/postman ./postman
 ENV BIND_ADDRESS 0.0.0.0:8000
 ENV RUST_LOG="actix_web=INFO,erp=DEBUG"
 ENTRYPOINT []
-CMD ["bash", "-c", "(sleep 2 && backend/erp) & (sleep 3 && newman run postman/Inventory-Full-V1.postman_collection.json -e postman/Development.postman_environment.json)"]
+CMD ["bash", "-c", "(sleep 2 && backend/erp) & (sleep 3 && newman run postman/Inventory-Full-V1.postman_collection.json -e postman/Development.postman_environment.json) && exit"]
 
 EXPOSE 8000

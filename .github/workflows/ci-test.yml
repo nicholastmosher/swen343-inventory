@@ -8,12 +8,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Run test database in docker
-      run: docker-compose -f deployments/testing/docker-compose.yml up -d inventory_database
-    - name: Run tests in docker
-      run: docker-compose -f deployments/testing/docker-compose.yml up -d
-    - name: Wait for tests to complete
-      run: docker container wait testing-backend
-
     - name: Build frontend
       run: "(cd frontend; yarn && yarn build)"
+
+    - name: Run test database in docker
+      run: docker-compose -f deployments/testing/docker-compose.yml up -d inventory_database
+    - name: Initialize test database
+      run: docker-compose -f deployments/testing/docker-compose.yml up inventory_database_initialization
+    - name: Run tests
+      run: docker-compose -f deployments/testing/docker-compose.yml up inventory_backend_tests
