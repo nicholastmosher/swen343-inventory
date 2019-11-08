@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  inventory_database:
+    image: postgres
+    container_name: "testing-database"
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_PASSWORD: inventory-testing
+    expose:
+      - 5432
+  inventory_database_initialization:
+    image: "nicholastmosher/swen343-inventory:diesel-initializer"
+    container_name: "diesel"
+    depends_on:
+      - inventory_database
+    environment:
+      DATABASE_URL: "postgres://postgres:inventory-testing@inventory_database/inventory"
+  inventory_backend_tests:
+    build:
+      context: "../../"
+      dockerfile: "deployments/testing/backend/Dockerfile"
+    container_name: "testing-backend"
+    depends_on:
+      - inventory_database
+      - inventory_database_initialization
+    environment:
+      DATABASE_URL: "postgres://postgres:inventory-testing@inventory_database/inventory"

@@ -8,12 +8,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Install backend dependencies
-      run: sudo apt-get install libpq-dev
-    - name: Build backend
-      run: cargo build --manifest-path=backend/Cargo.toml --verbose
-    - name: Run backend tests
-      run: cargo test --manifest-path=backend/Cargo.toml --verbose
-
     - name: Build frontend
       run: "(cd frontend; yarn && yarn build)"
+
+    - name: Run test database in docker
+      run: docker-compose -f deployments/testing/docker-compose.yml up -d inventory_database
+    - name: Initialize test database
+      run: docker-compose -f deployments/testing/docker-compose.yml up inventory_database_initialization
+    - name: Run tests
+      run: docker-compose -f deployments/testing/docker-compose.yml up inventory_backend_tests
