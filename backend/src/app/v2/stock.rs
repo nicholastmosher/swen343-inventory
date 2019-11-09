@@ -1,5 +1,5 @@
 use actix_web::{web, HttpResponse};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use futures::compat::Future01CompatExt;
 use crate::app::AppState;
 
@@ -28,4 +28,23 @@ pub async fn read(
         Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
+}
+
+#[derive(Debug, Deserialize)]
+pub struct RemoveStock {
+    pub stock: Vec<StockToRemove>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct StockToRemove {
+    pub item: String,
+    pub quantity: u32,
+}
+
+pub async fn remove(
+    state: web::Data<AppState>,
+    web::Json(stock): web::Json<RemoveStock>,
+) -> Result<HttpResponse, ()> {
+    let db = &state.db;
+    Ok(HttpResponse::Ok().finish())
 }
