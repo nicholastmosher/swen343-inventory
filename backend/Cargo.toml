@@ -17,13 +17,14 @@ diesel = { version="1.4.2", features = ["postgres", "r2d2"] }
 actix = "0.8.3"
 actix-web = "1.0.8"
 dotenv = "0.14.1"
-futures = "0.1.29"
 num_cpus = "1.10.1"
 listenfd = "0.3.3"
 actix-cors = "0.1.0"
 env_logger = "0.7.0"
 actix-files = "0.1.6"
 reqwest = "0.9.22"
+futures01 = { package = "futures", version = "0.1.29", optional = true }
+futures-preview = { version = "0.3.0-alpha.19", features = ["compat"] }
 
 [lib]
 name = "erp"
