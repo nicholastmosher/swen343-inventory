@@ -51,7 +51,8 @@ pub async fn create(
 
     let result = db.send(create_item).compat().await;
     match result {
-        Ok(item) => Ok(HttpResponse::Ok().json(item)),
+        Ok(Ok(item)) => Ok(HttpResponse::Ok().json(item)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -75,7 +76,8 @@ pub async fn read(
 
     let result = db.send(read_items).compat().await;
     match result {
-        Ok(items) => Ok(HttpResponse::Ok().json(items)),
+        Ok(Ok(items)) => Ok(HttpResponse::Ok().json(items)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -102,7 +104,8 @@ pub async fn update(
 
     let result = db.send(update_items).compat().await;
     match result {
-        Ok(updated_item) => Ok(HttpResponse::Ok().json(updated_item)),
+        Ok(Ok(updated_item)) => Ok(HttpResponse::Ok().json(updated_item)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -125,7 +128,8 @@ pub async fn delete(
 
     let result = db.send(delete_item).compat().await;
     match result {
-        Ok(deleted_item) => Ok(HttpResponse::Ok().json(deleted_item)),
+        Ok(Ok(deleted_item)) => Ok(HttpResponse::Ok().json(deleted_item)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }

@@ -47,7 +47,8 @@ pub async fn create(
 
     let result = db.send(create_box).compat().await;
     match result {
-        Ok(the_box) => Ok(HttpResponse::Ok().json(the_box)),
+        Ok(Ok(the_box)) => Ok(HttpResponse::Ok().json(the_box)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -71,7 +72,8 @@ pub async fn read(
 
     let result = db.send(read_boxes).compat().await;
     match result {
-        Ok(boxes) => Ok(HttpResponse::Ok().json(boxes)),
+        Ok(Ok(boxes)) => Ok(HttpResponse::Ok().json(boxes)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -95,7 +97,8 @@ pub async fn update(
 
     let result = db.send(update_box).compat().await;
     match result {
-        Ok(updated_box) => Ok(HttpResponse::Ok().json(updated_box)),
+        Ok(Ok(updated_box)) => Ok(HttpResponse::Ok().json(updated_box)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -118,7 +121,8 @@ pub async fn delete(
 
     let result = db.send(delete_box).compat().await;
     match result {
-        Ok(deleted_box) => Ok(HttpResponse::Ok().json(deleted_box)),
+        Ok(Ok(deleted_box)) => Ok(HttpResponse::Ok().json(deleted_box)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }

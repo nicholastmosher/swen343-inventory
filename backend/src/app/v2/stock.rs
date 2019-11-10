@@ -24,7 +24,8 @@ pub async fn read(
 
     let result = db.send(ReadStock).compat().await;
     match result {
-        Ok(stock) => Ok(HttpResponse::Ok().json(stock)),
+        Ok(Ok(stock)) => Ok(HttpResponse::Ok().json(stock)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }

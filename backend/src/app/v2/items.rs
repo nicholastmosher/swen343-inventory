@@ -33,12 +33,13 @@ pub async fn add(
 
     let result = db.send(received_items).compat().await;
     match result {
-        Ok(_) => {
+        Ok(Ok(_)) => {
             let response = ReceiveItemResponse {
                 status: "success".to_string(),
             };
             Ok(HttpResponse::Ok().json(response))
         },
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }

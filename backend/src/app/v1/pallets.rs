@@ -45,7 +45,8 @@ pub async fn create(
 
     let result = db.send(create_pallet).compat().await;
     match result {
-        Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
+        Ok(Ok(pallet)) => Ok(HttpResponse::Ok().json(pallet)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -69,7 +70,8 @@ pub async fn read(
 
     let result = db.send(read_pallets).compat().await;
     match result {
-        Ok(pallets) => Ok(HttpResponse::Ok().json(pallets)),
+        Ok(Ok(pallets)) => Ok(HttpResponse::Ok().json(pallets)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -93,7 +95,8 @@ pub async fn update(
 
     let result = db.send(update_pallet).compat().await;
     match result {
-        Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
+        Ok(Ok(pallet)) => Ok(HttpResponse::Ok().json(pallet)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -116,7 +119,8 @@ pub async fn delete(
 
     let result = db.send(delete_pallet).compat().await;
     match result {
-        Ok(deleted_pallet) => Ok(HttpResponse::Ok().json(deleted_pallet)),
+        Ok(Ok(deleted_pallet)) => Ok(HttpResponse::Ok().json(deleted_pallet)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }

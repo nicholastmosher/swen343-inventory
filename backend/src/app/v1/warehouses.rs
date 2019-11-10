@@ -38,7 +38,8 @@ pub async fn create(
 
     let response = db.send(create_warehouse).compat().await;
     match response {
-        Ok(warehouse) => Ok(HttpResponse::Ok().json(warehouse)),
+        Ok(Ok(warehouse)) => Ok(HttpResponse::Ok().json(warehouse)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -62,7 +63,8 @@ pub async fn read(
 
     let result = db.send(read_warehouses).compat().await;
     match result {
-        Ok(warehouses) => Ok(HttpResponse::Ok().json(warehouses)),
+        Ok(Ok(warehouses)) => Ok(HttpResponse::Ok().json(warehouses)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -86,7 +88,8 @@ pub async fn update(
 
     let result = db.send(update_warehouse).compat().await;
     match result {
-        Ok(warehouse) => Ok(HttpResponse::Ok().json(warehouse)),
+        Ok(Ok(warehouse)) => Ok(HttpResponse::Ok().json(warehouse)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
@@ -106,7 +109,8 @@ pub async fn delete(
 
     let result = db.send(delete_warehouse).compat().await;
     match result {
-        Ok(deleted_warehouse) => Ok(HttpResponse::Ok().json(deleted_warehouse)),
+        Ok(Ok(deleted_warehouse)) => Ok(HttpResponse::Ok().json(deleted_warehouse)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
         Err(_) => Ok(HttpResponse::InternalServerError().finish()),
     }
 }
