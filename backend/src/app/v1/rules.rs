@@ -2,7 +2,7 @@
 
 use actix_web::{web, HttpResponse};
 use serde::{Deserialize, Serialize};
-use futures::Future;
+use futures::compat::Future01CompatExt;
 use crate::app::AppState;
 use crate::models::rules::Rule;
 
@@ -43,18 +43,18 @@ pub struct CreateRule {
 /// Asynchronously handles a POST request to create a Rule entity.
 ///
 /// Implemented by sending a `CreateRule` message to the `DbExecutor` actor.
-pub fn create(
+pub async fn create(
     state: web::Data<AppState>,
     web::Json(create_item): web::Json<CreateRule>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    db.send(create_item)
-        .and_then(|res| match res {
-            Ok(item) => Ok(HttpResponse::Ok().json(item)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
-        })
-        .map_err(|_| ())
+    let result = db.send(create_item).compat().await;
+    match result {
+        Ok(Ok(item)) => Ok(HttpResponse::Ok().json(item)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
 
 /// Message type for querying all Rules from the database.
@@ -68,18 +68,18 @@ pub struct ReadRules;
 /// Asynchronously handles a GET request to list the existing Rule entities.
 ///
 /// Implemented by sending a `ReadRules` message to the `DbExecutor` actor.
-pub fn read(
+pub async fn read(
     state: web::Data<AppState>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
     let read_items = ReadRules;
 
-    db.send(read_items)
-        .and_then(|res| match res {
-            Ok(items) => Ok(HttpResponse::Ok().json(items)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e))
-        })
-        .map_err(|_| ())
+    let result = db.send(read_items).compat().await;
+    match result {
+        Ok(Ok(items)) => Ok(HttpResponse::Ok().json(items)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
 
 /// Deserialize the body of an Update request using exactly these fields.
@@ -96,18 +96,18 @@ pub struct UpdateRules {
 /// Asynchronously handles a PUT request to update an existing Rule entity.
 ///
 /// Implemented by sending an `UpdateRule` message to the `DbExecutor` actor.
-pub fn update(
+pub async fn update(
     state: web::Data<AppState>,
     web::Json(update_items): web::Json<UpdateRules>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    db.send(update_items)
-        .and_then(|res| match res {
-            Ok(updated_item) => Ok(HttpResponse::Ok().json(updated_item)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
-        })
-        .map_err(|_| ())
+    let result = db.send(update_items).compat().await;
+    match result {
+        Ok(Ok(updated_item)) => Ok(HttpResponse::Ok().json(updated_item)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
 
 /// Deserialize the body of a Delete request to delete an existing Rule.
@@ -120,16 +120,16 @@ pub struct DeleteRule {
 ///
 /// Implemented by performing an update on the Rule record and setting
 /// the `deleted` field to true.
-pub fn delete(
+pub async fn delete(
     state: web::Data<AppState>,
     web::Json(delete_item): web::Json<DeleteRule>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    db.send(delete_item)
-        .and_then(|res| match res {
-            Ok(deleted_item) => Ok(HttpResponse::Ok().json(deleted_item)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
-        })
-        .map_err(|_| ())
+    let result = db.send(delete_item).compat().await;
+    match result {
+        Ok(Ok(deleted_item)) => Ok(HttpResponse::Ok().json(deleted_item)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }

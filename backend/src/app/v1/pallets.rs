@@ -2,7 +2,7 @@
 
 use actix_web::{web, HttpResponse};
 use serde::{Deserialize, Serialize};
-use futures::Future;
+use futures::compat::Future01CompatExt;
 use crate::app::AppState;
 use crate::models::pallets::Pallet;
 
@@ -37,18 +37,18 @@ pub struct CreatePallet {
 /// Asynchronously handles a POST request to create a Pallet entity.
 ///
 /// Implemented by sending a `CreatePallet` message to the `DbExecutor` actor.
-pub fn create(
+pub async fn create(
     state: web::Data<AppState>,
     web::Json(create_pallet): web::Json<CreatePallet>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    db.send(create_pallet)
-        .and_then(|res| match res {
-            Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
-        })
-        .map_err(|_| ())
+    let result = db.send(create_pallet).compat().await;
+    match result {
+        Ok(Ok(pallet)) => Ok(HttpResponse::Ok().json(pallet)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
 
 /// Message type for querying all Pallet from the database.
@@ -62,18 +62,18 @@ pub struct ReadPallets;
 /// Asynchronously handles a GET request to list the existing Pallet entities.
 ///
 /// Implemented by sending a `ReadPallets` message to the `DbExecutor` actor.
-pub fn read(
+pub async fn read(
     state: web::Data<AppState>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
     let read_pallets = ReadPallets;
 
-    db.send(read_pallets)
-        .and_then(|res| match res {
-            Ok(pallets) => Ok(HttpResponse::Ok().json(pallets)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e))
-        })
-        .map_err(|_| ())
+    let result = db.send(read_pallets).compat().await;
+    match result {
+        Ok(Ok(pallets)) => Ok(HttpResponse::Ok().json(pallets)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
 
 /// Deserialize the body of an Update request using exactly these fields.
@@ -87,18 +87,18 @@ pub struct UpdatePallet {
 /// Asynchronously handles a PUT request to update an existing Item entity.
 ///
 /// Implemented by sending an `UpdatePallet` message to the `DbExecutor` actor.
-pub fn update(
+pub async fn update(
     state: web::Data<AppState>,
     web::Json(update_pallet): web::Json<UpdatePallet>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    db.send(update_pallet)
-        .and_then(|res| match res {
-            Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e))
-        })
-        .map_err(|_| ())
+    let result = db.send(update_pallet).compat().await;
+    match result {
+        Ok(Ok(pallet)) => Ok(HttpResponse::Ok().json(pallet)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
 
 /// Deserialize the body of a Delete request to delete an existing Pallet.
@@ -111,16 +111,16 @@ pub struct DeletePallet {
 ///
 /// Implemented by performing an update on the Pallet record and setting
 /// the `deleted` field to true.
-pub fn delete(
+pub async fn delete(
     state: web::Data<AppState>,
     web::Json(delete_pallet): web::Json<DeletePallet>,
-) -> impl Future<Item=HttpResponse, Error=()> {
+) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    db.send(delete_pallet)
-        .and_then(|res| match res {
-            Ok(deleted_pallet) => Ok(HttpResponse::Ok().json(deleted_pallet)),
-            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
-        })
-        .map_err(|_| ())
+    let result = db.send(delete_pallet).compat().await;
+    match result {
+        Ok(Ok(deleted_pallet)) => Ok(HttpResponse::Ok().json(deleted_pallet)),
+        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
+        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+    }
 }
