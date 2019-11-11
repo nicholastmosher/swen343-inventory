@@ -70,7 +70,7 @@ impl Handler<RecipeRequest> for HttpExecutor {
     }
 }
 
-/// Send parts to manufactoring
+/// Send parts to manufacturing
 #[derive(Debug, Serialize)]
 pub struct PartRequest {
     pub item_code: String,
@@ -112,7 +112,7 @@ impl Handler<SendPartsRequest> for HttpExecutor {
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
 
-                if (!response.status().is_success()) {
+                if !response.status().is_success() {
                     return Err("Failed to get request".to_string())
                 }
             },
