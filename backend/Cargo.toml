@@ -23,6 +23,7 @@ actix-cors = "0.1.0"
 env_logger = "0.7.0"
 actix-files = "0.1.6"
 reqwest = "0.9.22"
+log = "0.4.8"
 futures01 = { package = "futures", version = "0.1.29", optional = true }
 futures-preview = { version = "0.3.0-alpha.19", features = ["compat"] }
 
