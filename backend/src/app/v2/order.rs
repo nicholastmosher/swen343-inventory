@@ -5,6 +5,9 @@ use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
 use crate::app::AppState;
 use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
 use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
+use crate::app::v1::items::{ReadItems, ItemResponse};
+use crate::http::v2::accounting::{ExpenseRequest, ExpenseResponse};
+use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest};
 
 #[derive(Debug, Deserialize)]
 pub struct OrderRequest {
@@ -95,9 +98,9 @@ pub async fn manufacturing_order(
 
     // Send a recipeInfo request to Manufacturing to get raw parts requirements
 
-    let recipe_requests = order.products.into_iter().map(|item| {
+    let recipe_requests = order.products.iter().map(|item| {
         let request = RecipeRequest {
-            item_code: item.product,
+            item_code: item.product.clone(),
             quantity: item.quantity as u32,
         };
         http.send(request).compat()
@@ -162,7 +165,7 @@ pub async fn manufacturing_order(
     // If we don't have enough parts, make a budget request to Accounting
 
     if need_to_order_parts {
-        match accounting_order(&state, parts_to_order).await {
+        match accounting_order(&state, &order, parts_to_order).await {
             // If we get the approved expense back, buy parts and send them to manufacturing
             Ok(_) => {
                 unimplemented!()
@@ -210,18 +213,92 @@ pub async fn manufacturing_order(
 
 pub async fn accounting_order(
     state: &web::Data<AppState>,
+    order: &OrderRequest,
     needed_parts: HashMap<String, u32>,
 ) -> Result<(), ()> {
+    let db = &state.db;
+    let http = &state.http;
 
-    //         If budget is approved, continue to order raw parts
+    // ACCOUNTING FLOW /////////////////////////////////////////////////////////
 
-    //         If budget is not approved, make a budget increase request to Accounting
+    let items: Vec<ItemResponse> = match db.send(ReadItems).compat().await {
+        Err(_) | Ok(Err(_)) => {
+            warn!("Error reading item costs for calculating expense");
+            return Err(());
+        },
+        Ok(Ok(items)) => items,
+    };
 
-    //             Continue polling Accounting until budget increase is approved
+    let items_by_name: HashMap<String, ItemResponse> = items.into_iter()
+        .map(|item| (item.item_code.clone(), item))
+        .collect();
 
-    //             Continue to order raw parts
+    let total_expense = needed_parts.iter()
+        .filter_map(|(part, count)| {
+            let part_cost = match items_by_name.get(part) {
+                None => {
+                    warn!("failed to find cost of part {}", part);
+                    return None;
+                },
+                Some(item) => item.cost,
+            };
+            Some(part_cost * count)
+        }).fold(0, |acc, current| acc + current);
+
+    let expense_request = ExpenseRequest {
+        amount: total_expense as f32 / 10.0,
+        category: "Parts".to_string(),
+        department: "Inventory".to_string(),
+    };
+
+    let expense_response: ExpenseResponse = match http.send(expense_request).compat().await {
+        Err(_) | Ok(Err(_)) => {
+            warn!("Error sending expense request to Accounting");
+            return Err(());
+        },
+        Ok(Ok(response)) => response,
+    };
+
+    info!("Received expense response with status: {}", &expense_response.status);
+
+    if &*expense_response.status.to_uppercase() != "SUCCESS" {
+        info!("Failed to spend money on parts!");
+
+        // If budget is not approved, make a budget increase request to Accounting
+
+        //     Continue polling Accounting until budget increase is approved
+
+        //     Continue to order raw parts
+
+        unimplemented!()
+    }
 
     // Order raw parts required for production order
 
-    unimplemented!()
+    let parts_in_request: Vec<_> = needed_parts.into_iter()
+        .map(|(item_code, quantity)| {
+            ItemInRequest {
+                order_id: Some(order.order_id),
+                item_code,
+                quantity,
+                refurbished: false,
+                warehouse: None,
+            }
+        }).collect();
+
+    let parts_request = ReceiveItemsRequest {
+        products: None,
+        parts: Some(parts_in_request),
+    };
+
+    match db.send(parts_request).compat().await {
+        Err(_) | Ok(Err(_)) => {
+            warn!("Failed to order parts");
+            return Err(());
+        },
+        Ok(_) => {
+            info!("Ordered raw parts for order {}", order.order_id);
+            return Ok(());
+        },
+    }
 }
