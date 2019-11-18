@@ -58,8 +58,8 @@ impl Handler<RecipeRequest> for HttpExecutor {
                     quantity: recipe_request.quantity,
                     parts: vec![
                         PartInRecipeResponse {
-                            item_code: "needed_part_2".to_string(),
-                            quantity: 10,
+                            item_code: "part:Display".to_string(),
+                            quantity: recipe_request.quantity,
                         }
                     ],
                 }

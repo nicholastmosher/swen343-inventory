@@ -123,6 +123,7 @@ pub async fn manufacturing_order(
         }
         recipes
     };
+    debug!("Got recipes from Manufacturing: {:?}", &recipes);
 
     // Check if we have enough raw parts to fulfill the production order
 
@@ -147,16 +148,20 @@ pub async fn manufacturing_order(
         match stock.get(&part) {
             // If we have none of this needed part in stock, we need to order it
             None => {
+                debug!("We have none of {}, so we need to order {} of them", &part, needed_quantity);
                 need_to_order_parts = true;
                 parts_to_order.insert(part, needed_quantity);
             },
             // If we have some stock but not enough, we need to order the difference
             Some(stock_quantity) if stock_quantity.quantity < needed_quantity => {
+                debug!("We have {} of {}, but we need {} more to meet the order of {}",
+                    stock_quantity.quantity, &part, needed_quantity - stock_quantity.quantity, needed_quantity);
                 need_to_order_parts = true;
                 parts_to_order.insert(part, needed_quantity - stock_quantity.quantity);
             }
             // If we have enough stock, we don't need to order any of this part
             Some(stock_quantity) => {
+                debug!("We have all {} of {} that we need!", needed_quantity, &part);
                 parts_to_order.insert(part, 0);
             },
         }
@@ -165,9 +170,12 @@ pub async fn manufacturing_order(
     // If we don't have enough parts, make a budget request to Accounting
 
     if need_to_order_parts {
-        match accounting_order(&state, &order, parts_to_order).await {
+        debug!("We need to order the following parts: {:?}", &parts_to_order);
+        let accounting_response = accounting_order(&state, &order, parts_to_order).await;
+        debug!("Got {:?} from accounting", accounting_response);
+        match accounting_response {
             // If we get the approved expense back, buy parts and send them to manufacturing
-            Ok(_) => {
+            Ok(v) => {
                 unimplemented!()
             },
             // If we don't get the expense approved, petition for a budget increase
@@ -204,6 +212,7 @@ pub async fn manufacturing_order(
         },
         // If the make request succeeded, remove parts from inventory
         Ok(_) => {
+            debug!("Successfully sent parts to manufacturing");
             unimplemented!()
         },
     }
@@ -245,6 +254,7 @@ pub async fn accounting_order(
             Some(part_cost * count)
         }).fold(0, |acc, current| acc + current);
 
+    info!("Sending expense request to Accounting for {:.2}", total_expense as f32 / 10.0);
     let expense_request = ExpenseRequest {
         amount: total_expense as f32 / 10.0,
         category: "Parts".to_string(),
