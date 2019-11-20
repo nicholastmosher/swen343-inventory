@@ -230,6 +230,7 @@ pub async fn accounting_order(
 
     // ACCOUNTING FLOW /////////////////////////////////////////////////////////
 
+    // Fetch the item catalog so we know how much each type of item costs
     let items: Vec<ItemResponse> = match db.send(ReadItems).compat().await {
         Err(_) | Ok(Err(_)) => {
             warn!("Error reading item costs for calculating expense");
@@ -238,10 +239,12 @@ pub async fn accounting_order(
         Ok(Ok(items)) => items,
     };
 
+    // Index the items by name for fast cost lookup
     let items_by_name: HashMap<String, ItemResponse> = items.into_iter()
         .map(|item| (item.item_code.clone(), item))
         .collect();
 
+    // Calculate the total cost of this purchase by multiplying cost * quantity
     let total_expense = needed_parts.iter()
         .filter_map(|(part, count)| {
             let part_cost = match items_by_name.get(part) {
