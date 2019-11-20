@@ -47,6 +47,8 @@ impl Handler<RecipeRequest> for HttpExecutor {
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
 
+                debug!("Received recipe response from Manufacturing: {:?}", &response);
+
                 let recipe_response: RecipeResponse = response.json()
                     .map_err(|_| "failed to parse response from Manufacturing")?;
 
@@ -111,6 +113,8 @@ impl Handler<SendPartsRequest> for HttpExecutor {
                     .json(&req)
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
+
+                debug!("Received make response from Manufacturing: {:?}", &response);
 
                 if !response.status().is_success() {
                     return Err("Failed to get request".to_string())

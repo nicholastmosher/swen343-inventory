@@ -34,6 +34,8 @@ impl Handler<BudgetRequest> for HttpExecutor {
                     .send()
                     .map_err(|e| format!("budget request failed: {:?}", e))?;
 
+                debug!("Received budget response from Accounting: {:?}", &response);
+
                 let budget_response: BudgetResponse = response.json()
                     .map_err(|e| format!("failed to parse budget response: {:?}", e))?;
                 budget_response
