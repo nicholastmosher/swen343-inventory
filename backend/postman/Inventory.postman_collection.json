@@ -143,7 +143,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"code\": \"product:A\",\n\t\"cost\": 1000,\n\t\"description\": \"The Actives\"\n}",
+					"raw": "{\n\t\"item_code\": \"product:Smartwatch\",\n\t\"cost\": 2000,\n\t\"description\": \"A smartwatch\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -271,7 +271,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"item_code\": \"product:A\"\n}",
+					"raw": "{\n\t\"item_code\": \"part:Wristband\",\n\t\"warehouse_name\": \"primary-warehouse\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -363,7 +363,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"pallet_id\": 3,\n\t\"item_quantity\": 25\n}",
+					"raw": "{\n\t\"pallet_id\": 1,\n\t\"item_quantity\": 25,\n\t\"item_condition\": \"new\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -717,13 +717,13 @@
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"order_id\": 1,\n\t\"products\": [\n\t\t{\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"refurbished\": false\n\t\t}\n\t],\n\t\"parts\": [\n\t\t{\n\t\t\t\"item_code\": \"Display\",\n\t\t\t\"quantity\": 1,\n\t\t\t\"refurbished\": true\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"order_id\": 1,\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"refurbished\": false\n\t\t},\n\t\t{\n\t\t\t\"item_code\": \"Lightup Hat\",\n\t\t\t\"quantity\": 10,\n\t\t\t\"refurbished\": true,\n\t\t\t\"warehouse\": \"refurbishment-warehouse\"\n\t\t}\n\t],\n\t\"parts\": [\n\t\t{\n\t\t\t\"item_code\": \"Display\",\n\t\t\t\"quantity\": 1,\n\t\t\t\"refurbished\": true\n\t\t}\n\t]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -740,6 +740,181 @@
 						"v2",
 						"rest",
 						"receiveItems"
+					]
+				},
+				"description": "The `receiveItems` endpoint is used for sending items from Manufacturing to Inventory. Items which may be send include newly-created products, refurbished products, or refurbished parts. There are multiple example requests given, be sure to check them all out.\n\n### Notes\n\nWhen a request contains an `order_id`, that order ID is used to track _products_ which were created for a specific order, and those products will be used to fulfill that order. If a refurbished product is being returned to Inventory, it is not necessary to return an `order_id`.\n\nIf no `warehouse` field is given, Inventory will automatically send the products or parts to the \"default\" deliveries warehouse. If a specific warehouse name is specified, the products or parts will be sent to that specific warehouse. Note that if a warehouse field is provided but it is not a valid name of an existing warehouse, the request will fail with a 400 response."
+			},
+			"response": [
+				{
+					"name": "Receive products with no warehouse specification",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"order_id\": 1,\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"refurbished\": false\n\t\t},\n\t\t{\n\t\t\t\"order_id\": 1,\n\t\t\t\"item_code\": \"Lightup hat\",\n\t\t\t\"quantity\": 50,\n\t\t\t\"refurbished\": false\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{inventory}}/api/v2/rest/receiveItems",
+							"host": [
+								"{{inventory}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"rest",
+								"receiveItems"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n\t\"status\": \"success\"\n}"
+				},
+				{
+					"name": "Receive products with warehouse specification",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"order_id\": 1,\n\t\t\t\"item_code\": \"Smartwatch\",\n\t\t\t\"quantity\": 100,\n\t\t\t\"refurbished\": false,\n\t\t\t\"warehouse\": \"primary-warehouse\"\n\t\t},\n\t\t{\n\t\t\t\"order_id\": 1,\n\t\t\t\"item_code\": \"Lightup Hat\",\n\t\t\t\"quantity\": 50,\n\t\t\t\"refurbished\": false,\n\t\t\t\"warehouse\": \"secondary-warehouse\"\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{inventory}}/api/v2/rest/receiveItems",
+							"host": [
+								"{{inventory}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"rest",
+								"receiveItems"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Receive refurbished parts",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parts\": [\n\t\t{\n\t\t\t\"item_code\": \"Display\",\n\t\t\t\"quantity\": 10,\n\t\t\t\"refurbished\": true\n\t\t},\n\t\t{\n\t\t\t\"item_code\": \"Wristband\",\n\t\t\t\"quantity\": 10,\n\t\t\t\"refurbished\": true\n\t\t}\n\t]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{inventory}}/api/v2/rest/receiveItems",
+							"host": [
+								"{{inventory}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"rest",
+								"receiveItems"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "{{inventory}}/api/v2/rest/stock",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory}}/api/v2/rest/stock",
+					"host": [
+						"{{inventory}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"rest",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{inventory}}/api/v2/rest/order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"order_id\": 1,\n\t\"products\": [\n\t\t{ \"product\": \"Smartwatch\", \"quantity\": 10 }\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{inventory}}/api/v2/rest/order",
+					"host": [
+						"{{inventory}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"rest",
+						"order"
 					]
 				}
 			},
