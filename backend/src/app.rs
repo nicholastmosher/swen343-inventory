@@ -13,7 +13,6 @@ use actix_files::Files;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
 use crate::http::{HttpExecutor, HttpConfig};
-use crate::rules::{RulesActor};
 
 pub mod v1;
 pub mod v2;
@@ -40,7 +39,6 @@ impl AppConfig {
 pub struct AppState {
     db: Addr<DbExecutor>,
     http: Addr<HttpExecutor>,
-    rules: Addr<RulesActor>,
 }
 
 /// Given a URL to the database and a web address, launches the web server.
@@ -115,10 +113,6 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
             db: database_addr.clone(),
             http: http_addr.clone(),
         };
-
-        let rules_actor = RulesActor {
-            app: state.clone(),
-        }
 
         App::new()
             .data(state)

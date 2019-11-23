@@ -1,5 +1,4 @@
 //! Implementations of CRUD endpoints for manipulating Box entities.
-
 use actix_web::{web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use futures::compat::Future01CompatExt;

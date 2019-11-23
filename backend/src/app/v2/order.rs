@@ -3,11 +3,12 @@ use serde::{Deserialize, Serialize};
 use actix_web::{web, HttpResponse};
 use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
 use crate::app::AppState;
-use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
-use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
 use crate::app::v1::items::{ReadItems, ItemResponse};
-use crate::http::v2::accounting::{ExpenseRequest, ExpenseResponse};
+use crate::app::v1::rules::{ReadRules, RuleResponse};
+use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
 use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest};
+use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
+use crate::http::v2::accounting::{ExpenseRequest, ExpenseResponse};
 
 #[derive(Debug, Deserialize)]
 pub struct OrderRequest {
@@ -46,6 +47,29 @@ pub async fn place_order(
         .map(|item| (item.product.clone(), item))
         .collect();
     debug!("Stock: {:?}", &stock);
+
+    let rules = match db.send(ReadRules).compat().await {
+        Err(_) | Ok(Err(_)) => {
+            warn!("Error reading item costs for calculating expense");
+            return Err(());
+        },
+        Ok(Ok(rules)) => rules,
+    };
+
+    // Checks if sales has any Reorder Rules that need to be respected
+//    for rule in &rules {
+//        for stock_request in &removal_request.stock {
+//            if &stock_request.item == &rule.item {
+//                if rule.minimum >
+//                    (stock_request.quantity - stock.get(&rule.item).unwrap().quantity) as i32 {
+//                        // reorder that stock up to the quantity set in the rule
+//                        // right now, send a request to manufacturing to make more
+//
+//                        actix::spawn(manufacturing_order(&state, order, stock).boxed().compat());
+//                    }
+//            }
+//        }
+//    }
 
     let mut should_order = false;
     for product in &order.products {
