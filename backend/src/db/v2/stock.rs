@@ -58,6 +58,7 @@ impl Handler<RemoveStock> for DbExecutor {
     type Result = <RemoveStock as Message>::Result;
 
     fn handle(&mut self, msg: RemoveStock, _: &mut Self::Context) -> Self::Result {
-        unimplemented!()
+        warn!("Executing unimplemented RemoveStock request!");
+        Ok(())
     }
 }

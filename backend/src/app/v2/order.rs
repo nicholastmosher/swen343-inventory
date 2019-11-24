@@ -31,6 +31,7 @@ pub async fn place_order(
     web::Json(order): web::Json<OrderRequest>,
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
+    info!("Received order request: {:?}", &order);
 
     // Check if we have enough products to create the order
 
@@ -44,6 +45,7 @@ pub async fn place_order(
     let stock: HashMap<String, StockInResponse> = stock_response.stock.into_iter()
         .map(|item| (item.product.clone(), item))
         .collect();
+    debug!("Stock: {:?}", &stock);
 
     let mut should_order = false;
     for product in &order.products {
@@ -115,11 +117,11 @@ pub async fn manufacturing_order(
         for response in recipe_responses {
             match response {
                 Err(_) => {
-                    println!("Encountered error in recipe response");
+                    error!("Encountered error in recipe response");
                     return Err(());
                 },
                 Ok(Err(e)) => {
-                    println!("Encountered error in recipe response: {:?}", e);
+                    error!("Encountered error in recipe response: {:?}", e);
                     return Err(());
                 },
                 Ok(Ok(recipe)) => recipes.push(recipe),
@@ -206,7 +208,7 @@ pub async fn manufacturing_order(
         // If the make request succeeded, remove parts from inventory
         Ok(_) => {
             debug!("Successfully sent parts to manufacturing");
-            unimplemented!()
+            warn!("UNIMPLEMENTED: Remove consumed parts from inventory");
         },
     }
 
