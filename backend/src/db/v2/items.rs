@@ -37,14 +37,14 @@ impl Handler<ReceiveItemsRequest> for DbExecutor {
         // Add all products to the items list
         let mut items: Vec<_> = products.unwrap_or(Vec::new())
             .into_iter().map(|product| ItemInRequest {
-                item_code: format!("product:{}", &product.item_code),
+                item_code: product.item_code,
                 ..product
             }).collect();
 
         // Add all parts to the items list
         items.extend(parts.unwrap_or(Vec::new())
             .into_iter().map(|part| ItemInRequest {
-                item_code: format!("part:{}", &part.item_code),
+                item_code: part.item_code,
                 ..part
             })
         );

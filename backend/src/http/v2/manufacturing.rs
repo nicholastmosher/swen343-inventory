@@ -16,7 +16,7 @@ pub struct RecipeRequest {
 pub struct RecipeResponse {
     pub item_code: String,
     pub quantity: u32,
-    pub parts: Vec<PartInRecipeResponse>,
+    pub required_parts: Vec<PartInRecipeResponse>,
 }
 
 /// A description of the parts needed to build a specific product.
@@ -45,9 +45,11 @@ impl Handler<RecipeRequest> for HttpExecutor {
                     .post(url)
                     .json(&recipe_request)
                     .send()
-                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
+                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
 
-                let recipe_response: RecipeResponse = response.json()
+                debug!("Received recipe response from Manufacturing: {:?}", &response);
+
+                let recipe_response: RecipeResponse = response?.json()
                     .map_err(|_| "failed to parse response from Manufacturing")?;
 
                 recipe_response
@@ -56,10 +58,10 @@ impl Handler<RecipeRequest> for HttpExecutor {
                 RecipeResponse {
                     item_code: recipe_request.item_code,
                     quantity: recipe_request.quantity,
-                    parts: vec![
+                    required_parts: vec![
                         PartInRecipeResponse {
-                            item_code: "needed_part_2".to_string(),
-                            quantity: 10,
+                            item_code: "part:Display".to_string(),
+                            quantity: recipe_request.quantity,
                         }
                     ],
                 }
@@ -70,7 +72,7 @@ impl Handler<RecipeRequest> for HttpExecutor {
     }
 }
 
-/// Send parts to manufactoring
+/// Send parts to manufacturing
 #[derive(Debug, Serialize)]
 pub struct PartRequest {
     pub item_code: String,
@@ -110,9 +112,11 @@ impl Handler<SendPartsRequest> for HttpExecutor {
                     .post(url)
                     .json(&req)
                     .send()
-                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e))?;
+                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
 
-                if (!response.status().is_success()) {
+                debug!("Received make response from Manufacturing: {:?}", &response);
+
+                if !response?.status().is_success() {
                     return Err("Failed to get request".to_string())
                 }
             },
