@@ -114,8 +114,12 @@ pub async fn manufacturing_order(
         let mut recipes = Vec::with_capacity(recipe_responses.len());
         for response in recipe_responses {
             match response {
-                Err(_) | Ok(Err(_)) => {
+                Err(_) => {
                     println!("Encountered error in recipe response");
+                    return Err(());
+                },
+                Ok(Err(e)) => {
+                    println!("Encountered error in recipe response: {:?}", e);
                     return Err(());
                 },
                 Ok(Ok(recipe)) => recipes.push(recipe),
@@ -130,7 +134,7 @@ pub async fn manufacturing_order(
     // Create a map from part name to the quantity of those parts we need
     let mut recipe_parts: HashMap<String, u32> = HashMap::new();
     for recipe in &recipes {
-        for part in &recipe.parts {
+        for part in &recipe.required_parts {
             match recipe_parts.get_mut(&part.item_code) {
                 None => {
                     recipe_parts.insert(part.item_code.clone(), part.quantity);
@@ -171,23 +175,12 @@ pub async fn manufacturing_order(
 
     if need_to_order_parts {
         debug!("We need to order the following parts: {:?}", &parts_to_order);
-        let accounting_response = accounting_order(&state, &order, parts_to_order).await;
-        debug!("Got {:?} from accounting", accounting_response);
-        match accounting_response {
-            // If we get the approved expense back, buy parts and send them to manufacturing
-            Ok(v) => {
-                unimplemented!()
-            },
-            // If we don't get the expense approved, petition for a budget increase
-            Err(_) => {
-                unimplemented!()
-            }
-        }
+        accounting_order(&state, &order, parts_to_order).await?;
     }
 
     // The parts needed to make our products are in the amount given by the recipe
     let products: Vec<ProductRequest> = recipes.into_iter().map(|recipe| {
-        let parts = recipe.parts.into_iter().map(|part| PartRequest {
+        let parts = recipe.required_parts.into_iter().map(|part| PartRequest {
             item_code: part.item_code,
             quantity: part.quantity,
         }).collect();
@@ -208,7 +201,7 @@ pub async fn manufacturing_order(
     match http.send(make_request).compat().await {
         // If an error occurred, don't remove parts from inventory
         Err(_) | Ok(Err(_)) => {
-            unimplemented!()
+            error!("Make request to Manufacturing failed!");
         },
         // If the make request succeeded, remove parts from inventory
         Ok(_) => {

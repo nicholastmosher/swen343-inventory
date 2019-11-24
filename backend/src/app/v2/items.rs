@@ -30,10 +30,12 @@ pub async fn add(
     web::Json(received_items): web::Json<ReceiveItemsRequest>,
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
+    info!("Received items to store in Inventory: {:?}", &received_items);
 
     let result = db.send(received_items).compat().await;
     match result {
         Ok(Ok(_)) => {
+            info!("Successfully stored items in Inventory");
             let response = ReceiveItemResponse {
                 status: "success".to_string(),
             };
