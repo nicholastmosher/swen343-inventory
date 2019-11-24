@@ -61,11 +61,12 @@ pub async fn place_order(
 //        for stock_request in &removal_request.stock {
 //            if &stock_request.item == &rule.item {
 //                if rule.minimum >
-//                    (stock_request.quantity - stock.get(&rule.item).unwrap().quantity) as i32 {
+//                    (stock_request.quantity - stocks.get(&rule.item).unwrap().quantity) as i32 {
 //                        // reorder that stock up to the quantity set in the rule
 //                        // right now, send a request to manufacturing to make more
 //
-//                        actix::spawn(manufacturing_order(&state, order, stock).boxed().compat());
+//
+//
 //                    }
 //            }
 //        }
