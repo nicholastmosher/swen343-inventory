@@ -259,17 +259,18 @@ pub async fn accounting_order(
         department: "Inventory".to_string(),
     };
 
-    let expense_response: ExpenseResponse = match http.send(expense_request).compat().await {
-        Err(_) | Ok(Err(_)) => {
-            warn!("Error sending expense request to Accounting");
+    let response = http.send(expense_request).compat().await.map_err(|_| ())?;
+    let expense_response: ExpenseResponse = match response {
+        Err(e) => {
+            warn!("Error sending expense request to Accounting: {:?}", e);
             return Err(());
         },
-        Ok(Ok(response)) => response,
+        Ok(response) => response,
     };
 
-    info!("Received expense response with status: {}", &expense_response.status);
+    info!("Received expense response with status: {}", &expense_response.status.as_ref().unwrap());
 
-    if &*expense_response.status.to_uppercase() != "SUCCESS" {
+    if &*expense_response.status.unwrap().to_uppercase() != "SUCCESS" {
         info!("Failed to spend money on parts!");
 
         // If budget is not approved, make a budget increase request to Accounting
