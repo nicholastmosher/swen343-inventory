@@ -27,6 +27,49 @@ pub struct OrderResponse {
     status: String,
 }
 
+async fn check_rules(
+    state: web::Data<AppState>,
+    request: RemoveStock,
+    stock: HashMap<String, StockInResponse>,
+) -> Result<(), ()> {
+
+    let db = &state.db;
+
+    // maps all items in request
+    let items: HashMap<String, StockToRemove> = request.stock.into_iter()
+        .map(|stock| (stock.item.clone(), stock))
+        .collect();
+    
+    // finds and maps all the rules to the requested items
+    let rules = (
+        match db.send(ReadRules).compat().await {
+            Err(_) | Ok(Err(_)) => {
+                warn!("Error reading item costs for calculating expense");
+                return Err(());
+            },
+            Ok(Ok(rules)) => rules,
+        }).map(|rule| 
+            if items.contains_key(rule.item) {
+                (rule.item.clone(), rule)
+            }
+        )
+    .collect();
+
+    let mut products: Vec<StockToRemove>;
+
+    for rule in rules {
+        let item = items.get(rule.item).unwrap();
+        let current = stock.get(rule.item).unwrap();
+
+        if (item.quantity - current.quantity) < rule.minimum {
+            products.push(*item);
+        }
+    }
+
+    Ok(())
+
+}
+
 pub async fn place_order(
     state: web::Data<AppState>,
     web::Json(order): web::Json<OrderRequest>,
@@ -48,30 +91,20 @@ pub async fn place_order(
         .collect();
     debug!("Stock: {:?}", &stock);
 
-    let rules = match db.send(ReadRules).compat().await {
-        Err(_) | Ok(Err(_)) => {
-            warn!("Error reading item costs for calculating expense");
-            return Err(());
-        },
-        Ok(Ok(rules)) => rules,
+    let mut should_order = false;
+
+    let removal_request = RemoveStock {
+        stock: order.products.into_iter()
+            .map(|product| StockToRemove {
+                item: product.product,
+                quantity: product.quantity as u32,
+            }).collect()
     };
 
-    // Checks if sales has any Reorder Rules that need to be respected
-//    for rule in &rules {
-//        for stock_request in &removal_request.stock {
-//            if &stock_request.item == &rule.item {
-//                if rule.minimum >
-//                    (stock_request.quantity - stocks.get(&rule.item).unwrap().quantity) as i32 {
-//                        // reorder that stock up to the quantity set in the rule
-//                        // right now, send a request to manufacturing to make more
-//
-//
-//
-//                    }
-//            }
-//        }
-//    }
+    // checks the reorder rules to see if any products need to be restocked
+    let needed = check_rules(state, removal_request, stock);
 
+    // WILL LIKELY REMOVE SOON
     let mut should_order = false;
     for product in &order.products {
         match stock.get(&product.product) {
