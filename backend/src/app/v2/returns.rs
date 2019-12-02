@@ -6,11 +6,25 @@ use crate::app::AppState;
 use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
 use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
 use crate::app::v2::order;
+use crate::app::v2::order::{OrderRequest, ProductInOrder};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ReturnsResponse {
-    pub order_id: String,
+    pub order_id: i32,
     pub product: ProductRequest,
+    pub repair: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ReturnRequest {
+    pub order_id: i32,
+    pub products: Vec<ReturnProducts>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ReturnProducts {
+    pub item_code: String,
+    pub parts: Vec<PartRequest>,
     pub repair: bool,
 }
 
@@ -39,31 +53,22 @@ pub async fn return_product(
 
     // Check the repair status
 
-    if returns.repair {
+    let result = db.send(ReadStock).compat().await;
+    let stock_response = match result.map_err(|_| ())? {
+        Ok(stock_response) => stock_response,
+        Err(e) => return Ok(HttpResponse::InternalServerError().body(e)),
+    };
 
-        let result = db.send(ReadStock).compat().await;
-        let stock_response = match result {
-            Err(_) => return Ok(HttpResponse::InternalServerError().finish()),
-            Ok(Err(e)) => return Ok(HttpResponse::InternalServerError().body(e)),
-            Ok(Ok(stock_response)) => stock_response,
-        };
+    let stock: HashMap<String, StockInResponse> = stock_response.stock.into_iter()
+        .map(|item| (item.product.clone(), item))
+        .collect();
+    debug!("Stock: {:?}", &stock);
 
-        let stock: HashMap<String, StockInResponse> = stock_response.stock.into_iter()
-            .map(|item| (item.product.clone(), item))
-            .collect();
-        debug!("Stock: {:?}", &stock);
-
-        // kick off a repair request to Manufacturing and return a success to Sales
-        actix::spawn(manufacturing_repair(state, returns, stock).boxed().compat());
-        return Ok(HttpResponse::Accepted().json(RepairResponse {
-            status: "repair accepted; sending to manufacturing".to_string() ,
-        }))
-    } else {
-        actix::spawn(manufacturing_disassembly(state, returns).boxed().compat());
-        return Ok(HttpResponse::Accepted().json(DisassemblyResponse {
-            status: "disassembly accepted; sending to manufacturing".to_string() ,
-        }))    
-    }
+    // kick off a repair request to Manufacturing and return a success to Sales
+    actix::spawn(manufacturing_repair(state, returns, stock).boxed().compat());
+    return Ok(HttpResponse::Accepted().json(RepairResponse {
+        status: "return accepted; sending to manufacturing".to_string() ,
+    }))
 }
 
 pub async fn manufacturing_repair(
@@ -107,26 +112,45 @@ pub async fn manufacturing_repair(
 
     // If we don't have enough parts, make a budget request to Accounting
 
-    let phony_order = order::OrderRequest {
-        order_id: 1,
-        products: vec!(order::ProductInOrder {
-            product: String::new(),
-            quantity: 0,
+    // didn't make a casting between this and returnrequest due to time
+    let return_order = OrderRequest {
+        order_id: repair.clone().order_id,
+        products: vec!(ProductInOrder {
+            product: repair.clone().product.item_code,
+            quantity: repair.clone().product.quantity as i32,
         })
     };
 
     if need_to_order_parts {
         debug!("We need to order the following parts: {:?}", &parts_to_order);
-        order::accounting_order(&state, &phony_order, parts_to_order).await?;
+        order::accounting_order(&state, &return_order, parts_to_order).await?;
     }
 
     // Send a "make" request to Manufacturing to create Products from raw parts
-    let repair_request = RepairRequest {
-        returned: repair.clone(),
-        new_parts: recipe_parts.to_vec(),
+    let return_order = match repair.repair {
+        true => {
+            ReturnRequest {
+                order_id: repair.clone().order_id,
+                products: vec!(ReturnProducts {
+                    item_code: repair.clone().product.item_code,
+                    parts: recipe_parts.to_vec(),
+                    repair: repair.repair,
+                })
+            }
+        },
+        false => {
+            ReturnRequest {
+                order_id: repair.clone().order_id,
+                products: vec!(ReturnProducts {
+                    item_code: repair.clone().product.item_code,
+                    parts: vec!(),
+                    repair: repair.repair,
+                })
+            }
+        },
     };
 
-    match http.send(repair_request).compat().await {
+    match http.send(return_order).compat().await {
         // If an error occurred, don't remove parts from inventory
         Err(_) | Ok(Err(_)) => {
             error!("Repair request to Manufacturing failed!");
@@ -134,28 +158,6 @@ pub async fn manufacturing_repair(
         // If the make request succeeded, remove parts from inventory
         Ok(_) => {
             debug!("Successfully sent repair to manufacturing");
-            warn!("UNIMPLEMENTED: Remove consumed parts from inventory");
-        },
-    }
-
-    Ok(())
-}
-
-pub async fn manufacturing_disassembly(
-    state: web::Data<AppState>,
-    disassembly: ReturnsResponse,
-) -> Result<(), ()> {
-    let db = &state.db;
-    let http = &state.http;
-
-    match http.send(disassembly).compat().await {
-        // If an error occurred, don't remove parts from inventory
-        Err(_) | Ok(Err(_)) => {
-            error!("Disassembly request to Manufacturing failed!");
-        },
-        // If the make request succeeded, remove parts from inventory
-        Ok(_) => {
-            debug!("Successfully sent product to manufacturing");
             warn!("UNIMPLEMENTED: Remove consumed parts from inventory");
         },
     }
