@@ -93,6 +93,7 @@ pub async fn manufacturing_order(
     order: OrderRequest,
     stock: HashMap<String, StockInResponse>,
 ) -> Result<(), ()> {
+    let db = &state.db;
     let http = &state.http;
 
     // MANUFACTURING FLOW //////////////////////////////////////////////////////
@@ -192,19 +193,36 @@ pub async fn manufacturing_order(
     let make_request = SendPartsRequest {
         order_id: order.order_id as u32,
         warehouse_id: "primary-warehouse".to_string(),
-        products,
+        products: products.clone(),
     };
 
-    match http.send(make_request).compat().await {
+    match http.send(make_request).compat().await.map_err(|_| ())? {
         // If an error occurred, don't remove parts from inventory
-        Err(_) | Ok(Err(_)) => {
-            error!("Make request to Manufacturing failed!");
-        },
-        // If the make request succeeded, remove parts from inventory
+        Err(e) => {
+            error!("Make request to Manufacturing failed: {:?}", e);
+            return Ok(());
+        }
         Ok(_) => {
             debug!("Successfully sent parts to manufacturing");
-            warn!("UNIMPLEMENTED: Remove consumed parts from inventory");
         },
+    }
+
+    // If the make request succeeded, remove parts from inventory
+    let remove_stock = RemoveStock {
+        stock: products.into_iter().map(|product| StockToRemove {
+            item: product.item_code,
+            quantity: product.quantity,
+        }).collect(),
+    };
+
+    match db.send(remove_stock).compat().await.map_err(|_| ())? {
+        Err(e) => {
+            error!("Failed to remove parts from stock: {:?}", e);
+            return Ok(());
+        }
+        Ok(_) => {
+            debug!("Removed parts from inventory!");
+        }
     }
 
     Ok(())
@@ -296,9 +314,10 @@ pub async fn accounting_order(
         parts: Some(parts_in_request),
     };
 
-    match db.send(parts_request).compat().await {
-        Err(_) | Ok(Err(_)) => {
-            warn!("Failed to order parts");
+    let result = db.send(parts_request).compat().await.map_err(|_| ())?;
+    match result {
+        Err(e) => {
+            warn!("Failed to order parts: {:?}", e);
             return Err(());
         },
         Ok(_) => {
