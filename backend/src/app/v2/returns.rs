@@ -4,7 +4,7 @@ use actix_web::{web, HttpResponse};
 use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
 use crate::app::AppState;
 use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
-use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
+use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest, ReturnRequest, ReturnProducts, RepairResponse};
 use crate::app::v2::order;
 use crate::app::v2::order::{OrderRequest, ProductInOrder};
 
@@ -13,24 +13,6 @@ pub struct CSRequest {
     pub order_id: i32,
     pub product: ProductRequest,
     pub repair: bool,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct ReturnRequest {
-    pub order_id: i32,
-    pub products: Vec<ReturnProducts>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct ReturnProducts {
-    pub item_code: String,
-    pub parts: Vec<PartRequest>,
-    pub repair: bool,
-}
-
-#[derive(Debug, Serialize)]
-pub struct RepairResponse {
-    status: String,
 }
 
 pub async fn return_product(
