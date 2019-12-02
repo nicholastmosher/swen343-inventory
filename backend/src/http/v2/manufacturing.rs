@@ -3,7 +3,7 @@
 use actix::{Handler, Message};
 use serde::{Deserialize, Serialize};
 use crate::http::HttpExecutor;
-use crate::app::v2::returns;
+use crate::app::v2::returns::{RepairRequest, ReturnsResponse, ReturnRequest};
 
 /// A request for fetching the recipes and required parts for given products.
 #[derive(Debug, Serialize)]
@@ -84,7 +84,7 @@ pub struct PartRequest {
 pub struct ProductRequest {
     pub item_code: String,
     pub quantity: u32,
-    pub parts: Vec<PartRequest>
+    pub parts: Vec<PartRequest>,
 }
 
 #[derive(Debug, Serialize)]
@@ -129,20 +129,20 @@ impl Handler<SendPartsRequest> for HttpExecutor {
 }
 
 /// Send repair to manufacturing
-impl Message for returns::RepairRequest {
+impl Message for ReturnRequest {
     type Result = Result<(), String>;
 }
 
-impl Handler<returns::RepairRequest> for HttpExecutor {
-    type Result = <SendPartsRequest as Message>::Result;
+impl Handler<ReturnRequest> for HttpExecutor {
+    type Result = <ReturnRequest as Message>::Result;
 
-    /// Defines how to send a `SendRepairRequest` to the Manufacturing silo.
-    fn handle(&mut self, req: returns::RepairRequest, _: &mut Self::Context) -> Self::Result {
+    /// Defines how to send a `SendReturnRequest` to the Manufacturing silo.
+    fn handle(&mut self, req: ReturnRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.manufacturing_url;
 
         match url {
             Some(url) => {
-                let url = &format!("{}/returns/repair", &url);
+                let url = &format!("{}/assembly/returns", &url);
 
                 let mut response = self.client
                     .post(url)
@@ -151,41 +151,6 @@ impl Handler<returns::RepairRequest> for HttpExecutor {
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
 
                 debug!("Received repair response from Manufacturing: {:?}", &response);
-
-                if !response?.status().is_success() {
-                    return Err("Failed to get request".to_string())
-                }
-            },
-            None => ()
-        };
-
-        Ok(())
-    }
-}
-
-/// Send disassembly to manufacturing
-impl Message for returns::ReturnsResponse {
-    type Result = Result<(), String>;
-}
-
-impl Handler<returns::ReturnsResponse> for HttpExecutor {
-    type Result = <SendPartsRequest as Message>::Result;
-
-    /// Defines how to send a `SendRepairRequest` to the Manufacturing silo.
-    fn handle(&mut self, req: returns::ReturnsResponse, _: &mut Self::Context) -> Self::Result {
-        let url = &self.config.manufacturing_url;
-
-        match url {
-            Some(url) => {
-                let url = &format!("{}/returns/disassembly", &url);
-
-                let mut response = self.client
-                    .post(url)
-                    .json(&req)
-                    .send()
-                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
-
-                debug!("Received disassembly response from Manufacturing: {:?}", &response);
 
                 if !response?.status().is_success() {
                     return Err("Failed to get request".to_string())
