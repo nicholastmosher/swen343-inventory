@@ -162,3 +162,38 @@ impl Handler<returns::RepairRequest> for HttpExecutor {
         Ok(())
     }
 }
+
+/// Send disassembly to manufacturing
+impl Message for returns::ReturnsResponse {
+    type Result = Result<(), String>;
+}
+
+impl Handler<returns::ReturnsResponse> for HttpExecutor {
+    type Result = <SendPartsRequest as Message>::Result;
+
+    /// Defines how to send a `SendRepairRequest` to the Manufacturing silo.
+    fn handle(&mut self, req: returns::ReturnsResponse, _: &mut Self::Context) -> Self::Result {
+        let url = &self.config.manufacturing_url;
+
+        match url {
+            Some(url) => {
+                let url = &format!("{}/returns/disassembly", &url);
+
+                let mut response = self.client
+                    .post(url)
+                    .json(&req)
+                    .send()
+                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
+
+                debug!("Received disassembly response from Manufacturing: {:?}", &response);
+
+                if !response?.status().is_success() {
+                    return Err("Failed to get request".to_string())
+                }
+            },
+            None => ()
+        };
+
+        Ok(())
+    }
+}
