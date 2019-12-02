@@ -59,6 +59,7 @@ pub async fn return_product(
             status: "repair accepted; sending to manufacturing".to_string() ,
         }))
     } else {
+        actix::spawn(manufacturing_disassembly(state, returns).boxed().compat());
         return Ok(HttpResponse::Accepted().json(DisassemblyResponse {
             status: "disassembly accepted; sending to manufacturing".to_string() ,
         }))    
@@ -133,6 +134,28 @@ pub async fn manufacturing_repair(
         // If the make request succeeded, remove parts from inventory
         Ok(_) => {
             debug!("Successfully sent repair to manufacturing");
+            warn!("UNIMPLEMENTED: Remove consumed parts from inventory");
+        },
+    }
+
+    Ok(())
+}
+
+pub async fn manufacturing_disassembly(
+    state: web::Data<AppState>,
+    disassembly: ReturnsResponse,
+) -> Result<(), ()> {
+    let db = &state.db;
+    let http = &state.http;
+
+    match http.send(disassembly).compat().await {
+        // If an error occurred, don't remove parts from inventory
+        Err(_) | Ok(Err(_)) => {
+            error!("Disassembly request to Manufacturing failed!");
+        },
+        // If the make request succeeded, remove parts from inventory
+        Ok(_) => {
+            debug!("Successfully sent product to manufacturing");
             warn!("UNIMPLEMENTED: Remove consumed parts from inventory");
         },
     }
