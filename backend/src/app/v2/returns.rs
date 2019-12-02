@@ -9,7 +9,7 @@ use crate::app::v2::order;
 use crate::app::v2::order::{OrderRequest, ProductInOrder};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct ReturnsResponse {
+pub struct CSRequest {
     pub order_id: i32,
     pub product: ProductRequest,
     pub repair: bool,
@@ -29,24 +29,13 @@ pub struct ReturnProducts {
 }
 
 #[derive(Debug, Serialize)]
-pub struct RepairRequest {
-    pub returned: ReturnsResponse,
-    pub new_parts: Vec<PartRequest>,
-}
-
-#[derive(Debug, Serialize)]
 pub struct RepairResponse {
-    status: String,
-}
-
-#[derive(Debug, Serialize)]
-pub struct DisassemblyResponse {
     status: String,
 }
 
 pub async fn return_product(
     state: web::Data<AppState>,
-    web::Json(returns): web::Json<ReturnsResponse>,
+    web::Json(returns): web::Json<CSRequest>,
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
     info!("Received return request: {:?}", &returns);
@@ -73,7 +62,7 @@ pub async fn return_product(
 
 pub async fn manufacturing_repair(
     state: web::Data<AppState>,
-    repair: ReturnsResponse,
+    repair: CSRequest,
     stock: HashMap<String, StockInResponse>,
 ) -> Result<(), ()> {
     let db = &state.db;
