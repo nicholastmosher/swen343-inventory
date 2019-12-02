@@ -14,7 +14,9 @@ pub struct StockResponse {
 #[derive(Debug, Serialize)]
 pub struct StockInResponse {
     pub product: String,
-    pub quantity: u32,
+    pub category: String,
+    pub quantity: u32,:q
+
 }
 
 pub async fn read(
