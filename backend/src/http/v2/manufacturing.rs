@@ -3,7 +3,7 @@
 use actix::{Handler, Message};
 use serde::{Deserialize, Serialize};
 use crate::http::HttpExecutor;
-use crate::app::v2::returns::{RepairRequest, ReturnsResponse, ReturnRequest};
+use crate::app::v2::returns::{CSRequest, ReturnRequest};
 
 /// A request for fetching the recipes and required parts for given products.
 #[derive(Debug, Serialize)]
