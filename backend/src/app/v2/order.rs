@@ -10,13 +10,13 @@ use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest};
 use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
 use crate::http::v2::accounting::{ExpenseRequest, ExpenseResponse};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct OrderRequest {
     pub order_id: i32,
     pub products: Vec<ProductInOrder>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct ProductInOrder {
     pub product: String,
     pub quantity: i32,
@@ -41,28 +41,30 @@ async fn check_rules(
         .collect();
     
     // finds and maps all the rules to the requested items
-    let rules = (
-        match db.send(ReadRules).compat().await {
+    let rules = match db.send(ReadRules).compat().await {
             Err(_) | Ok(Err(_)) => {
                 warn!("Error reading item costs for calculating expense");
                 return Err(());
             },
             Ok(Ok(rules)) => rules,
-        }).map(|rule| 
-            if items.contains_key(rule.item) {
-                (rule.item.clone(), rule)
-            }
-        )
-    .collect();
+        };
 
-    let mut products: Vec<StockToRemove>;
+    let mut relevant_rules: HashMap<String, RuleResponse> = HashMap::new();
 
     for rule in rules {
-        let item = items.get(rule.item).unwrap();
-        let current = stock.get(rule.item).unwrap();
+        if items.contains_key(&rule.item) {
+            relevant_rules.insert(rule.item.clone(), rule);
+        }
+    }
 
-        if (item.quantity - current.quantity) < rule.minimum {
-            products.push(*item);
+    let mut products: Vec<&StockToRemove> = Vec::new();
+
+    for (product, rule) in relevant_rules {
+        let item = items.get(&rule.item).unwrap();
+        let current = stock.get(&rule.item).unwrap();
+
+        if (item.quantity - current.quantity) < rule.minimum as u32 {
+            products.push(item);
         }
     }
 
@@ -92,9 +94,10 @@ pub async fn place_order(
     debug!("Stock: {:?}", &stock);
 
     let mut should_order = false;
+    let mut order_copy = order.clone();
 
     let removal_request = RemoveStock {
-        stock: order.products.into_iter()
+        stock: order_copy.products.into_iter()
             .map(|product| StockToRemove {
                 item: product.product,
                 quantity: product.quantity as u32,
@@ -102,7 +105,7 @@ pub async fn place_order(
     };
 
     // checks the reorder rules to see if any products need to be restocked
-    let needed = check_rules(state, removal_request, stock);
+    let needed = check_rules(state.clone(), removal_request, stock.clone());
 
     // WILL LIKELY REMOVE SOON
     let mut should_order = false;

@@ -11,7 +11,7 @@ pub struct StockResponse {
     pub stock: Vec<StockInResponse>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct StockInResponse {
     pub product: String,
     pub category: Option<String>,
