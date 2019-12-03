@@ -14,6 +14,7 @@ pub struct StockResponse {
 #[derive(Debug, Serialize)]
 pub struct StockInResponse {
     pub product: String,
+    pub category: Option<String>,
     pub quantity: u32,
 }
 
@@ -22,11 +23,10 @@ pub async fn read(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(ReadStock).compat().await;
+    let result = db.send(ReadStock).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(stock)) => Ok(HttpResponse::Ok().json(stock)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(stock) => Ok(HttpResponse::Ok().json(stock)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
