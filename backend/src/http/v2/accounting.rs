@@ -63,8 +63,9 @@ pub struct ExpenseRequest {
 
 /// After an Expense is made, we receive the following information from Accounting.
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ExpenseResponse {
-    pub status: String,
+    pub status: Option<String>,
     pub report_id: u32,
     pub department: String,
     pub balance: f32,
@@ -86,15 +87,21 @@ impl Handler<ExpenseRequest> for HttpExecutor {
                 let mut response = self.client.post(url)
                     .json(&msg)
                     .send()
-                    .map_err(|e| format!("expense request failed: {:?}", e))?;
+                    .map_err(|e| format!("expense request failed: {:?}", e));
+                debug!("Received expense response from Accounting: {:?}", &response);
 
-                let expense_response: ExpenseResponse = response.json()
+                let mut response = response?;
+                let success = response.status().is_success();
+
+                let mut expense_response: ExpenseResponse = response.json()
                     .map_err(|e| format!("failed to parse expense response: {:?}", e))?;
+
+                expense_response.status.replace(if success { "SUCCESS".to_string() } else { "FAILED".to_string() });
                 expense_response
             },
             None => {
                 ExpenseResponse {
-                    status: "SUCCESS".to_string(),
+                    status: Some("SUCCESS".to_string()),
                     report_id: 1,
                     department: "INVENTORY".to_string(),
                     balance: 99_100.0,
