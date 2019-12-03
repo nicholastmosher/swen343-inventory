@@ -120,7 +120,9 @@ impl Handler<SendPartsRequest> for HttpExecutor {
                     return Err("Failed to get request".to_string())
                 }
             },
-            None => ()
+            None => {
+                debug!("Sent STUBBED send parts request to Manufacturing");
+            }
         };
 
         Ok(())
@@ -173,7 +175,9 @@ impl Handler<ReturnRequest> for HttpExecutor {
                     return Err("Failed to get request".to_string())
                 }
             },
-            None => ()
+            None => {
+                debug!("Sent STUBBED return request to Manufacturing");
+            }
         };
 
         Ok(())
