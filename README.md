@@ -129,54 +129,31 @@ EC2 instance using just `ssh swen343`.
 
 ### Pushing code to Production
 
-You can set up a "prod" git remote that you can push to in order to upload the
-latest code to our EC2 production machine. To do this, just run the following
-(this assumes you've followed the SSH setup above)
+On your local machine, build and push the project docker image using the
+following commands:
 
 ```
-git remote add prod swen343:~/git/inventory
+docker build -t nicholastmosher/swen343-inventory:latest .
+docker push nicholastmosher/swen343-inventory:latest
 ```
 
-You can then push and pull code to and from `prod` just as if it were a Github
-repository, e.g. using `git push prod master`, etc. To launch that latest code
-on the production machine, you'll need to do one more step.
-
-Start by SSHing into the production machine
+Then ssh into the production machine and run the following:
 
 ```
-ssh swen343
+cd ~/inventory
+docker-compose pull inventory && docker-compose up -d
 ```
 
-There's a directory called "inventory" which is where our source code is stored
-and built on production. It's a git repository, but it won't automatically have
-the changes you pushed when you did `git push prod master` (that code lands in
-the headless `~/git/inventory` repository on the production machine). In order
-to deploy the latest code, we have to pull the code from the headless repository.
-To do that, we just run
+This will launch the project as a daemon, which will not allow you to see logs
+but will let you detach the terminal and keep running. If you would instead
+like to see the logs, run this (without the `-d`):
 
 ```
-# On the swen343 machine, in ~/inventory
-git pull origin master
+docker-compose pull inventory && docker-compose up
 ```
 
-After you've pulled the latest code, you can build and launch the code using the
-production docker image
-
-```
-docker build -t erp-prod -f deployments/production/Dockerfile .
-```
-
-This should build the image, then you can run it like this
-
-```
-docker run -e DATABASE_URL=the_database_url -e BIND_ADDRESS=0.0.0.0:8000 -p8000:8000 -t erp-prod
-```
-
-What this does is:
-
-* Launches the image tagged as `erp-prod` (the one you just built)
-* Connects the container's port 8000 to the AWS box port 8000
-* Sets the DATABASE_URL and BIND_ADDRESS environment variables
+Note that when you exit from the non-daemon command, the project will quit and
+you'll need to re-run it with `-d`.
 
 ### Running the Postman Integration Tests
 
