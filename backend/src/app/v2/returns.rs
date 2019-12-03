@@ -98,27 +98,14 @@ pub async fn manufacturing_repair(
     }
 
     // Send a "make" request to Manufacturing to create Products from raw parts
-    let return_order = match repair.repair {
-        true => {
-            ReturnRequest {
-                order_id: repair.clone().order_id,
-                products: vec!(ReturnProducts {
-                    item_code: repair.clone().product.item_code,
-                    parts: recipe_parts.to_vec(),
-                    repair: repair.repair,
-                })
-            }
-        },
-        false => {
-            ReturnRequest {
-                order_id: repair.clone().order_id,
-                products: vec!(ReturnProducts {
-                    item_code: repair.clone().product.item_code,
-                    parts: vec!(),
-                    repair: repair.repair,
-                })
-            }
-        },
+    let parts = if repair.repair { recipe_parts.to_vec() } else { vec![] };
+    let return_order = ReturnRequest {
+        order_id: repair.order_id,
+        products: vec![ReturnProducts {
+            item_code: repair.product.item_code.clone(),
+            repair: repair.repair,
+            parts,
+        }],
     };
 
     match http.send(return_order).compat().await {
