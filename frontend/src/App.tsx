@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./view/components/Header";
 import ContentHeader from "./view/components/ContentHeader";
 import AddItemForm from "./view/AddItemForm";
@@ -12,6 +12,7 @@ import Boxes from "./view/Boxes";
 import Catalog from "./view/Catalog";
 
 const App: React.FC = () => {
+  //<Route exact path="/catalog" component={Catalog} />
   return (
     <div className="App">
       <Header />
@@ -25,15 +26,14 @@ const App: React.FC = () => {
           <hr />
 
           <div className="row">
-              <Switch>
-                <Route exact path="/" component={Warehouses} />
-                <Route exact path="/catalog" component={Catalog} />
-                <Route exact path="/catalog/add" component={AddItemForm} />
-                <Route exact path="/warehouse/add" component={AddWarehouseForm} />
-                <Route exact path="/warehouse/:warehouseName" component={Pallets} />
-                <Route exact path="/warehouse/:warehouseName/reorder-rules" component={ReorderRules} />
-                <Route exact path="/warehouse/:warehouseName/pallet/:palletId" component={Boxes} />
-              </Switch>
+            <Switch>
+              <Route exact path="/" component={Warehouses} />
+              <Route exact path="/catalog/add" component={AddItemForm} />
+              <Route exact path="/warehouse/add" component={AddWarehouseForm} />
+              <Route exact path="/warehouse/:warehouseName" component={Pallets} />
+              <Route exact path="/warehouse/:warehouseName/reorder-rules" component={ReorderRules} />
+              <Route exact path="/warehouse/:warehouseName/pallet/:palletId" component={Boxes} />
+            </Switch>
           </div>
         </div>
       </Router>
