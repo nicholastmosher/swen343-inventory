@@ -42,6 +42,7 @@ impl Handler<ReadStock> for DbExecutor {
             });
             StockInResponse {
                 product: item.item_code,
+                category: item.item_type,
                 quantity: sum as u32,
             }
         }).collect();

@@ -33,7 +33,9 @@ impl Handler<OrderStatusRequest> for HttpExecutor {
                     .send()
                     .map_err(|e| format!("failed to send request to Sales: {:?}", e))?;
             },
-            None => ()
+            None => {
+                debug!("Sent STUBBED order status request to Sales");
+            }
         };
 
         Ok(())

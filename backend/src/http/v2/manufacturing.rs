@@ -120,7 +120,9 @@ impl Handler<SendPartsRequest> for HttpExecutor {
                     return Err("Failed to get request".to_string())
                 }
             },
-            None => ()
+            None => {
+                debug!("Sent STUBBED send parts request to Manufacturing");
+            }
         };
 
         Ok(())
@@ -139,6 +141,7 @@ pub struct ReturnProducts {
     pub parts: Vec<PartRequest>,
     pub repair: bool,
 }
+<<<<<<< HEAD
 
 #[derive(Debug, Serialize)]
 pub struct RepairResponse {
@@ -167,13 +170,49 @@ impl Handler<ReturnRequest> for HttpExecutor {
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
 
+=======
+
+#[derive(Debug, Serialize)]
+pub struct RepairResponse {
+    pub status: String,
+}
+
+/// Send repair to manufacturing
+impl Message for ReturnRequest {
+    type Result = Result<(), String>;
+}
+
+impl Handler<ReturnRequest> for HttpExecutor {
+    type Result = <ReturnRequest as Message>::Result;
+
+    /// Defines how to send a `SendReturnRequest` to the Manufacturing silo.
+    fn handle(&mut self, req: ReturnRequest, _: &mut Self::Context) -> Self::Result {
+        let url = &self.config.manufacturing_url;
+
+        match url {
+            Some(url) => {
+                let url = &format!("{}/assembly/returns", &url);
+
+                let mut response = self.client
+                    .post(url)
+                    .json(&req)
+                    .send()
+                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
+
+>>>>>>> 8657e10f32cadf0775ab47bbf3c2a742ec030025
                 debug!("Received repair response from Manufacturing: {:?}", &response);
 
                 if !response?.status().is_success() {
                     return Err("Failed to get request".to_string())
                 }
             },
+<<<<<<< HEAD
             None => ()
+=======
+            None => {
+                debug!("Sent STUBBED return request to Manufacturing");
+            }
+>>>>>>> 8657e10f32cadf0775ab47bbf3c2a742ec030025
         };
 
         Ok(())
