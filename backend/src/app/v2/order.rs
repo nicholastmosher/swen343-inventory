@@ -11,14 +11,14 @@ use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest};
 
 #[derive(Debug, Deserialize)]
 pub struct OrderRequest {
-    order_id: i32,
-    products: Vec<ProductInOrder>,
+    pub order_id: i32,
+    pub products: Vec<ProductInOrder>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct ProductInOrder {
-    product: String,
-    quantity: i32,
+    pub product: String,
+    pub quantity: i32,
 }
 
 #[derive(Debug, Serialize)]

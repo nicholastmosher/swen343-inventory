@@ -73,17 +73,17 @@ impl Handler<RecipeRequest> for HttpExecutor {
 }
 
 /// Send parts to manufacturing
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct PartRequest {
     pub item_code: String,
     pub quantity: u32,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ProductRequest {
     pub item_code: String,
     pub quantity: u32,
-    pub parts: Vec<PartRequest>
+    pub parts: Vec<PartRequest>,
 }
 
 #[derive(Debug, Serialize)]
@@ -120,11 +120,66 @@ impl Handler<SendPartsRequest> for HttpExecutor {
                     return Err("Failed to get request".to_string())
                 }
             },
-            None => ()
+            None => {
+                debug!("Sent STUBBED send parts request to Manufacturing");
+            }
         };
 
         Ok(())
     }
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ReturnRequest {
+    pub order_id: i32,
+    pub products: Vec<ReturnProducts>,
+}
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ReturnProducts {
+    pub item_code: String,
+    pub parts: Vec<PartRequest>,
+    pub repair: bool,
+}
+
+#[derive(Debug, Serialize)]
+pub struct RepairResponse {
+    pub status: String,
+}
+
+/// Send repair to manufacturing
+impl Message for ReturnRequest {
+    type Result = Result<(), String>;
+}
+
+impl Handler<ReturnRequest> for HttpExecutor {
+    type Result = <ReturnRequest as Message>::Result;
+
+    /// Defines how to send a `SendReturnRequest` to the Manufacturing silo.
+    fn handle(&mut self, req: ReturnRequest, _: &mut Self::Context) -> Self::Result {
+        let url = &self.config.manufacturing_url;
+
+        match url {
+            Some(url) => {
+                let url = &format!("{}/assembly/returns", &url);
+
+                let mut response = self.client
+                    .post(url)
+                    .json(&req)
+                    .send()
+                    .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
+
+                debug!("Received repair response from Manufacturing: {:?}", &response);
+
+                if !response?.status().is_success() {
+                    return Err("Failed to get request".to_string())
+                }
+            },
+            None => {
+                debug!("Sent STUBBED return request to Manufacturing");
+            }
+        };
+
+        Ok(())
+    }
+}
