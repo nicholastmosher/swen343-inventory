@@ -243,6 +243,10 @@ Our backend is a Rust web service which uses the actix-web web framework for han
 
 ## API Endpoints
 
+The ERP's general endpoint architecture can be described well here. As far as we are concerned, our flow starts with either Sales or Customer Support, which triggers a call to Manufacturing in most cases. The sole case in which we would not involve them is if we already have a certain product in stock that does not break any reorder rules set. In other cases, manufacturing either makes, repairs, or disassembles a product and gives it back to us, which we then handle again.
+
+![alt text](docs/APIArchitecture.png "API Architecture")
+
 All our API Documentation is filled out in our Postman Documentation, located [here](http://dev-inventory.kennuware.xyz)!
 
 ---
@@ -255,39 +259,18 @@ All our API Documentation is filled out in our Postman Documentation, located [h
 
 ---
 
-## Potential Risks
+## Challenges Faced
 
-**Miscommunication**
-* Issue
-  * We’ve learned from the series of events leading up to R1 that miscommunication between our team members can be a major problematic factor for us. There were rather large misunderstandings regarding how our system was to be built, resulting in costly delays.
-* Plan
-  * In the future, we plan to engage in more whiteboard demonstrations and pair programming sessions to ensure that all team members are on the same page regarding the actual physical implementation of what we wish to build or accomplish.
+**Schedule**
+* A definite painpoint for the Inventory boys was how this project lined up with other committments we made, either in other classes or elsewhere. This led to a lot of functionality and code being pushed off until a later date, affecting how quickly we were able to report to other teams about how we worked. By no means was it horrible, but it was not perfect either.
 
-**Lack of Software Familiarity (relates to #3)**
-* Issue
-   * The technologies we have chosen were in large part decided upon due to the benefits the offer, such as API Endpoint Governance for Rust and massive community support for Postgres. However, not all members are familiar with all the pieces of our technology stack, so there are issues when it comes to cross checking and feedback of work between team members
- * Plan
-   * Because there is at least one member that is familiar with each piece of our stack, whenever work is done for the project, we’d like to have that member run through what was done with the rest of the team during work reviews. This way, the non-familiar members will be able to learn about and become caught up on the technology, and the explaining team member will now, through the process of explaining, be double-checking the work they have done. To elaborate, should the explaining team member be unable to express the work they’ve worked towards, there is a good chance something is amiss somewhere
-**Random changing of team members**
- * Issue
-   * When working in teams, team members become strongly integrated in the work they perform in said team. Planning, work responsibility, roles, understanding of strengths and weaknesses, and other such forming and storming phase activities take time and effort to get through. Having team members be forced to switch teams mid-project causes the teams having their members switched around be forcibly pushed back to these early-stage team phases, which is especially problematic when a lot of plans and procedures have been solidified.
- * Plan
-   * Our plan for this is to keep a solid line of documentation of our work and plans - done mostly through our master document - to allow new team members a way to get caught up to the team’s flow as quickly as possible. In addition to this, each team member must have at least one other member that is able to understand and/or perform the work they are doing so that there is someone to cover for them if they are moved to another team and to also give the new members time to catch up.
+**Scope**
+* Scope was another pain point for not only us, but for the majority of the silos working on this project. Referring to what was required of us in this project vs what we had to do in other classes and in the semester - and similar to the Schedule challenges - we had to put in a much greater amount of time into this project to achieve comparatively little progress. Other committments in other classes also hindered our ability to get a lot done at once. 
 
-**Cross-team integration**
- * Issue
-   * Moving forward, a big issue will be combining our team’s work with that of other component teams. While we’ve already experienced some pains in combining visions for the front and back end into one cohesive system, it may very well be escalated when we start talking with other teams. We already know from our past meetings that different teams have different ideas of how communication will be handled through APIs, and with Inventory’s large network of people who depend on us, we could be in for some long discussions and refactoring.
- * Plan
-   * Already, we’ve been talking with other CT’s about general practices when designing their endpoints, but there really isn’t any way to know what they’re doing until we start working with them. Therefore, the best plan of action is to communicate early with these teams so we can squash any issues we have right away, and start working on our component.
+* At least for Inventory, we recieved a small reduction in scope by our stakeholder, who allowed us to drop the requirement of accounted for warehouse sections. This was a very welcomed change, since we would have likely faced a whole new string of issues once implementing these into our warehouses, not to mention the redundancy of it all. The change in immediate requirements bought us a little more time and a little less work.
 
-
-
-**Unexpected additional requirements**
- * Issue
-   * We have experienced earlier in this project that it is possible for the client to add in previously undisclosed requirements to the project. The further along a project goes, the more costly additional requirements become, and, depending on the nature of the new requirement, may potentially damage the project’s progress greatly.
- * Plan
-   * The best course of action for this is to keep in touch with the client to ensure that we are regularly on the right path, and the event of an unexpected extra requirement, must always be prepared to estimate the costs of implementing said requirement. The costs must then be relayed to the client and a conversation must happen on whether or not the client is willing to accept the extra costs (or other such consequences) of trying to add the new requirement at whatever stage of the project it is proposed within.
-
+**Cross-team Integration**
+* This was something we foresaw, but were still hit with difficulties on. Simply put, if managing processes internally is difficult, external processes are even harder. How we will send out and recieve data, how exactly we'll parse through it, and then how we dealt with unexpected responses all caused quite a headache, especially when the team sending and recieving was also facing the same issues. After that, considering their own challenges with Scope and Schedule, and one can see how such integration was very maticulous. 
 
 ---
 
