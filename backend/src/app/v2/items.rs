@@ -32,16 +32,15 @@ pub async fn add(
     let db = &state.db;
     info!("Received items to store in Inventory: {:?}", &received_items);
 
-    let result = db.send(received_items).compat().await;
+    let result = db.send(received_items).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(_)) => {
+        Ok(_) => {
             info!("Successfully stored items in Inventory");
             let response = ReceiveItemResponse {
                 status: "success".to_string(),
             };
             Ok(HttpResponse::Ok().json(response))
         },
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }

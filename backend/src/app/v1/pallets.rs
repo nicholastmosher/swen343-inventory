@@ -43,11 +43,10 @@ pub async fn create(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(create_pallet).compat().await;
+    let result = db.send(create_pallet).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(pallet)) => Ok(HttpResponse::Ok().json(pallet)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -68,11 +67,10 @@ pub async fn read(
     let db = &state.db;
     let read_pallets = ReadPallets;
 
-    let result = db.send(read_pallets).compat().await;
+    let result = db.send(read_pallets).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(pallets)) => Ok(HttpResponse::Ok().json(pallets)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(pallets) => Ok(HttpResponse::Ok().json(pallets)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -93,11 +91,10 @@ pub async fn update(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(update_pallet).compat().await;
+    let result = db.send(update_pallet).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(pallet)) => Ok(HttpResponse::Ok().json(pallet)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(pallet) => Ok(HttpResponse::Ok().json(pallet)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -117,10 +114,9 @@ pub async fn delete(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(delete_pallet).compat().await;
+    let result = db.send(delete_pallet).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(deleted_pallet)) => Ok(HttpResponse::Ok().json(deleted_pallet)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(deleted_pallet) => Ok(HttpResponse::Ok().json(deleted_pallet)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }

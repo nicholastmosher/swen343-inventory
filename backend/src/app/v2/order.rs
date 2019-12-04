@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use actix_web::{web, HttpResponse};
-use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
+use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt, SinkExt};
 use crate::app::AppState;
 use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
 use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest};
@@ -36,11 +36,10 @@ pub async fn place_order(
 
     // Check if we have enough products to create the order
 
-    let result = db.send(ReadStock).compat().await;
+    let result = db.send(ReadStock).compat().await.map_err(|_| ())?;
     let stock_response = match result {
-        Err(_) => return Ok(HttpResponse::InternalServerError().finish()),
-        Ok(Err(e)) => return Ok(HttpResponse::InternalServerError().body(e)),
-        Ok(Ok(stock_response)) => stock_response,
+        Err(e) => return Ok(HttpResponse::InternalServerError().body(e)),
+        Ok(stock_response) => stock_response,
     };
 
     let stock: HashMap<String, StockInResponse> = stock_response.stock.into_iter()
@@ -72,11 +71,10 @@ pub async fn place_order(
         };
 
         // If we have all of the items in stock, return those items to Sales
-        let result = db.send(removal_request).compat().await;
+        let result = db.send(removal_request).compat().await.map_err(|_| ())?;
         let response = match result {
-            Err(_) => Ok(HttpResponse::InternalServerError().finish()),
-            Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-            Ok(Ok(_)) => Ok(HttpResponse::Ok().json(OrderResponse { status: "success".to_string() }))
+            Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
+            Ok(_) => Ok(HttpResponse::Ok().json(OrderResponse { status: "success".to_string() }))
         };
         return response;
     }
@@ -116,16 +114,12 @@ pub async fn manufacturing_order(
     let recipes: Vec<RecipeResponse> = {
         let mut recipes = Vec::with_capacity(recipe_responses.len());
         for response in recipe_responses {
-            match response {
-                Err(_) => {
-                    error!("Encountered error in recipe response");
-                    return Err(());
-                },
-                Ok(Err(e)) => {
+            match response.map_err(|_| ())? {
+                Err(e) => {
                     error!("Encountered error in recipe response: {:?}", e);
                     return Err(());
                 },
-                Ok(Ok(recipe)) => recipes.push(recipe),
+                Ok(recipe) => recipes.push(recipe),
             }
         }
         recipes
@@ -227,12 +221,13 @@ pub async fn accounting_order(
     // ACCOUNTING FLOW /////////////////////////////////////////////////////////
 
     // Fetch the item catalog so we know how much each type of item costs
-    let items: Vec<ItemResponse> = match db.send(ReadItems).compat().await {
-        Err(_) | Ok(Err(_)) => {
-            warn!("Error reading item costs for calculating expense");
+    let response = db.send(ReadItems).compat().await.map_err(|_| ())?;
+    let items: Vec<ItemResponse> = match response {
+        Err(e) => {
+            warn!("Error reading item costs for calculating expense: {:?}", e);
             return Err(());
         },
-        Ok(Ok(items)) => items,
+        Ok(items) => items,
     };
 
     // Index the items by name for fast cost lookup
