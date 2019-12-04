@@ -1,13 +1,13 @@
 use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest};
+use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest, ReceiveItemResponse};
 use crate::db::DbExecutor;
 use crate::models::warehouses::Warehouse;
 use crate::models::pallets::{NewPallet, Pallet};
 use crate::models::boxes::NewBox;
 
 impl Message for ReceiveItemsRequest {
-    type Result = Result<(), String>;
+    type Result = Result<ReceiveItemResponse, String>;
 }
 
 impl Handler<ReceiveItemsRequest> for DbExecutor {
@@ -127,6 +127,6 @@ impl Handler<ReceiveItemsRequest> for DbExecutor {
                 .map_err(|e| format!("failed to insert boxes: {:?}", e))?;
         }
 
-        Ok(())
+        Ok(ReceiveItemResponse { status: "success".to_string() })
     }
 }

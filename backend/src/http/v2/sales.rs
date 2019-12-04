@@ -24,10 +24,14 @@ impl Handler<OrderStatusRequest> for HttpExecutor {
 
         match url {
             Some(url) => {
-                let url = &format!("{}/orders?status&order_id", &url);
+                let url = &format!("{}/orders", &url);
 
                 let _response = self.client
                     .put(url)
+                    .query(&[
+                        ("status", format!("'{}'", order_status_request.status)),
+                        ("order_id", format!("{}", order_status_request.order_id)),
+                    ])
                     .json(&order_status_request)
                     .send()
                     .map_err(|e| format!("failed to send request to Sales: {:?}", e))?;
