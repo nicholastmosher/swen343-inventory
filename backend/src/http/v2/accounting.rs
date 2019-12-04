@@ -84,7 +84,7 @@ impl Handler<ExpenseRequest> for HttpExecutor {
         let response = match url {
             Some(url) => {
                 let url = &format!("{}/budget/expense", &url);
-                let mut response = self.client.post(url)
+                let response = self.client.post(url)
                     .json(&msg)
                     .send()
                     .map_err(|e| format!("expense request failed: {:?}", e));

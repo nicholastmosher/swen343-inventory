@@ -36,11 +36,10 @@ pub async fn create(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let response = db.send(create_warehouse).compat().await;
+    let response = db.send(create_warehouse).compat().await.map_err(|_| ())?;
     match response {
-        Ok(Ok(warehouse)) => Ok(HttpResponse::Ok().json(warehouse)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(warehouse) => Ok(HttpResponse::Ok().json(warehouse)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -61,11 +60,10 @@ pub async fn read(
     let db = &state.db;
     let read_warehouses = ReadWarehouses;
 
-    let result = db.send(read_warehouses).compat().await;
+    let result = db.send(read_warehouses).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(warehouses)) => Ok(HttpResponse::Ok().json(warehouses)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(warehouses) => Ok(HttpResponse::Ok().json(warehouses)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -86,11 +84,10 @@ pub async fn update(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(update_warehouse).compat().await;
+    let result = db.send(update_warehouse).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(warehouse)) => Ok(HttpResponse::Ok().json(warehouse)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(warehouse) => Ok(HttpResponse::Ok().json(warehouse)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -107,10 +104,9 @@ pub async fn delete(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(delete_warehouse).compat().await;
+    let result = db.send(delete_warehouse).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(deleted_warehouse)) => Ok(HttpResponse::Ok().json(deleted_warehouse)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(deleted_warehouse) => Ok(HttpResponse::Ok().json(deleted_warehouse)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }

@@ -46,11 +46,10 @@ pub async fn create(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(create_item).compat().await;
+    let result = db.send(create_item).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(item)) => Ok(HttpResponse::Ok().json(item)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(item) => Ok(HttpResponse::Ok().json(item)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -71,11 +70,10 @@ pub async fn read(
     let db = &state.db;
     let read_items = ReadItems;
 
-    let result = db.send(read_items).compat().await;
+    let result = db.send(read_items).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(items)) => Ok(HttpResponse::Ok().json(items)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish())
+        Ok(items) => Ok(HttpResponse::Ok().json(items)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -97,11 +95,10 @@ pub async fn update(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(update_items).compat().await;
+    let result = db.send(update_items).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(updated_item)) => Ok(HttpResponse::Ok().json(updated_item)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(updated_item) => Ok(HttpResponse::Ok().json(updated_item)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }
 
@@ -121,10 +118,9 @@ pub async fn delete(
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
 
-    let result = db.send(delete_item).compat().await;
+    let result = db.send(delete_item).compat().await.map_err(|_| ())?;
     match result {
-        Ok(Ok(deleted_item)) => Ok(HttpResponse::Ok().json(deleted_item)),
-        Ok(Err(e)) => Ok(HttpResponse::InternalServerError().body(e)),
-        Err(_) => Ok(HttpResponse::InternalServerError().finish()),
+        Ok(deleted_item) => Ok(HttpResponse::Ok().json(deleted_item)),
+        Err(e) => Ok(HttpResponse::InternalServerError().body(e)),
     }
 }

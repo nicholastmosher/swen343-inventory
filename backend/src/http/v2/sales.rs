@@ -1,9 +1,8 @@
 //! Defines http requests that are sent to Sales and their responses
 
 use actix::{Handler, Message};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use crate::http::HttpExecutor;
-
 
 /// A description of on order status request to sales.
 #[derive(Debug, Serialize)]
@@ -27,7 +26,7 @@ impl Handler<OrderStatusRequest> for HttpExecutor {
             Some(url) => {
                 let url = &format!("{}/orders?status&order_id", &url);
 
-                let mut response = self.client
+                let _response = self.client
                     .put(url)
                     .json(&order_status_request)
                     .send()

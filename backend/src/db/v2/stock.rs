@@ -1,6 +1,7 @@
-use actix::{Message, Handler, Actor};
+use actix::{Message, Handler};
 use diesel::prelude::*;
-use crate::app::v2::stock::{ReadStock, StockResponse, StockInResponse, RemoveStock};
+use serde::Deserialize;
+use crate::app::v2::stock::{ReadStock, StockResponse, StockInResponse};
 use crate::db::DbExecutor;
 use crate::models::boxes;
 use crate::models::items::Item;
@@ -51,6 +52,17 @@ impl Handler<ReadStock> for DbExecutor {
     }
 }
 
+#[derive(Debug, Deserialize)]
+pub struct RemoveStock {
+    pub stock: Vec<StockToRemove>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct StockToRemove {
+    pub item: String,
+    pub quantity: u32,
+}
+
 impl Message for RemoveStock {
     type Result = Result<(), String>;
 }
@@ -58,7 +70,7 @@ impl Message for RemoveStock {
 impl Handler<RemoveStock> for DbExecutor {
     type Result = <RemoveStock as Message>::Result;
 
-    fn handle(&mut self, msg: RemoveStock, _: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, _msg: RemoveStock, _: &mut Self::Context) -> Self::Result {
         warn!("Executing unimplemented RemoveStock request!");
         Ok(())
     }
