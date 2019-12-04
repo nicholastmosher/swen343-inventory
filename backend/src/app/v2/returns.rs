@@ -7,6 +7,7 @@ use crate::app::v2::stock::{ReadStock, StockInResponse};
 use crate::http::v2::manufacturing::{ReturnRequest, ReturnProducts, RepairResponse};
 use crate::app::v2::order;
 use crate::app::v2::order::{OrderRequest, ProductInOrder};
+use crate::http::v2::support::{UpdateTicket, UpdateTicketRequest, TicketStatus};
 
 /// Send parts to manufacturing
 #[derive(Debug, Serialize, Deserialize)]
@@ -34,9 +35,21 @@ pub async fn return_product(
     web::Json(returns): web::Json<CSRequest>,
 ) -> Result<HttpResponse, ()> {
     let db = &state.db;
+    let http = &state.http;
     info!("Received return request: {:?}", &returns);
 
-    // Check the repair status
+    // Set the Customer Support ticket status to RECEIVED
+    let cs_ticket = UpdateTicket {
+        order_id: returns.order_id as u32,
+        request: UpdateTicketRequest {
+            status: TicketStatus::RECEIVED,
+        }
+    };
+
+    let result = http.send(cs_ticket).compat().await.map_err(|_| ())?;
+    if let Err(e) = result {
+        error!("Failed to update ticket status for return {}: {:?}", returns.order_id, e);
+    }
 
     let result = db.send(ReadStock).compat().await;
     let stock_response = match result.map_err(|_| ())? {
