@@ -1,0 +1,56 @@
+html {
+	background-color: #feb;
+}
+
+body {
+	padding-left: 20vw;
+	padding-right: 20vw;
+}
+
+.teams {
+	display: flex;
+	text-align: center;
+	padding: 20px 20px 20px 20px;
+	flex-wrap: wrap;
+	background-color: #f8f8f8;
+	border: 1px solid #eee;
+	border-radius: 20px;
+}
+
+.header {
+	padding: 40px;
+}
+
+.teams > a {
+	background-color: #eee;
+	padding-top: 5em;
+	padding-bottom: 5em;
+	margin: 10px;
+	border-radius: 10px;
+	text-decoration: none;
+	color: black;
+	flex: 1;
+	border: solid 1px black;
+	min-width: 200px;
+}
+    
+.teams > a:hover {
+	background-color: #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+	.teams {
+		flex-direction: column;
+	}
+	.teams > a {
+		font-size: 20px;
+		padding: 20px;
+	}
+	body {
+		padding: 0px;
+	}
+	.header {
+		margin: 0px;
+		padding: 10px;
+	}
+}
