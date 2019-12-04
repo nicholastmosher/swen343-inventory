@@ -4,10 +4,11 @@ use actix_web::{web, HttpResponse};
 use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
 use crate::app::AppState;
 use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
-use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest};
+use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest};
 use crate::app::v1::items::{ReadItems, ItemResponse};
 use crate::http::v2::accounting::{ExpenseRequest, ExpenseResponse};
 use crate::app::v2::items::{ReceiveItemsRequest, ItemInRequest};
+use crate::app::v2::returns::{ProductRequest, PartRequest};
 
 #[derive(Debug, Deserialize)]
 pub struct OrderRequest {

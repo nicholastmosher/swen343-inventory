@@ -4,11 +4,25 @@ use actix_web::{web, HttpResponse};
 use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
 use crate::app::AppState;
 use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
-use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ProductRequest, PartRequest, ReturnRequest, ReturnProducts, RepairResponse};
+use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ReturnRequest, ReturnProducts, RepairResponse};
 use crate::app::v2::order;
 use crate::app::v2::order::{OrderRequest, ProductInOrder};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+/// Send parts to manufacturing
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PartRequest {
+    pub item_code: String,
+    pub quantity: u32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ProductRequest {
+    pub item_code: String,
+    pub quantity: u32,
+    pub parts: Vec<PartRequest>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct CSRequest {
     pub order_id: i32,
     pub product: ProductRequest,
@@ -85,10 +99,10 @@ pub async fn manufacturing_repair(
 
     // didn't make a casting between this and returnrequest due to time
     let return_order = OrderRequest {
-        order_id: repair.clone().order_id,
+        order_id: repair.order_id,
         products: vec!(ProductInOrder {
-            product: repair.clone().product.item_code,
-            quantity: repair.clone().product.quantity as i32,
+            product: repair.product.item_code.clone(),
+            quantity: repair.product.quantity as i32,
         })
     };
 
@@ -97,8 +111,8 @@ pub async fn manufacturing_repair(
         order::accounting_order(&state, &return_order, parts_to_order).await?;
     }
 
-    // Send a "make" request to Manufacturing to create Products from raw parts
-    let parts = if repair.repair { recipe_parts.to_vec() } else { vec![] };
+    // Send a "return" request to Manufacturing to repair Products with raw parts
+    let parts = if repair.repair { repair.product.parts } else { vec![] };
     let return_order = ReturnRequest {
         order_id: repair.order_id,
         products: vec![ReturnProducts {

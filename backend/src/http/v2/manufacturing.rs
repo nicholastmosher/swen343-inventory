@@ -3,6 +3,7 @@
 use actix::{Handler, Message};
 use serde::{Deserialize, Serialize};
 use crate::http::HttpExecutor;
+use crate::app::v2::returns::{PartRequest, ProductRequest};
 
 /// A request for fetching the recipes and required parts for given products.
 #[derive(Debug, Serialize)]
@@ -72,20 +73,6 @@ impl Handler<RecipeRequest> for HttpExecutor {
     }
 }
 
-/// Send parts to manufacturing
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct PartRequest {
-    pub item_code: String,
-    pub quantity: u32,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct ProductRequest {
-    pub item_code: String,
-    pub quantity: u32,
-    pub parts: Vec<PartRequest>,
-}
-
 #[derive(Debug, Serialize)]
 pub struct SendPartsRequest {
     pub order_id: u32,
@@ -129,13 +116,13 @@ impl Handler<SendPartsRequest> for HttpExecutor {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ReturnRequest {
     pub order_id: i32,
     pub products: Vec<ReturnProducts>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ReturnProducts {
     pub item_code: String,
     pub parts: Vec<PartRequest>,
