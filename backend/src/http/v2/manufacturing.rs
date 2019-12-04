@@ -42,7 +42,7 @@ impl Handler<RecipeRequest> for HttpExecutor {
             Some(url) => {
                 let url = &format!("{}/assembly/recipeInfo", &url);
 
-                let mut response = self.client
+                let response = self.client
                     .post(url)
                     .json(&recipe_request)
                     .send()
@@ -95,7 +95,7 @@ impl Handler<SendPartsRequest> for HttpExecutor {
             Some(url) => {
                 let url = &format!("{}/assembly/make", &url);
 
-                let mut response = self.client
+                let response = self.client
                     .post(url)
                     .json(&req)
                     .send()
@@ -150,7 +150,7 @@ impl Handler<ReturnRequest> for HttpExecutor {
             Some(url) => {
                 let url = &format!("{}/assembly/returns", &url);
 
-                let mut response = self.client
+                let response = self.client
                     .post(url)
                     .json(&req)
                     .send()

@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 use actix_web::{web, HttpResponse};
 use futures::{FutureExt, TryFutureExt, compat::Future01CompatExt};
 use crate::app::AppState;
-use crate::app::v2::stock::{ReadStock, StockInResponse, StockToRemove, RemoveStock};
-use crate::http::v2::manufacturing::{RecipeRequest, RecipeResponse, SendPartsRequest, ReturnRequest, ReturnProducts, RepairResponse};
+use crate::app::v2::stock::{ReadStock, StockInResponse};
+use crate::http::v2::manufacturing::{ReturnRequest, ReturnProducts, RepairResponse};
 use crate::app::v2::order;
 use crate::app::v2::order::{OrderRequest, ProductInOrder};
 
@@ -61,14 +61,13 @@ pub async fn manufacturing_repair(
     repair: CSRequest,
     stock: HashMap<String, StockInResponse>,
 ) -> Result<(), ()> {
-    let db = &state.db;
     let http = &state.http;
 
     // MANUFACTURING FLOW //////////////////////////////////////////////////////
 
     // Check if we have enough raw parts to fulfill the production order
 
-    let mut recipe_parts = &repair.product.parts;
+    let recipe_parts = &repair.product.parts;
 
     let mut need_to_order_parts = false;
     let mut parts_to_order: HashMap<String, u32> = HashMap::new();
@@ -88,7 +87,7 @@ pub async fn manufacturing_repair(
                 parts_to_order.insert((*part.item_code).to_string(), part.quantity - stock_quantity.quantity);
             }
             // If we have enough stock, we don't need to order any of this part
-            Some(stock_quantity) => {
+            Some(_) => {
                 debug!("We have all {} of {:?} that we need!", part.quantity, &part);
                 parts_to_order.insert((*part.item_code).to_string(), 0);
             },

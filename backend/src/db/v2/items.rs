@@ -20,7 +20,7 @@ impl Handler<ReceiveItemsRequest> for DbExecutor {
         let conn = &self.0.get().expect("should get db connection");
 
         // Load all of the warehouses from the database.
-        let mut warehouses: Vec<_> = warehouses::table
+        let warehouses: Vec<_> = warehouses::table
             .order_by(warehouses::name)
             .load::<Warehouse>(conn)
             .expect("should get warehouses");
@@ -121,9 +121,10 @@ impl Handler<ReceiveItemsRequest> for DbExecutor {
                 }
             }
 
-            let inserted_boxes = diesel::insert_into(boxes::table)
+            let _inserted_boxes = diesel::insert_into(boxes::table)
                 .values(&bs)
-                .execute(conn);
+                .execute(conn)
+                .map_err(|e| format!("failed to insert boxes: {:?}", e))?;
         }
 
         Ok(())
