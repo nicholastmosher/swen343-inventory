@@ -1,6 +1,7 @@
 use reqwest::Client;
 use std::sync::Arc;
 use actix::{Actor, SyncContext};
+use reqwest::header::{HeaderMap, HeaderValue, HeaderName};
 
 pub mod v2;
 
@@ -9,6 +10,8 @@ pub struct HttpConfig {
     pub accounting_url: Option<String>,
     pub manufacturing_url: Option<String>,
     pub sales_url: Option<String>,
+    pub inventory_email: Option<String>,
+    pub inventory_token: Option<String>,
 }
 
 impl HttpConfig {
@@ -17,11 +20,28 @@ impl HttpConfig {
         let accounting_url = std::env::var("ACCOUNTING_URL").ok();
         let manufacturing_url = std::env::var("MANUFACTURING_URL").ok();
         let sales_url = std::env::var("SALES_URL").ok();
+        let inventory_email = std::env::var("INVENTORY_EMAIL").ok();
+        let inventory_token = std::env::var("INVENTORY_TOKEN").ok();
         Ok(HttpConfig {
             accounting_url,
             manufacturing_url,
             sales_url,
+            inventory_email,
+            inventory_token,
         })
+    }
+
+    pub fn auth_headers(&self) -> HeaderMap {
+        let mut headers = HeaderMap::new();
+        let email = &self.inventory_email;
+        let token = &self.inventory_token;
+        if let (Some(email), Some(token)) = (email, token) {
+            let email_hv = HeaderValue::from_str(&email).expect("email should be a valid header");
+            let token_hv = HeaderValue::from_str(&token).expect("token should be a valid header");
+            headers.insert(HeaderName::from_static("Email"), email_hv);
+            headers.insert(HeaderName::from_static("Authorization"), token_hv);
+        }
+        headers
     }
 }
 
