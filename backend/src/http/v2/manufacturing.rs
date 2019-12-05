@@ -37,13 +37,16 @@ impl Handler<RecipeRequest> for HttpExecutor {
     /// Defines how to send a `RecipeRequest` to the Manufacturing silo.
     fn handle(&mut self, recipe_request: RecipeRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.manufacturing_url;
+        let auth = self.config.auth_headers();
 
         let recipe_response = match url {
             Some(url) => {
                 let url = &format!("{}/assembly/recipeInfo", &url);
+                debug!("Sending recipe request: {:?}", &recipe_request);
 
                 let response = self.client
                     .post(url)
+                    .headers(auth)
                     .json(&recipe_request)
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
@@ -90,6 +93,7 @@ impl Handler<SendPartsRequest> for HttpExecutor {
     /// Defines how to send a `SendPartsRequest` to the Manufacturing silo.
     fn handle(&mut self, req: SendPartsRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.manufacturing_url;
+        let auth = self.config.auth_headers();
 
         match url {
             Some(url) => {
@@ -97,6 +101,7 @@ impl Handler<SendPartsRequest> for HttpExecutor {
 
                 let response = self.client
                     .post(url)
+                    .headers(auth)
                     .json(&req)
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));
@@ -145,6 +150,7 @@ impl Handler<ReturnRequest> for HttpExecutor {
     /// Defines how to send a `SendReturnRequest` to the Manufacturing silo.
     fn handle(&mut self, req: ReturnRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.manufacturing_url;
+        let auth = self.config.auth_headers();
 
         match url {
             Some(url) => {
@@ -152,6 +158,7 @@ impl Handler<ReturnRequest> for HttpExecutor {
 
                 let response = self.client
                     .post(url)
+                    .headers(auth)
                     .json(&req)
                     .send()
                     .map_err(|e| format!("failed to send request to Manufacturing: {:?}", e));

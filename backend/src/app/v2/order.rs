@@ -46,7 +46,6 @@ pub async fn place_order(
     let stock: HashMap<String, StockInResponse> = stock_response.stock.into_iter()
         .map(|item| (item.product.clone(), item))
         .collect();
-    debug!("Stock: {:?}", &stock);
 
     let mut should_order = false;
     for product in &order.products {
