@@ -42,6 +42,7 @@ impl Handler<RecipeRequest> for HttpExecutor {
         let recipe_response = match url {
             Some(url) => {
                 let url = &format!("{}/assembly/recipeInfo", &url);
+                debug!("Sending recipe request: {:?}", &recipe_request);
 
                 let response = self.client
                     .post(url)

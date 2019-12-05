@@ -24,6 +24,7 @@ impl Handler<BudgetRequest> for HttpExecutor {
 
     fn handle(&mut self, _: BudgetRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.accounting_url;
+        let auth = self.config.auth_headers();
 
         let response = match url {
             Some(url) => {
@@ -31,6 +32,7 @@ impl Handler<BudgetRequest> for HttpExecutor {
 
                 let mut response = self.client.get(url)
                     .query(&[("department", "inventory")])
+                    .headers(auth)
                     .send()
                     .map_err(|e| format!("budget request failed: {:?}", e))?;
 
@@ -80,12 +82,14 @@ impl Handler<ExpenseRequest> for HttpExecutor {
 
     fn handle(&mut self, msg: ExpenseRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.accounting_url;
+        let auth = self.config.auth_headers();
 
         let response = match url {
             Some(url) => {
                 let url = &format!("{}/budget/expense", &url);
                 let response = self.client.post(url)
                     .json(&msg)
+                    .headers(auth)
                     .send()
                     .map_err(|e| format!("expense request failed: {:?}", e));
                 debug!("Received expense response from Accounting: {:?}", &response);
@@ -139,6 +143,7 @@ impl Handler<BudgetIncreaseRequest> for HttpExecutor {
 
     fn handle(&mut self, msg: BudgetIncreaseRequest, _: &mut Self::Context) -> Self::Result {
         let url = &self.config.accounting_url;
+        let auth = self.config.auth_headers();
 
         let response = match url {
             Some(url) => {
@@ -146,6 +151,7 @@ impl Handler<BudgetIncreaseRequest> for HttpExecutor {
 
                 let mut response = self.client.post(url)
                     .json(&msg)
+                    .headers(auth)
                     .send()
                     .map_err(|e| format!("failed to increase budget: {:?}", e))?;
 

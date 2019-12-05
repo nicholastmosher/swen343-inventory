@@ -38,8 +38,8 @@ impl HttpConfig {
         if let (Some(email), Some(token)) = (email, token) {
             let email_hv = HeaderValue::from_str(&email).expect("email should be a valid header");
             let token_hv = HeaderValue::from_str(&token).expect("token should be a valid header");
-            headers.insert(HeaderName::from_static("Email"), email_hv);
-            headers.insert(HeaderName::from_static("Authorization"), token_hv);
+            headers.insert(HeaderName::from_static("email"), email_hv);
+            headers.insert(HeaderName::from_static("authorization"), token_hv);
         }
         headers
     }
