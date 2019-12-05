@@ -10,6 +10,7 @@ pub struct HttpConfig {
     pub accounting_url: Option<String>,
     pub manufacturing_url: Option<String>,
     pub sales_url: Option<String>,
+    pub support_url: Option<String>,
     pub inventory_email: Option<String>,
     pub inventory_token: Option<String>,
 }
@@ -20,12 +21,14 @@ impl HttpConfig {
         let accounting_url = std::env::var("ACCOUNTING_URL").ok();
         let manufacturing_url = std::env::var("MANUFACTURING_URL").ok();
         let sales_url = std::env::var("SALES_URL").ok();
+        let support_url = std::env::var("SUPPORT_URL").ok();
         let inventory_email = std::env::var("INVENTORY_EMAIL").ok();
         let inventory_token = std::env::var("INVENTORY_TOKEN").ok();
         Ok(HttpConfig {
             accounting_url,
             manufacturing_url,
             sales_url,
+            support_url,
             inventory_email,
             inventory_token,
         })
