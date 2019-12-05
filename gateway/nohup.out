@@ -23,3 +23,19 @@ Traceback (most recent call last):
   File "/usr/lib64/python3.6/socketserver.py", line 470, in server_bind
     self.socket.bind(self.server_address)
 OSError: [Errno 98] Address already in use
+  File "app.py", line 19
+    print(f"Token ({token}), Email ({email}), URL ({url})")
+                                                         ^
+SyntaxError: invalid syntax
+  File "app.py", line 19
+    print(f"Token ({token}), Email ({email}), URL ({url})")
+                                                         ^
+SyntaxError: invalid syntax
+  File "app.py", line 19
+    print(f"Token ({token}), Email ({email}), URL ({url})")
+                                                         ^
+SyntaxError: invalid syntax
+  File "app.py", line 19
+    print(f"Token ({token}), Email ({email}), URL ({url})")
+                                                         ^
+SyntaxError: invalid syntax
