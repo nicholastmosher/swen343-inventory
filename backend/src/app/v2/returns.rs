@@ -10,13 +10,13 @@ use crate::app::v2::order::{OrderRequest, ProductInOrder};
 use crate::http::v2::support::{UpdateTicket, UpdateTicketRequest, TicketStatus};
 
 /// Send parts to manufacturing
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PartRequest {
     pub item_code: String,
     pub quantity: u32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ProductRequest {
     pub item_code: String,
     pub quantity: u32,

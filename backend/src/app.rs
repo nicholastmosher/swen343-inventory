@@ -17,6 +17,7 @@ use crate::http::{HttpExecutor, HttpConfig};
 pub mod v1;
 pub mod v2;
 
+#[derive(Debug)]
 pub struct AppConfig {
     pub database_url: String,
     pub bind_address: String,
@@ -88,6 +89,7 @@ pub fn launch(config: &AppConfig) -> std::io::Result<()>
     );
 
     let http_config = HttpConfig::from_env().expect("should get http config");
+    info!("Using {:?}", http_config);
     let http_executor = HttpExecutor::new(http_config);
     let http_addr = SyncArbiter::start(
         num_cpus::get(),

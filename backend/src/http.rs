@@ -6,6 +6,7 @@ use reqwest::header::{HeaderMap, HeaderValue, HeaderName};
 pub mod v2;
 
 /// Configurations for the HttpExecutor such as hostnames for other services.
+#[derive(Debug)]
 pub struct HttpConfig {
     pub accounting_url: Option<String>,
     pub manufacturing_url: Option<String>,
